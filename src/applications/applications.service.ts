@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { ApplicationDto } from './dto/applications.dto';
 
 @Injectable()
 export class ApplicationsService {
-  getApplications(): string {
-    return 'Hello World!';
+  getApplications(): ApplicationDto {
+    return new ApplicationDto();
   }
 }

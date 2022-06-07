@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { GraphDto } from './dto/graph.dto';
 
 @Injectable()
 export class GraphService {
-  getGraph(): string {
-    return 'Hello World!';
+  getGraph(): GraphDto {
+    return new GraphDto();
   }
 }

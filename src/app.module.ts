@@ -3,18 +3,12 @@ import { KeycloakConnectModule, RoleGuard } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
 import { KeycloakModule } from './keycloak/keycloak.module';
 import { KeycloakService } from './keycloak/keycloak.service';
-import { ApplicationsController } from './applications/applications.controller';
-import { ExecutionStatsController } from './execution-stats/execution-stats.controller';
-import { TasksController } from './tasks/tasks.controller';
-import { LogsController } from './logs/logs.controller';
-import { PayloadsController } from './payloads/payloads.controller';
-import { ApplicationsService } from './applications/applications.service';
-import { ExecutionStatsService } from './execution-stats/execution-stats.service';
-import { TasksService } from './tasks/tasks.service';
-import { LogsService } from './logs/logs.service';
-import { PayloadsService } from './payloads/payloads.service';
-import { GraphController } from './graph/graph.controller';
-import { GraphService } from './graph/graph.service';
+import { ApplicationsModule } from './applications/applications.module';
+import { ExecutionStatsModule } from './execution-stats/execution-stats.module';
+import { GraphModule } from './graph/graph.module';
+import { LogsModule } from './logs/logs.module';
+import { PayloadsModule } from './payloads/payloads.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -23,26 +17,19 @@ import { GraphService } from './graph/graph.service';
       imports: [KeycloakModule],
     }),
     KeycloakModule,
+    ApplicationsModule,
+    ExecutionStatsModule,
+    GraphModule,
+    LogsModule,
+    PayloadsModule,
+    TasksModule,
   ],
-  controllers: [
-    ApplicationsController,
-    ExecutionStatsController,
-    TasksController,
-    LogsController,
-    PayloadsController,
-    GraphController,
-  ],
+  controllers: [],
   providers: [
     {
       provide: APP_GUARD,
       useClass: RoleGuard,
     },
-    ApplicationsService,
-    ExecutionStatsService,
-    TasksService,
-    LogsService,
-    PayloadsService,
-    GraphService,
   ],
 })
 export class AppModule {}

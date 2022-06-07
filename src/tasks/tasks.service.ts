@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { TaskDto } from './dto/task.dto';
 
 @Injectable()
 export class TasksService {
-  getTasks(): string {
-    return 'Hello World!';
+  getTasks(): TaskDto {
+    return new TaskDto();
   }
 
-  dismissTask(): string {
-    return 'Hello World!';
+  dismissTask(): TaskDto {
+    return new TaskDto();
   }
 }
