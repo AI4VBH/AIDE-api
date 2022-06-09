@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { KeycloakConnectModule, RoleGuard } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
-import { KeycloakModule } from './keycloak/keycloak.module';
-import { KeycloakService } from './keycloak/keycloak.service';
 import { ApplicationsModule } from './models/applications/applications.module';
 import { ExecutionStatsModule } from './models/execution-stats/execution-stats.module';
 import { GraphModule } from './models/graph/graph.module';
@@ -13,6 +11,9 @@ import { getEnvPath } from './common/helper/env.helper';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
+import { ElasticsearchConfigService } from './shared/elastic/elastic.service';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { KeycloakService } from './shared/keycloak/keycloak.service';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -20,11 +21,12 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
   imports: [
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
-    KeycloakConnectModule.registerAsync({
-      useExisting: KeycloakService,
-      imports: [KeycloakModule],
+    ElasticsearchModule.registerAsync({
+      useClass: ElasticsearchConfigService,
     }),
-    KeycloakModule,
+    KeycloakConnectModule.registerAsync({
+      useClass: KeycloakService,
+    }),
     ApplicationsModule,
     ExecutionStatsModule,
     GraphModule,
