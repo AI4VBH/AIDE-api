@@ -9,9 +9,17 @@ import { GraphModule } from './models/graph/graph.module';
 import { LogsModule } from './models/logs/logs.module';
 import { PayloadsModule } from './models/payloads/payloads.module';
 import { TasksModule } from './models/tasks/tasks.module';
+import { getEnvPath } from './common/helper/env.helper';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
+
+const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ envFilePath, isGlobal: true }),
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     KeycloakConnectModule.registerAsync({
       useExisting: KeycloakService,
       imports: [KeycloakModule],
