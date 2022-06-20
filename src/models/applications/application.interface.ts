@@ -1,3 +1,4 @@
 export interface Application {
-  name: string;
+  model_id: number;
+  model_name: string;
 }

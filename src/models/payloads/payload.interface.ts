@@ -1,3 +1,6 @@
 export interface Payload {
-  name: string;
+  payload_id: number;
+  patient_name: string;
+  patient_id: string;
+  payload_received: string;
 }
