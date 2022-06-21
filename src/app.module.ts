@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { KeycloakConnectModule, RoleGuard } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
 import { ApplicationsModule } from './models/applications/applications.module';
-import { ExecutionStatsModule } from './models/execution-stats/execution-stats.module';
+import { OverviewModule } from './models/overview/overview.module';
 import { GraphModule } from './models/graph/graph.module';
 import { LogsModule } from './models/logs/logs.module';
 import { PayloadsModule } from './models/payloads/payloads.module';
-import { TasksModule } from './models/tasks/tasks.module';
+import { IssuesModule } from './models/issues/issues.module';
 import { getEnvPath } from './common/helper/env.helper';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -28,11 +28,11 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
       useClass: KeycloakService,
     }),
     ApplicationsModule,
-    ExecutionStatsModule,
+    OverviewModule,
     GraphModule,
     LogsModule,
     PayloadsModule,
-    TasksModule,
+    IssuesModule,
   ],
   controllers: [],
   providers: [
