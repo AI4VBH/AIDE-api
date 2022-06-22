@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { KeycloakConnectModule, RoleGuard } from 'nest-keycloak-connect';
 import { APP_GUARD } from '@nestjs/core';
-import { ApplicationsModule } from './models/applications/applications.module';
-import { OverviewModule } from './models/overview/overview.module';
-import { GraphModule } from './models/graph/graph.module';
-import { LogsModule } from './models/logs/logs.module';
-import { PayloadsModule } from './models/payloads/payloads.module';
-import { IssuesModule } from './models/issues/issues.module';
+import { ModelsModule } from './modules/admin/models/models.module';
+import { OverviewModule } from './modules/admin/overview/overview.module';
+import { GraphModule } from './modules/admin/graph/graph.module';
+import { LogsModule } from './modules/logs/logs.module';
+import { PayloadsModule } from './modules/admin/payloads/payloads.module';
+import { IssuesModule } from './modules/admin/issues/issues.module';
 import { getEnvPath } from './common/helper/env.helper';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -27,7 +27,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     KeycloakConnectModule.registerAsync({
       useClass: KeycloakService,
     }),
-    ApplicationsModule,
+    ModelsModule,
     OverviewModule,
     GraphModule,
     LogsModule,
