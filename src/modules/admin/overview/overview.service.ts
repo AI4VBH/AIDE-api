@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ExecutionStat } from './overview.interface';
+import { OverviewDTO } from './overview.dto';
 
 @Injectable()
 export class OverviewService {
-  getOverview(period): ExecutionStat {
+  getOverview(period): OverviewDTO {
     switch (period) {
       case 'day':
         return {

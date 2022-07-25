@@ -1,5 +1,5 @@
 import { Controller, Get, Patch } from '@nestjs/common';
-import { Issue } from './issues.interface';
+import { IssueDTO } from './issues.dto';
 import { IssuesService } from './issues.service';
 
 @Controller('issues')
@@ -7,12 +7,12 @@ export class IssuesController {
   constructor(private readonly appService: IssuesService) {}
 
   @Get()
-  getHello(): Issue[] {
+  getHello(): IssueDTO[] {
     return this.appService.getIssues();
   }
 
   @Patch()
-  dismissTask(): Issue {
+  dismissTask(): IssueDTO {
     return this.appService.dismissTask();
   }
 }

@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Graph } from './graph.interface';
+import { GraphDTO } from './graph.dto';
 
 @Injectable()
 export class GraphService {
-  getGraph(model_id, start_date, end_date): Graph {
-    // return {} as Graph;
+  getGraph(model_id, start_date, end_date): GraphDTO {
     switch (model_id) {
       case 1:
         return {
@@ -367,7 +366,7 @@ export class GraphService {
           ],
         };
       default:
-        return {} as Graph;
+        return {} as GraphDTO;
     }
   }
 }

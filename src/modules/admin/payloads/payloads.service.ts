@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Execution } from './execution.interface';
-import { Payload } from './payload.interface';
+import { ExecutionDTO } from './execution.dto';
+import { PayloadDTO } from './payload.interface';
 
 @Injectable()
 export class PayloadsService {
-  getPayloads(): Payload[] {
+  getPayloads(): PayloadDTO[] {
     return [
       {
         payload_id: 1,
@@ -39,7 +39,7 @@ export class PayloadsService {
     ];
   }
 
-  getPayloadExecutions(payload_id): Execution[] {
+  getPayloadExecutions(payload_id): ExecutionDTO[] {
     switch (payload_id) {
       case 1:
         return [

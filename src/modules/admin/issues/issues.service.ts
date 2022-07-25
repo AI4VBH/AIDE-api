@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Issue } from './issues.interface';
+import { IssueDTO } from './issues.dto';
 
 @Injectable()
 export class IssuesService {
-  getIssues(): Issue[] {
+  getIssues(): IssueDTO[] {
     return [
       {
         task_id: 2,
@@ -24,7 +24,7 @@ export class IssuesService {
     ];
   }
 
-  dismissTask(): Issue {
-    return {} as Issue;
+  dismissTask(): IssueDTO {
+    return {} as IssueDTO;
   }
 }

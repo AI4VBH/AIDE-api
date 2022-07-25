@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Logs } from './log.interface';
+import { LogsDTO } from './log.dto';
 
 @Injectable()
 export class LogsService {
-  getLog(): Logs[] {
+  getLog(): LogsDTO[] {
     return [
       {
         json: {

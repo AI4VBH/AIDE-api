@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Model } from './models.interface';
+import { ModelDTO } from './models.dto';
 
 @Injectable()
 export class ModelsService {
-  getModels(): Model[] {
+  getModels(): ModelDTO[] {
     return [
       {
         model_id: 1,
