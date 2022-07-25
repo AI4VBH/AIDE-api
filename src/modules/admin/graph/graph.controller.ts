@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { Graph } from './graph.interface';
 import { GraphService } from './graph.service';
 
@@ -7,7 +7,11 @@ export class GraphController {
   constructor(private readonly graphService: GraphService) {}
 
   @Get()
-  getHello(): Graph {
-    return this.graphService.getGraph();
+  getGraph(
+    @Param('model_id') model_id,
+    @Query('start_date') start_date,
+    @Query('end_date') end_date,
+  ): Graph {
+    return this.graphService.getGraph(model_id, start_date, end_date);
   }
 }

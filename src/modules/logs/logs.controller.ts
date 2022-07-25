@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Log } from './log.interface';
+import { Logs } from './log.interface';
 import { LogsService } from './logs.service';
 
 @Controller('logs')
@@ -7,7 +7,7 @@ export class LogsController {
   constructor(private readonly appService: LogsService) {}
 
   @Get()
-  getHello(): Log {
+  getHello(): Logs[] {
     return this.appService.getLog();
   }
 }

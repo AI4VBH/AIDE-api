@@ -6,8 +6,6 @@ import { getEnvPath } from './common/helper/env.helper';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
-import { ElasticsearchConfigService } from './shared/elastic/elastic.service';
-import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { KeycloakService } from './shared/keycloak/keycloak.service';
 import { AdminModule } from './modules/admin/admin.module';
 import { ClinicalReviewModule } from './modules/clinical-review/clinical-review.module';
@@ -20,9 +18,6 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
   imports: [
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
-    ElasticsearchModule.registerAsync({
-      useClass: ElasticsearchConfigService,
-    }),
     KeycloakConnectModule.registerAsync({
       useClass: KeycloakService,
     }),

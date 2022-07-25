@@ -7,7 +7,7 @@ export class ModelsController {
   constructor(private readonly applicationsService: ModelsService) {}
 
   @Get()
-  getModels(): Model {
+  getModels(): Model[] {
     return this.applicationsService.getModels();
   }
 }

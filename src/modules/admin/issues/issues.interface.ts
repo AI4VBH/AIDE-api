@@ -1,4 +1,4 @@
-export interface Task {
+export interface Issue {
   task_id: number;
   status: string;
   model_name: string;

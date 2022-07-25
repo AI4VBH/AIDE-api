@@ -1,18 +1,22 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import {
-  ElasticsearchOptionsFactory,
-  ElasticsearchModuleOptions,
-} from '@nestjs/elasticsearch';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class ElasticsearchConfigService implements ElasticsearchOptionsFactory {
-  @Inject(ConfigService)
-  private readonly config: ConfigService;
+export class SearchService {
+  // constructor(private readonly searchClient: OpensearchClient) {}
 
-  createElasticsearchOptions(): ElasticsearchModuleOptions {
-    return {
-      node: this.config.get<string>('ELASTIC_NODE'),
-    };
+  async getExecutions() {
+    console.log('searching');
+    // const searchResult = await this.searchClient.search<ExecutionsSearchResult>(
+    //   {
+    //     index: 'executions',
+    //     body: {
+    //       query: {
+    //         match_all: {},
+    //       },
+    //     },
+    //   },
+    // );
+    // console.log(searchResult);
+    return {};
   }
 }

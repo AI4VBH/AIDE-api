@@ -1,3 +1,7 @@
+export interface Logs {
+  json: Log;
+}
+
 export interface Log {
   execution_id: string;
   level: string;
