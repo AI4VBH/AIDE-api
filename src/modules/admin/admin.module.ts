@@ -3,6 +3,8 @@ import { GraphController } from './graph/graph.controller';
 import { GraphService } from './graph/graph.service';
 import { IssuesController } from './issues/issues.controller';
 import { IssuesService } from './issues/issues.service';
+import { LogsController } from './logs/logs.controller';
+import { LogsService } from './logs/logs.service';
 import { ModelsController } from './models/models.controller';
 import { ModelsService } from './models/models.service';
 import { OverviewController } from './overview/overview.controller';
@@ -17,6 +19,7 @@ import { PayloadsService } from './payloads/payloads.service';
     ModelsController,
     OverviewController,
     PayloadsController,
+    LogsController,
   ],
   providers: [
     GraphService,
@@ -24,6 +27,7 @@ import { PayloadsService } from './payloads/payloads.service';
     ModelsService,
     OverviewService,
     PayloadsService,
+    LogsService,
   ],
 })
 export class AdminModule {}
