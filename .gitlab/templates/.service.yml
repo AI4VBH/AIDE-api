@@ -1,10 +1,10 @@
 include:
-  - /.gitlab/templates/.lint.yml
   - /.gitlab/templates/.cr.yml
-  - /.gitlab/templates/.sonar.yml
 
 stages:
-  - sonar
+  - lint
+  - sast
+  - check-build-integrity
   - build-image
   - deploy
 

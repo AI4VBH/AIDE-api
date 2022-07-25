@@ -5,24 +5,52 @@ include:
 variables:
   PROJECT_ROOT: "./"
   SERVICE: backend-api-nestjs
-  ELASTICSEARCH_URL: "http://localhost:9200"
   DOCKER_DRIVER: overlay2
   GIT_DEPTH: 1
 
+check build integrity:
+    stage: check-build-integrity
+    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:14
+    before_script:
+        - npm ci
+    script:
+        - npm run build
+
+lint:
+    stage: lint
+    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node:14
+    before_script:
+        - npm ci
+    script:
+        - ls -l
+        - npx eslint './src/**/*.ts' -f json -o ./eslint.json || exit 0
+    artifacts:
+        paths:
+            - eslint.json
+    only:
+        - merge_requests
+
 sonarqube-check:
- image:
-   name: sonarsource/sonar-scanner-cli:latest
-   entrypoint: [""]
- variables:
-   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
- cache:
-   key: "${CI_JOB_NAME}"
-   paths:
-     - .sonar/cache
- script:
-   - sonar-scanner
- allow_failure: true
- only:
-   - merge_requests
-   - main # or the name of your main branch
+    stage: sast
+    image:
+        name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/sonarsource/sonar-scanner-cli:latest
+        entrypoint: [""]
+    variables:
+        SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+        GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+    cache:
+        key: "${CI_JOB_NAME}"
+        paths:
+        - .sonar/cache
+    script:
+        - sonar-scanner -Dsonar.projectVersion="$RELEASE_VERSION"
+    dependencies:
+        - lint
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "web" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH =~ /^release-.*$/)'
+          variables:
+            RELEASE_VERSION: $CI_COMMIT_BRANCH
+          when: always
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == "master"'
+          when: always
+        - when: never
