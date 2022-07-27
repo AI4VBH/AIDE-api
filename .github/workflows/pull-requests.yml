@@ -1,0 +1,36 @@
+name: 'pull-requests'
+
+# Controls when the workflow will run
+on:
+  pull_request:
+
+jobs:
+  check_build_integrity:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm run build
+
+  lint:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npx eslint './src/**/*.ts' -f json -o ./eslint.json || exit 0
+
+      - name: Archive eslint results
+        uses: actions/upload-artifact@v3
+        with:
+          name: es-lint
+          path: eslint.json
