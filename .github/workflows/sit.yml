@@ -45,7 +45,7 @@ jobs:
         with:
           push: true
           pull: true
-          tags: ${{ secrets.AWS_DEV_ECR_REGISTRY }}/backend-api-nestjs:$BRANCH_NAME , ${{ secrets.AWS_DEV_ECR_REGISTRY }}/backend-api-nestjs:latest
+          tags: ${{ secrets.AWS_DEV_ECR_REGISTRY }}/backend-api-nestjs:${{ BRANCH_NAME }} , ${{ secrets.AWS_DEV_ECR_REGISTRY }}/backend-api-nestjs:latest
 
   Deploy:
     needs: [check_build_integrity, docker_build]
