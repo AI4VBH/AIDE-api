@@ -35,7 +35,7 @@ jobs:
 
       - name: Login to Amazon ECR Private
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@V1
+        uses: aws-actions/amazon-ecr-login@v1
       
       - name: Set branch name
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
