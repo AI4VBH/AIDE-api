@@ -44,7 +44,7 @@ jobs:
         env:
           REGISTRY: ${{ secrets.AWS_DEV_ECR_REGISTRY }}
           REPOSITORY: backend-api-nestjs
-          IMAGE_TAG: ${{ BRANCH_NAME }}
+          IMAGE_TAG: $BRANCH_NAME
         run: |
           docker build --pull -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
