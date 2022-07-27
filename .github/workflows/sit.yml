@@ -45,17 +45,7 @@ jobs:
         with:
           push: true
           pull: true
-          tags: $REGISTRY/$REPOSITORY:$BRANCH_NAME , $REGISTRY/$REPOSITORY:latest
-
-      - name: Build, tag, and push docker image to Amazon ECR
-        env:
-          REGISTRY: ${{ secrets.AWS_DEV_ECR_REGISTRY }}
-          REPOSITORY: backend-api-nestjs
-        run: |
-          docker build --pull -t $REGISTRY/$REPOSITORY:$BRANCH_NAME .
-          docker push $REGISTRY/$REPOSITORY:$BRANCH_NAME
-          docker tag "$REGISTRY/$REPOSITORY:$BRANCH_NAME" $REGISTRY/$REPOSITORY:latest
-          docker push $REGISTRY/$REPOSITORY:latest
+          tags: ${{ secrets.AWS_DEV_ECR_REGISTRY }}/backend-api-nestjs:${BRANCH_NAME} , ${{ secrets.AWS_DEV_ECR_REGISTRY }}/backend-api-nestjs:latest
 
   Deploy:
     needs: [check_build_integrity, docker_build]
