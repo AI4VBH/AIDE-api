@@ -78,3 +78,4 @@ jobs:
           # Comma separated list of environment variables to send to CodeBuild
           env-vars-for-codebuild: |
             BRANCH_NAME
+
