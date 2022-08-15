@@ -12,6 +12,7 @@ phases:
   build:
     commands:
       - export tempdir=temp-$CODEBUILD_BUILD_ID-job-time-$CODEBUILD_START_TIME
+      - export ecrpass=aws ecr get-login-password --region eu-west-2
       - apt update
       - apt -y install openssh-server
       - printenv ansibledeployextravars > ansible-deploy-extra-vars.yml
