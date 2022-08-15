@@ -7,7 +7,7 @@ env:
     ansiblecontrolhost: ansible-control-host
     ansibletoolsbucket: ansible-tools-bucket
     ansiblerunenvironment: ansible-run-environment
-    ansibledeployextravars: ansible-deploy-extra-vars
+    ansibledeployextravars: ansible-deploy-backend-api-nestjs-extra-vars
 phases:
   build:
     commands:
