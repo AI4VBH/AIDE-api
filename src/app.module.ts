@@ -14,7 +14,9 @@ import { ProxyModule } from 'modules/aide-hub-proxy/proxy.module';
 import { HttpConfigService } from 'shared/http/http.service';
 import { HttpModule } from '@nestjs/axios';
 import { RolesModule } from 'modules/roles/roles.module';
-import { UsersModule } from './modules/users/users.module';
+import { UsersModule } from 'modules/users/users.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 

@@ -1,42 +1,41 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { lastValueFrom } from 'rxjs';
+import PagingDTO from 'src/common/helper/paging/paging.dto';
+import { IPagedResponse } from 'src/common/helper/paging/paging.interface';
 import { ExecutionDTO } from './execution.dto';
-import { PayloadDTO } from './payload.interface';
+import { PayloadDTO } from './payload.dto';
+import {
+  IMonaiPayload,
+  IMonaiPayloadResponse,
+  IGetPayloadsQueryParams,
+} from './payload.interface';
 
 @Injectable()
 export class PayloadsService {
-  getPayloads(): PayloadDTO[] {
-    return [
-      {
-        payload_id: 1,
-        patient_name: 'Alex Bazin',
-        patient_id: '123 123 1234',
-        payload_received: '20220516T141114',
-      },
-      {
-        payload_id: 2,
-        patient_name: 'Louiza Van-Der-Varintaford',
-        patient_id: '223 223 3234',
-        payload_received: '20220526T050215',
-      },
-      {
-        payload_id: 3,
-        patient_name: 'Joe Batt',
-        patient_id: '423 323 2235',
-        payload_received: '20220611T060316',
-      },
-      {
-        payload_id: 4,
-        patient_name: 'Richard McRichardson',
-        patient_id: '623 723 8234',
-        payload_received: '20220620T070417',
-      },
-      {
-        payload_id: 5,
-        patient_name: 'Migle Van-Migleson',
-        patient_id: '023 723 6234',
-        payload_received: '20220701T080518',
-      },
-    ];
+  constructor(private readonly httpService: HttpService) {}
+
+  async getPayloads(
+    query: IGetPayloadsQueryParams,
+  ): Promise<IPagedResponse<PayloadDTO>> {
+    const source = lastValueFrom(
+      this.httpService.get<IMonaiPayloadResponse>(
+        `payload?pageNumber=${query.pageNumber}&pageSize=${query.pageSize}`,
+      ),
+    );
+
+    return await source.then((response) => {
+      if (!response.data.succeeded) {
+        throw new Error(
+          response.data.errors?.join('\n') ?? response.data.message,
+        );
+      }
+
+      return PagingDTO.fromMonaiPagedResponse<IMonaiPayload, PayloadDTO>(
+        response.data,
+        PayloadDTO.fromMonaiPayload,
+      );
+    });
   }
 
   getPayloadExecutions(payload_id): ExecutionDTO[] {

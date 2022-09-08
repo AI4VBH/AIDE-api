@@ -1,29 +1,37 @@
-export class PayloadDTO {
-  payload_id: number;
-  patient_name: string;
+import { IPagedMonaiResponse } from 'src/common/helper/paging/paging.interface';
+
+export interface IGetPayloadsQueryParams {
+  pageNumber: number | null;
+  pageSize: number | null;
+}
+
+export interface IMonaiPayloadResponse
+  extends IPagedMonaiResponse<IMonaiPayload> {
+  succeeded: boolean;
+  errors: string[];
+  message: string;
+}
+
+export interface IMonaiPayload {
+  id: string;
+  payload_id: string;
+  workflows: string[];
+  workflow_instance_ids: string[];
+  file_count: number;
+  correlation_id: string;
+  bucket: string;
+  calling_aetitle: string;
+  called_aetitle: string;
+  timestamp: string;
+  files: any[];
+  patient_details: IMonaiPayloadPatient;
+}
+
+export interface IMonaiPayloadPatient {
   patient_id: string;
-  payload_received: string;
-
-  public static from(dto: Partial<PayloadDTO>) {
-    const it = new PayloadDTO();
-    it.payload_id = dto.payload_id;
-    it.patient_name = dto.patient_name;
-    it.patient_id = dto.patient_id;
-    it.payload_received = dto.payload_received;
-    return it;
-  }
-
-  // TODO: Implement fromEntity method
-  // public static fromEntity(entity: Payload) {
-  //   return this.from({
-  //     task_id: entity.id,
-  //   });
-  // }
-
-  // TODO: Implement toEntity method
-  // public toEntity(payload: Payload = null) {
-  //   const it = new Payload();
-  //   it.task_id = this.task_id;
-  //   return it;
-  // }
+  patient_name: string;
+  patient_sex: string;
+  patient_dob: string;
+  patient_age: number;
+  patient_hospital_id: string;
 }
