@@ -32,6 +32,6 @@ export interface IMonaiPayloadPatient {
   patient_name: string;
   patient_sex: string;
   patient_dob: string;
-  patient_age: number;
+  patient_age: string;
   patient_hospital_id: string;
 }

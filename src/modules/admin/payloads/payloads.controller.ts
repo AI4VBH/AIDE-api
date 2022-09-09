@@ -19,9 +19,15 @@ export class PayloadsController {
   async getPayloads(
     @Query() query: IGetPayloadsQueryParams,
   ): Promise<IPagedResponse<PayloadDTO>> {
-    if (!query.pageNumber || !query.pageSize) {
+    if (!query || !query.pageNumber || !query.pageSize) {
       throw new BadRequestException(
         'pageNumber and pageSize are both required query parameters.',
+      );
+    }
+
+    if (query.pageNumber < 1 || query.pageSize < 1) {
+      throw new BadRequestException(
+        'pageNumber and pageSize must both be a minimum of 1.',
       );
     }
 
