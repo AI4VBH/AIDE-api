@@ -1,0 +1,17 @@
+{
+  "id": "6f917038-147e-4e0b-8a1a-255c42906ae7",
+  "first_name": "username",
+  "last_name": "usersurname",
+  "email": "eemail@email.com",
+  "enabled": true,
+  "realmRoles": [
+    {
+      "id": "5fb3fe2e-cce2-4fab-b84b-c0b1e31a273f",
+      "name": "default-roles-demo-realm"
+    },
+    {
+      "id": "9600228a-98fc-47e0-a674-054ba13e4bae",
+      "name": "admin"
+    }
+  ]
+}

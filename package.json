@@ -22,19 +22,21 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.2.1",
+    "@golevelup/ts-jest": "^0.3.3",
+    "@keycloak/keycloak-admin-client": "^18.0.2",
     "@nestjs/axios": "^0.1.0",
     "@nestjs/common": "^8.0.0",
-    "@nestjs/config": "^2.1.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/elasticsearch": "^8.1.0",
     "@nestjs/platform-express": "^8.0.0",
-    "@nestjs/typeorm": "^8.1.2",
+    "@nestjs/typeorm": "^8.1.4",
     "@opensearch-project/opensearch": "^1.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.1",
     "keycloak-connect": "^15.1.1",
-    "nest-keycloak-connect": "^1.8.3",
+    "nest-keycloak-connect": "^1.9.0",
     "nestjs-opensearch": "^0.0.1",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
@@ -71,7 +73,11 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "moduleNameMapper": {
+      "^shared/(.*)": "<rootDir>/src/shared/$1",
+      "^modules/(.*)": "<rootDir>/src/modules/$1"
+    },
+    "rootDir": "./",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

@@ -1,11 +1,16 @@
-import { Injectable, HttpModuleOptionsFactory, HttpModuleOptions, Inject } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import {
+  Injectable,
+  HttpModuleOptionsFactory,
+  HttpModuleOptions,
+  Inject,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class HttpConfigService implements HttpModuleOptionsFactory {
   @Inject(ConfigService)
-    private readonly config: ConfigService;
-    
+  private readonly config: ConfigService;
+
   createHttpOptions(): HttpModuleOptions {
     return {
       timeout: 5000,

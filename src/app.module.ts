@@ -11,6 +11,7 @@ import { ClinicalReviewModule } from './modules/clinical-review/clinical-review.
 import { ProxyModule } from './modules/aide-hub-proxy/proxy.module';
 import { HttpConfigService } from './shared/http/http.service';
 import { HttpModule } from '@nestjs/axios';
+import { UsersModule } from './modules/users/users.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -25,6 +26,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
       useClass: HttpConfigService,
     }),
     AdminModule,
+    UsersModule,
     ClinicalReviewModule,
     ProxyModule,
   ],
