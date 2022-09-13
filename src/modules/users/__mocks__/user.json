@@ -1,7 +1,7 @@
 {
   "id": "6f917038-147e-4e0b-8a1a-255c42906ae7",
-  "first_name": "username",
-  "last_name": "usersurname",
+  "firstName": "username",
+  "lastName": "usersurname",
   "email": "eemail@email.com",
   "enabled": true,
   "realmRoles": [

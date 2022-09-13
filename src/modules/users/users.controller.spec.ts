@@ -2,7 +2,7 @@ import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as userMock from './__mocks__/user.json';
-import { KeycloakAdminService } from '../../shared/keycloak-admin/keycloak-admin.service';
+import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -83,8 +83,8 @@ describe('UsersController', () => {
     it('should create and return a new user', async () => {
       service.createUser.mockResolvedValue(userMock);
       const userBody = {
-        first_name: 'username',
-        last_name: 'usersurname',
+        firstName: 'username',
+        lastName: 'usersurname',
         email: 'eemail@email.com',
         enabled: true,
         realmRoles: [
@@ -105,8 +105,8 @@ describe('UsersController', () => {
     it('should update and return a user', async () => {
       service.updateUser.mockResolvedValue(userMock);
       const userBody = {
-        first_name: 'username',
-        last_name: 'usersurname',
+        firstName: 'username',
+        lastName: 'usersurname',
         email: 'eemail@email.com',
         enabled: true,
         realmRoles: [

@@ -7,18 +7,23 @@ import {
   Post,
   Put,
   Query,
+  UseFilters,
 } from '@nestjs/common';
+import { Roles } from 'nest-keycloak-connect';
+import { KeycloakAdminExceptionFilter } from 'shared/keycloak/keycloak-admin-exception.filter';
 import { User, UserPage } from './user.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
+@UseFilters(KeycloakAdminExceptionFilter)
+@Roles({ roles: ['admin'] })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
   getUsers(
-    @Query('first') first: number,
-    @Query('max') max: number,
+    @Query('first') first = 0,
+    @Query('max') max = 5,
     @Query('search') search: string,
     @Query('sortBy') sortBy: string,
     @Query('sortDesc') sortDesc: boolean,
@@ -27,7 +32,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  getUser(@Param('id') id: string): Promise<User> {
+  async getUser(@Param('id') id: string): Promise<User> {
     return this.usersService.getUser(id);
   }
 

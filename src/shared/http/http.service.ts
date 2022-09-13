@@ -1,10 +1,6 @@
-import {
-  Injectable,
-  HttpModuleOptionsFactory,
-  HttpModuleOptions,
-  Inject,
-} from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { HttpModuleOptionsFactory, HttpModuleOptions } from '@nestjs/axios';
 
 @Injectable()
 export class HttpConfigService implements HttpModuleOptionsFactory {

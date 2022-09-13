@@ -1,12 +1,12 @@
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
 import { Inject, Injectable } from '@nestjs/common';
-import { KeycloakAdminService } from '../../shared/keycloak-admin/keycloak-admin.service';
+import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { User, UserPage, UserRole } from './user.dto';
 
 @Injectable()
 export class UsersService {
   @Inject()
-  private readonly keycloakAdminService: KeycloakAdminService;
+  private readonly adminService: KeycloakAdminService;
 
   async getUsers(
     first: number,
@@ -15,8 +15,6 @@ export class UsersService {
     sortBy?: string,
     sortDesc?: boolean,
   ): Promise<UserPage> {
-    await this.keycloakAdminService.setupKeycloakAdmin();
-
     const userPage: UserPage = {
       totalUserCount: 0,
       totalFilteredUserCount: 0,
@@ -31,42 +29,48 @@ export class UsersService {
       userPage.totalFilteredUserCount = userPage.totalUserCount;
     }
 
-    const users: UserRepresentation[] =
-      await this.keycloakAdminService.adminClient.users.find({
-        realm: process.env.KEYCLOAK_REALM,
-        search: search,
-        sortBy: sortBy,
-        sortDesc: sortDesc,
-        first: first,
-        max: max,
-      });
+    let users = await this.adminService.performAction((realm, client) =>
+      client.users.find({
+        realm,
+        search,
+        first,
+        max,
+      }),
+    );
 
-    for (let i = 0; i < users.length; i++) {
-      const userRoles = await this.getUserRoles(users[i].id);
-      const user = User.formatUserDetails(users[i], userRoles);
-      userPage.users.push(user);
+    if (sortBy) {
+      users = users.sort((a, b) => {
+        const sortA = a[sortBy];
+        const sortB = b[sortBy];
+
+        if (sortDesc) {
+          return sortA === sortB ? 0 : sortA < sortB ? 1 : -1;
+        }
+
+        return sortA === sortB ? 0 : sortA > sortB ? 1 : -1;
+      });
+    }
+
+    for (const user of users) {
+      const userRoles = await this.getUserRoles(user.id);
+
+      userPage.users.push(User.formatUserDetails(user, userRoles));
     }
 
     return userPage;
   }
 
   async getUserCount(search?: string): Promise<number> {
-    await this.keycloakAdminService.setupKeycloakAdmin();
-
-    return this.keycloakAdminService.adminClient.users.count({
-      realm: process.env.KEYCLOAK_REALM,
-      search: search,
-    });
+    return await this.adminService.performAction((realm, client) =>
+      client.users.count({ realm, search }),
+    );
   }
 
   async getUserRoles(userId: string): Promise<UserRole[]> {
-    await this.keycloakAdminService.setupKeycloakAdmin();
-
-    const userRoleObjects =
-      await this.keycloakAdminService.adminClient.users.listRealmRoleMappings({
-        realm: process.env.KEYCLOAK_REALM,
-        id: userId,
-      });
+    const userRoleObjects = await this.adminService.performAction(
+      (realm, client) =>
+        client.users.listRealmRoleMappings({ realm, id: userId }),
+    );
 
     return userRoleObjects.map((role) => ({
       id: role.id,
@@ -75,12 +79,19 @@ export class UsersService {
   }
 
   async getUser(userId: string): Promise<User> {
-    await this.keycloakAdminService.setupKeycloakAdmin();
+    const user = await this.adminService.performAction((realm, client) =>
+      client.users.findOne({
+        realm,
+        id: userId,
+      }),
+    );
 
-    const user = await this.keycloakAdminService.adminClient.users.findOne({
-      realm: process.env.KEYCLOAK_REALM,
-      id: userId,
-    });
+    if (!user) {
+      throw new UserServiceException(
+        UserServiceExceptionCode.USER_NOT_FOUND,
+        'User not found',
+      );
+    }
 
     const userRoles = await this.getUserRoles(user.id);
 
@@ -91,47 +102,47 @@ export class UsersService {
     userId: string,
     userRoles: { id: string; name: string }[],
   ): Promise<void> {
-    await this.keycloakAdminService.setupKeycloakAdmin();
-
-    return await this.keycloakAdminService.adminClient.users.addRealmRoleMappings(
-      {
-        realm: process.env.KEYCLOAK_REALM,
+    return await this.adminService.performAction((realm, client) =>
+      client.users.addRealmRoleMappings({
+        realm,
         id: userId,
         roles: userRoles,
-      },
+      }),
     );
   }
 
   async createUser(user: User): Promise<User> {
-    await this.keycloakAdminService.setupKeycloakAdmin();
+    const newUser = await this.adminService.performAction((realm, client) =>
+      client.users.create({
+        realm,
+        username: user.email,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        enabled: user.enabled,
+      }),
+    );
 
-    const newUser = await this.keycloakAdminService.adminClient.users.create({
-      realm: process.env.KEYCLOAK_REALM,
-      username: user.email,
-      email: user.email,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      enabled: user.enabled,
-    });
     await this.addRolesToUser(newUser.id, user.realmRoles);
+
     return await this.getUser(newUser.id);
   }
 
   async updateUser(userId: string, user: User): Promise<User> {
-    await this.keycloakAdminService.setupKeycloakAdmin();
-
-    await this.keycloakAdminService.adminClient.users.update(
-      {
-        id: userId,
-        realm: process.env.KEYCLOAK_REALM,
-      },
-      {
-        username: user.email,
-        email: user.email,
-        firstName: user.first_name,
-        lastName: user.last_name,
-        enabled: user.enabled,
-      },
+    await this.adminService.performAction((realm, client) =>
+      client.users.update(
+        {
+          realm,
+          id: userId,
+        },
+        {
+          username: user.email,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          enabled: user.enabled,
+        },
+      ),
     );
     await this.addRolesToUser(userId, user.realmRoles);
 
@@ -139,11 +150,22 @@ export class UsersService {
   }
 
   async deleteUser(userId: string): Promise<void> {
-    await this.keycloakAdminService.setupKeycloakAdmin();
-
-    return await this.keycloakAdminService.adminClient.users.del({
-      id: userId,
-      realm: process.env.KEYCLOAK_REALM,
-    });
+    return await this.adminService.performAction((realm, client) =>
+      client.users.del({ realm, id: userId }),
+    );
   }
+}
+
+export enum UserServiceExceptionCode {
+  USER_NOT_FOUND = 1,
+}
+
+export class UserServiceException extends Error {
+  constructor(code: UserServiceExceptionCode, message: string) {
+    super(message);
+
+    this.code = code;
+  }
+
+  readonly code: UserServiceExceptionCode;
 }

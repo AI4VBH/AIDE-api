@@ -2,8 +2,8 @@ import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRep
 
 export class User {
   id: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   realmRoles: UserRole[];
   enabled: boolean;
@@ -14,8 +14,8 @@ export class User {
   ) {
     const user = new User();
     user.id = userObject.id;
-    user.first_name = userObject.firstName;
-    user.last_name = userObject.lastName;
+    user.firstName = userObject.firstName;
+    user.lastName = userObject.lastName;
     user.email = userObject.email;
     user.realmRoles = userRoles;
     user.enabled = userObject.enabled;

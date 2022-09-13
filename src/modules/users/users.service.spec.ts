@@ -5,22 +5,40 @@ import KeycloakAdminClient from '@keycloak/keycloak-admin-client';
 import { Users } from '@keycloak/keycloak-admin-client/lib/resources/users';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { KeycloakAdminService } from '../../shared/keycloak-admin/keycloak-admin.service';
+import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { User, UserPage } from './user.dto';
 import { UsersService } from './users.service';
 
+type PerformActionParam = (
+  realm: string,
+  client: KeycloakAdminClient,
+) => Promise<any>;
+
 describe('UsersService', () => {
-  let clientMock: DeepMocked<KeycloakAdminClient>;
+  let configServiceMock: DeepMocked<ConfigService>;
   let usersMock: DeepMocked<Users>;
-  let adminKeycloakService: DeepMocked<KeycloakAdminService>;
+  let keycloakAdminClientMock: DeepMocked<KeycloakAdminClient>;
+  let keycloakAdminServiceMock: DeepMocked<KeycloakAdminService>;
+
   let service: UsersService;
 
   beforeEach(async () => {
+    configServiceMock = createMock<ConfigService>();
     usersMock = createMock<Users>();
-    clientMock = createMock<KeycloakAdminClient>({ users: usersMock });
+    keycloakAdminClientMock = createMock<KeycloakAdminClient>({
+      users: usersMock,
+    });
 
-    adminKeycloakService = createMock<KeycloakAdminService>({
-      adminClient: clientMock,
+    keycloakAdminServiceMock = createMock<KeycloakAdminService>({
+      adminClient: keycloakAdminClientMock,
+      performAction: async (action: PerformActionParam) => {
+        await keycloakAdminClientMock.auth({
+          grantType: 'client_credentials',
+          clientId: 'some-id',
+          clientSecret: 'som-secret',
+        });
+        return await action('realm', keycloakAdminClientMock);
+      },
     });
 
     const module: TestingModule = await Test.createTestingModule({
@@ -28,9 +46,12 @@ describe('UsersService', () => {
         UsersService,
         {
           provide: KeycloakAdminService,
-          useValue: adminKeycloakService,
+          useValue: keycloakAdminServiceMock,
         },
-        ConfigService,
+        {
+          provide: ConfigService,
+          useValue: configServiceMock,
+        },
       ],
     }).compile();
 
@@ -43,13 +64,9 @@ describe('UsersService', () => {
 
   describe('getUsers', () => {
     it('should call client with get users command', async () => {
-      (clientMock.users as DeepMocked<Users>).find.mockResolvedValue([
-        userRepresentationMock,
-      ]);
-      (clientMock.users as DeepMocked<Users>).count.mockResolvedValue(1);
-      (
-        clientMock.users as DeepMocked<Users>
-      ).listRealmRoleMappings.mockResolvedValue([
+      usersMock.find.mockResolvedValue([userRepresentationMock]);
+      usersMock.count.mockResolvedValue(1);
+      usersMock.listRealmRoleMappings.mockResolvedValue([
         {
           id: '5fb3fe2e-cce2-4fab-b84b-c0b1e31a273f',
           name: 'default-roles-demo-realm',
@@ -62,9 +79,9 @@ describe('UsersService', () => {
 
       const userPage: UserPage = await service.getUsers(0, 1, '', '', false);
 
-      expect(clientMock.users.find).toHaveBeenCalled();
-      expect(clientMock.users.count).toHaveBeenCalled();
-      expect(clientMock.users.listRealmRoleMappings).toHaveBeenCalledTimes(
+      expect(usersMock.find).toHaveBeenCalled();
+      expect(usersMock.count).toHaveBeenCalled();
+      expect(usersMock.listRealmRoleMappings).toHaveBeenCalledTimes(
         userPage.users.length,
       );
       expect(userPage).toEqual({
@@ -77,12 +94,8 @@ describe('UsersService', () => {
 
   describe('getUser', () => {
     it('should call client with get user command', async () => {
-      (clientMock.users as DeepMocked<Users>).findOne.mockResolvedValue(
-        userRepresentationMock,
-      );
-      (
-        clientMock.users as DeepMocked<Users>
-      ).listRealmRoleMappings.mockResolvedValue([
+      usersMock.findOne.mockResolvedValue(userRepresentationMock);
+      usersMock.listRealmRoleMappings.mockResolvedValue([
         {
           id: '5fb3fe2e-cce2-4fab-b84b-c0b1e31a273f',
           name: 'default-roles-demo-realm',
@@ -96,23 +109,19 @@ describe('UsersService', () => {
 
       const user: User = await service.getUser(userId);
 
-      expect(clientMock.users.findOne).toHaveBeenCalled();
-      expect(clientMock.users.listRealmRoleMappings).toHaveBeenCalled();
+      expect(usersMock.findOne).toHaveBeenCalled();
+      expect(usersMock.listRealmRoleMappings).toHaveBeenCalled();
       expect(user).toEqual(user);
     });
   });
 
   describe('createUser', () => {
     it('should call client with create user command', async () => {
-      (clientMock.users as DeepMocked<Users>).create.mockResolvedValue({
+      usersMock.create.mockResolvedValue({
         id: '6f917038-147e-4e0b-8a1a-255c42906ae7',
       });
-      (
-        clientMock.users as DeepMocked<Users>
-      ).addRealmRoleMappings.mockResolvedValue();
-      (
-        clientMock.users as DeepMocked<Users>
-      ).listRealmRoleMappings.mockResolvedValue([
+      usersMock.addRealmRoleMappings.mockResolvedValue();
+      usersMock.listRealmRoleMappings.mockResolvedValue([
         {
           id: '5fb3fe2e-cce2-4fab-b84b-c0b1e31a273f',
           name: 'default-roles-demo-realm',
@@ -122,12 +131,10 @@ describe('UsersService', () => {
           name: 'admin',
         },
       ]);
-      (clientMock.users as DeepMocked<Users>).findOne.mockResolvedValue(
-        userRepresentationMock,
-      );
+      usersMock.findOne.mockResolvedValue(userRepresentationMock);
       const userBody = {
-        first_name: 'username',
-        last_name: 'usersurname',
+        firstName: 'username',
+        lastName: 'usersurname',
         email: 'eemail@email.com',
         realmRoles: [
           {
@@ -144,23 +151,19 @@ describe('UsersService', () => {
 
       const user: User = await service.createUser(userBody as User);
 
-      expect(clientMock.users.findOne).toHaveBeenCalled();
-      expect(clientMock.users.addRealmRoleMappings).toHaveBeenCalled();
-      expect(clientMock.users.create).toHaveBeenCalled();
-      expect(clientMock.users.listRealmRoleMappings).toHaveBeenCalled();
+      expect(usersMock.findOne).toHaveBeenCalled();
+      expect(usersMock.addRealmRoleMappings).toHaveBeenCalled();
+      expect(usersMock.create).toHaveBeenCalled();
+      expect(usersMock.listRealmRoleMappings).toHaveBeenCalled();
       expect(user).toEqual(userMock);
     });
   });
 
   describe('updateUser', () => {
     it('should call client with update user command', async () => {
-      (clientMock.users as DeepMocked<Users>).update.mockResolvedValue();
-      (
-        clientMock.users as DeepMocked<Users>
-      ).addRealmRoleMappings.mockResolvedValue();
-      (
-        clientMock.users as DeepMocked<Users>
-      ).listRealmRoleMappings.mockResolvedValue([
+      usersMock.update.mockResolvedValue();
+      usersMock.addRealmRoleMappings.mockResolvedValue();
+      usersMock.listRealmRoleMappings.mockResolvedValue([
         {
           id: '5fb3fe2e-cce2-4fab-b84b-c0b1e31a273f',
           name: 'default-roles-demo-realm',
@@ -170,13 +173,11 @@ describe('UsersService', () => {
           name: 'admin',
         },
       ]);
-      (clientMock.users as DeepMocked<Users>).findOne.mockResolvedValue(
-        userRepresentationMock,
-      );
+      usersMock.findOne.mockResolvedValue(userRepresentationMock);
       const userId = '6f917038-147e-4e0b-8a1a-255c42906ae7';
       const userBody = {
-        first_name: 'username',
-        last_name: 'usersurname',
+        firstName: 'username',
+        lastName: 'usersurname',
         email: 'eemail@email.com',
         realmRoles: [
           {
@@ -193,30 +194,28 @@ describe('UsersService', () => {
 
       const user: User = await service.updateUser(userId, userBody as User);
 
-      expect(clientMock.users.findOne).toHaveBeenCalled();
-      expect(clientMock.users.addRealmRoleMappings).toHaveBeenCalled();
-      expect(clientMock.users.update).toHaveBeenCalled();
-      expect(clientMock.users.listRealmRoleMappings).toHaveBeenCalled();
+      expect(usersMock.findOne).toHaveBeenCalled();
+      expect(usersMock.addRealmRoleMappings).toHaveBeenCalled();
+      expect(usersMock.update).toHaveBeenCalled();
+      expect(usersMock.listRealmRoleMappings).toHaveBeenCalled();
       expect(user).toEqual(userMock);
     });
   });
 
   describe('deleteUser', () => {
     it('should call client with delete user command', async () => {
-      (clientMock.users as DeepMocked<Users>).del.mockResolvedValue();
+      usersMock.del.mockResolvedValue();
       const userId = '6f917038-147e-4e0b-8a1a-255c42906ae7';
 
       await service.deleteUser(userId);
 
-      expect(clientMock.users.del).toHaveBeenCalled();
+      expect(usersMock.del).toHaveBeenCalled();
     });
   });
 
   describe('addRolesToUser', () => {
     it('should call client with add roles to user command', async () => {
-      (
-        clientMock.users as DeepMocked<Users>
-      ).addRealmRoleMappings.mockResolvedValue();
+      usersMock.addRealmRoleMappings.mockResolvedValue();
       const userId = '6f917038-147e-4e0b-8a1a-255c42906ae7';
       const userRoles = [
         {
@@ -231,30 +230,28 @@ describe('UsersService', () => {
 
       await service.addRolesToUser(userId, userRoles);
 
-      expect(clientMock.users.addRealmRoleMappings).toHaveBeenCalled();
+      expect(usersMock.addRealmRoleMappings).toHaveBeenCalled();
     });
   });
 
   describe('getUserRoles', () => {
     it('should call client with get user roles command', async () => {
-      (
-        clientMock.users as DeepMocked<Users>
-      ).listRealmRoleMappings.mockResolvedValue([]);
+      usersMock.listRealmRoleMappings.mockResolvedValue([]);
       const userId = '6f917038-147e-4e0b-8a1a-255c42906ae7';
 
       await service.getUserRoles(userId);
 
-      expect(clientMock.users.listRealmRoleMappings).toHaveBeenCalled();
+      expect(usersMock.listRealmRoleMappings).toHaveBeenCalled();
     });
   });
 
   describe('getUserCount', () => {
     it('should call client with get user count command', async () => {
-      (clientMock.users as DeepMocked<Users>).count.mockResolvedValue(1);
+      usersMock.count.mockResolvedValue(1);
 
       const response = await service.getUserCount();
 
-      expect(clientMock.users.count).toHaveBeenCalled();
+      expect(usersMock.count).toHaveBeenCalled();
       expect(response).toEqual(1);
     });
   });
