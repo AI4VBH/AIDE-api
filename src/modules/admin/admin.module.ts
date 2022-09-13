@@ -1,6 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { HttpConfigService } from 'src/shared/http/http.service';
+import { HttpConfigService } from '../../shared/http/http.service';
 import { GraphController } from './graph/graph.controller';
 import { GraphService } from './graph/graph.service';
 import { IssuesController } from './issues/issues.controller';

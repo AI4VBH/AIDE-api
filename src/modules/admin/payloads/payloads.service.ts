@@ -1,8 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import PagingDTO from 'src/common/helper/paging/paging.dto';
-import { IPagedResponse } from 'src/common/helper/paging/paging.interface';
+import PagingDTO from '../../../common/helper/paging/paging.dto';
+import { IPagedResponse } from '../../../common/helper/paging/paging.interface';
 import { ExecutionDTO } from './execution.dto';
 import { PayloadDTO } from './payload.dto';
 import {
