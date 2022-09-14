@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { PayloadsService } from 'src/modules/admin/payloads/payloads.service';
+import { AppModule } from 'app.module';
+import { PayloadsService } from 'modules/admin/payloads/payloads.service';
 import { HttpService } from '@nestjs/axios';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 // require('./mocks/payloads');
 
 jest.mock('./../src/modules/admin/payloads/payloads.service');
 
-describe('AppController (e2e)', () => {
+describe.only('AppController (e2e)', () => {
   let app: INestApplication;
   let payloadsService: DeepMocked<PayloadsService>;
 

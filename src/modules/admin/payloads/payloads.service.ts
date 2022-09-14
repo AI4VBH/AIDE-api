@@ -1,8 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
-import PagingDTO from '../../../common/helper/paging/paging.dto';
-import { IPagedResponse } from '../../../common/helper/paging/paging.interface';
+import { firstValueFrom } from 'rxjs';
+import PagingDTO from 'common/helper/paging/paging.dto';
+import { IPagedResponse } from 'common/helper/paging/paging.interface';
 import { ExecutionDTO } from './execution.dto';
 import { PayloadDTO } from './payload.dto';
 import {
@@ -18,24 +18,22 @@ export class PayloadsService {
   async getPayloads(
     query: IGetPayloadsQueryParams,
   ): Promise<IPagedResponse<PayloadDTO>> {
-    const source = lastValueFrom(
+    const response = await firstValueFrom(
       this.httpService.get<IMonaiPayloadResponse>(
         `payload?pageNumber=${query.pageNumber}&pageSize=${query.pageSize}`,
       ),
     );
 
-    return await source.then((response) => {
-      if (!response.data.succeeded) {
-        throw new Error(
-          response.data.errors?.join('\n') ?? response.data.message,
-        );
-      }
-
-      return PagingDTO.fromMonaiPagedResponse<IMonaiPayload, PayloadDTO>(
-        response.data,
-        PayloadDTO.fromMonaiPayload,
+    if (!response.data.succeeded) {
+      throw new Error(
+        response.data.errors?.join('\n') ?? response.data.message,
       );
-    });
+    }
+
+    return PagingDTO.fromMonaiPagedResponse<IMonaiPayload, PayloadDTO>(
+      response.data,
+      PayloadDTO.fromMonaiPayload,
+    );
   }
 
   getPayloadExecutions(payload_id): ExecutionDTO[] {

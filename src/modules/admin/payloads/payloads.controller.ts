@@ -5,7 +5,7 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
-import { IPagedResponse } from 'src/common/helper/paging/paging.interface';
+import { IPagedResponse } from 'common/helper/paging/paging.interface';
 import { ExecutionDTO } from './execution.dto';
 import { PayloadDTO } from './payload.dto';
 import { IGetPayloadsQueryParams } from './payload.interface';

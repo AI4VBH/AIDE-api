@@ -1,4 +1,4 @@
-import { IPagedMonaiResponse } from 'src/common/helper/paging/paging.interface';
+import { IPagedMonaiResponse } from 'common/helper/paging/paging.interface';
 
 export interface IGetPayloadsQueryParams {
   pageNumber: number | null;
