@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import PagingDTO from 'common/helper/paging/paging.dto';
 import { IPagedResponse } from 'common/helper/paging/paging.interface';
@@ -13,7 +13,8 @@ import {
 
 @Injectable()
 export class PayloadsService {
-  constructor(private readonly httpService: HttpService) {}
+  @Inject(HttpService)
+  private readonly httpService: HttpService;
 
   async getPayloads(
     query: IGetPayloadsQueryParams,

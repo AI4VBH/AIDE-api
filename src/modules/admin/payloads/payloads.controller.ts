@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Controller,
   Get,
+  Inject,
   Param,
   Query,
 } from '@nestjs/common';
@@ -13,7 +14,8 @@ import { PayloadsService } from './payloads.service';
 
 @Controller('payloads')
 export class PayloadsController {
-  constructor(private readonly appService: PayloadsService) {}
+  @Inject(PayloadsService)
+  private readonly appService: PayloadsService;
 
   @Get()
   async getPayloads(

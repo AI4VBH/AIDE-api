@@ -1,61 +1,87 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import { ConfigService } from '@nestjs/config';
+import { HttpModule } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
 import * as request from 'supertest';
-import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { AxiosInstance } from 'axios';
 import { PayloadsController } from 'modules/admin/payloads/payloads.controller';
 import { PayloadsService } from 'modules/admin/payloads/payloads.service';
-import { createObservableResponse } from './utilities/http-helpers';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+import { HttpConfigService } from 'shared/http/http.service';
+
+import * as emptyPayload from './mocks/payloads/empty-data.json';
+import * as basicPayload from './mocks/payloads/basic-payload-1.json';
+import { URLSearchParams } from 'url';
+
+const server = setupServer();
+const testMonaiBasePath = 'https://localhost:7337';
 
 describe('Payloads Controller', () => {
   let app: INestApplication;
-  let axiosMock: DeepMocked<AxiosInstance>;
-  let httpServiceMock: DeepMocked<HttpService>;
-  let configServiceMock: DeepMocked<ConfigService>;
+
+  beforeAll(() => {
+    server.listen({
+      onUnhandledRequest: 'bypass',
+    });
+    server.printHandlers();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
 
   beforeEach(async () => {
-    axiosMock = createMock<AxiosInstance>();
-    httpServiceMock = createMock<HttpService>({
-      axiosRef: axiosMock,
-    });
-    configServiceMock = createMock<ConfigService>({
-      get: (path) => path === 'MONAI_API_HOST' && 'http://localhost:7337',
-    });
+    server.resetHandlers();
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [],
-      controllers: [PayloadsController],
-      providers: [
-        {
-          provide: HttpService,
-          useValue: httpServiceMock,
-        },
-        {
-          provide: ConfigService,
-          useValue: configServiceMock,
-        },
-        PayloadsService,
+      imports: [
+        ConfigModule.forRoot({
+          isGlobal: true,
+          // we mock the path to the MONAI API
+          load: [() => ({ MONAI_API_HOST: testMonaiBasePath })],
+        }),
+        // we register the HttpService with no stubbing! 🎉
+        HttpModule.registerAsync({
+          useClass: HttpConfigService,
+        }),
       ],
-    })
-      // .overrideProvider(HttpService)
-      // .useValue(httpServiceMock)
-      .compile();
+      controllers: [PayloadsController],
+      providers: [PayloadsService],
+    }).compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
   });
 
-  it('(GET) /payloads', () => {
-    axiosMock.get.mockResolvedValue({ status: 404 });
-    httpServiceMock.get.mockResolvedValue(
-      createObservableResponse(axiosMock.get),
+  it.each([
+    {},
+    { pageNumber: '0', pageSize: '0' },
+    { pageNumber: '-1', pageSize: '-1' },
+  ])('(GET) /payloads throws exception when query is invalid', (params) => {
+    const query = new URLSearchParams(params);
+
+    return request(app.getHttpServer()).get(`/payloads?${query}`).expect(400);
+  });
+
+  it.each([
+    [emptyPayload, {}],
+    [basicPayload, {}],
+  ])('(GET) /payloads', (payload, expected) => {
+    /**
+     * we are providing a specific response
+     * you can also pass in objects
+     *
+     * return res(ctx.json({}));
+     */
+    server.use(
+      rest.get(`${testMonaiBasePath}/payload`, (request, response, context) => {
+        return response(context.json(payload));
+      }),
     );
 
     return request(app.getHttpServer())
       .get('/payloads?pageNumber=1&pageSize=10')
       .expect(200)
-      .expect('test');
+      .expect(expected);
   });
 });
