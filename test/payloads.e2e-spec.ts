@@ -8,10 +8,7 @@ import { PayloadsService } from 'modules/admin/payloads/payloads.service';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
-
-import * as emptyPayload from './mocks/payloads/empty-data.json';
-import * as basicPayload from './mocks/payloads/basic-payload-1.json';
-import { URLSearchParams } from 'url';
+import ApiMocks from './test_data/mocks/mockIndex';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
@@ -53,35 +50,60 @@ describe('Payloads Controller', () => {
     await app.init();
   });
 
-  it.each([
-    {},
-    { pageNumber: '0', pageSize: '0' },
-    { pageNumber: '-1', pageSize: '-1' },
-  ])('(GET) /payloads throws exception when query is invalid', (params) => {
-    const query = new URLSearchParams(params);
+  it.each([ApiMocks.basicPayload, ApiMocks.singlePayload])(
+    '(GET) /payloads with returned data',
+    async (payload) => {
+      server.use(
+        rest.get(
+          `${testMonaiBasePath}/payload`,
+          (request, response, context) => {
+            return response(context.json(payload));
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer()).get(
+        '/payloads?pageNumber=1&pageSize=10',
+      );
+      expect(response.body).toMatchSnapshot();
+    },
+  );
 
-    return request(app.getHttpServer()).get(`/payloads?${query}`).expect(400);
+  it('(GET) /payloads without returned data', async () => {
+    server.use(
+      rest.get(`${testMonaiBasePath}/payload`, (request, response, context) => {
+        return response(context.json(ApiMocks.emptyPayload));
+      }),
+    );
+    const response = await request(app.getHttpServer()).get(
+      '/payloads?pageNumber=1&pageSize=10',
+    );
+    expect(response.body).toMatchSnapshot();
+  });
+
+  it('(GET) /payloads when Monai doesnt respond', async () => {
+    server.use(
+      rest.get(`${testMonaiBasePath}/payload`, (request, response, context) => {
+        return response(context.status(500));
+      }),
+    );
+    const response = await request(app.getHttpServer()).get(
+      '/payloads?pageNumber=1&pageSize=10',
+    );
+    expect(response.statusCode).toBe(400);
+    expect(response.error).toMatchSnapshot();
   });
 
   it.each([
-    [emptyPayload, {}],
-    [basicPayload, {}],
-  ])('(GET) /payloads', (payload, expected) => {
-    /**
-     * we are providing a specific response
-     * you can also pass in objects
-     *
-     * return res(ctx.json({}));
-     */
+    '?pageNumber=1&pageSize=10',
+    '?pageNumber=10&pageSize=1',
+    '?pageNumber=1&pageSize=100',
+    '',
+  ])('GET /payloads passes through pagination query', async (query) => {
     server.use(
-      rest.get(`${testMonaiBasePath}/payload`, (request, response, context) => {
-        return response(context.json(payload));
+      rest.get(`${testMonaiBasePath}/payload`, (request) => {
+        expect(request.url).toMatchSnapshot(query);
       }),
     );
-
-    return request(app.getHttpServer())
-      .get('/payloads?pageNumber=1&pageSize=10')
-      .expect(200)
-      .expect(expected);
+    await request(app.getHttpServer()).get(`/payloads${query}`);
   });
 });
