@@ -53,9 +53,3 @@ exports[`Payloads Controller (GET) /payloads without returned data 1`] = `
   "totalRecords": 3,
 }
 `;
-
-exports[`Payloads Controller GET /payloads passes through pagination query: ?pageNumber=1&pageSize=10 1`] = `"https://localhost:7337/payload?pageNumber=1&pageSize=10"`;
-
-exports[`Payloads Controller GET /payloads passes through pagination query: ?pageNumber=1&pageSize=100 1`] = `"https://localhost:7337/payload?pageNumber=1&pageSize=100"`;
-
-exports[`Payloads Controller GET /payloads passes through pagination query: ?pageNumber=10&pageSize=1 1`] = `"https://localhost:7337/payload?pageNumber=10&pageSize=1"`;
