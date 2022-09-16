@@ -21,23 +21,38 @@ export class PayloadsController {
   async getPayloads(
     @Query() query: IGetPayloadsQueryParams,
   ): Promise<IPagedResponse<PayloadDTO>> {
-    if (!query || !query.pageNumber || !query.pageSize) {
-      throw new BadRequestException(
-        'pageNumber and pageSize are both required query parameters.',
-      );
+    if (query) {
+      validateParam(query.pageNumber, 'pageNumber');
+      validateParam(query.pageSize, 'pageSize');
     }
 
-    if (query.pageNumber < 1 || query.pageSize < 1) {
-      throw new BadRequestException(
-        'pageNumber and pageSize must both be a minimum of 1.',
-      );
+    try {
+      return await this.appService.getPayloads(query);
+    } catch (error) {
+      throw error;
     }
-
-    return await this.appService.getPayloads(query);
   }
 
   @Get(':payload_id/executions')
   getPayloadExecutions(@Param('payload_id') payload_id): ExecutionDTO[] {
     return this.appService.getPayloadExecutions(payload_id);
+  }
+}
+
+const validateParam = (param: string, label: string) => {
+  if (param) {
+    const number = Number(param);
+
+    if (isNaN(number)) {
+      throw new BadRequestException(
+        `${label} must be a numerical value`
+      );
+    }
+
+    if (number < 1) {
+      throw new BadRequestException(
+        `${label} must be a minimum of 1`,
+      );
+    }
   }
 }

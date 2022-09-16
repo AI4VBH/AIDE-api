@@ -33,7 +33,7 @@ describe('PayloadsController', () => {
         it.each([
             undefined,
             { pageNumber: undefined, pageSize: undefined },
-            { pageNumber: 1, pageSize: undefined }
+            { pageNumber: '1', pageSize: undefined }
         ])(
             'throws bad request when both query string parameters are not provided: %s',
             async (queryParams: IGetPayloadsQueryParams) => {
@@ -44,8 +44,8 @@ describe('PayloadsController', () => {
         );
 
         it.each([
-            { pageNumber: 0, pageSize: 0 },
-            { pageNumber: 0, pageSize: 10 }
+            { pageNumber: '0', pageSize: '0' },
+            { pageNumber: '0', pageSize: '10' }
         ])(
             'throws bad request when either query string parameter is not a minimum of 1: %s',
             async (queryParams: IGetPayloadsQueryParams) => {
@@ -89,7 +89,7 @@ describe('PayloadsController', () => {
 
             service.getPayloads.mockResolvedValue(expectedResult);
 
-            const response = await controller.getPayloads({ pageNumber: 1, pageSize: 10 });
+            const response = await controller.getPayloads({ pageNumber: '1', pageSize: '10' });
 
             expect(response).toStrictEqual(expectedResult);
         });

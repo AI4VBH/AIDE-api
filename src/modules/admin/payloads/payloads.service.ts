@@ -1,8 +1,8 @@
 import { HttpService } from '@nestjs/axios';
-import { Inject, Injectable } from '@nestjs/common';
-import { firstValueFrom } from 'rxjs';
-import PagingDTO from 'common/helper/paging/paging.dto';
-import { IPagedResponse } from 'common/helper/paging/paging.interface';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { lastValueFrom } from 'rxjs';
+import PagingDTO from '../../../common/helper/paging/paging.dto';
+import { IPagedResponse } from '../../../common/helper/paging/paging.interface';
 import { ExecutionDTO } from './execution.dto';
 import { PayloadDTO } from './payload.dto';
 import {
@@ -19,11 +19,27 @@ export class PayloadsService {
   async getPayloads(
     query: IGetPayloadsQueryParams,
   ): Promise<IPagedResponse<PayloadDTO>> {
-    const response = await firstValueFrom(
+    let queryParams = "";
+
+    if (query && query.pageNumber) {
+      queryParams += `?pageNumber=${query.pageNumber}`;
+    }
+
+    if (query && query.pageSize) {
+      queryParams += `${queryParams === "" ? "?" : "&"}pageSize=${query.pageSize}`;
+    }
+
+    const response = await lastValueFrom(
       this.httpService.get<IMonaiPayloadResponse>(
-        `payload?pageNumber=${query.pageNumber}&pageSize=${query.pageSize}`,
+        `payload${queryParams}`,
       ),
     );
+
+    if (response.status === 500) {
+      throw new BadRequestException(
+        "Unable to reach MONAI service"
+      );
+    }
 
     if (!response.data.succeeded) {
       throw new Error(

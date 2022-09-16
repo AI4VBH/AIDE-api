@@ -44,7 +44,7 @@ describe('PayloadsService', () => {
                     },
                 }));
 
-            const action = async () => await service.getPayloads({ pageNumber: 1, pageSize: 10 });
+            const action = async () => await service.getPayloads({ pageNumber: '1', pageSize: '10' });
 
             await expect(action()).rejects.toThrowError(Error);
         });
@@ -91,7 +91,7 @@ describe('PayloadsService', () => {
                     data: mockMonaiPayloadsResponse,
                 }));
 
-            const response = await service.getPayloads({ pageNumber: 1, pageSize: 10 });
+            const response = await service.getPayloads({ pageNumber: '1', pageSize: '10' });
 
             expect(response).toEqual(expectedResult);
         });
