@@ -13,7 +13,7 @@ import ApiMocks from '../test_data/mocks/mockIndex';
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
 
-describe('Payloads Controller', () => {
+describe('/Payloads Integration Tests', () => {
   let app: INestApplication;
 
   beforeAll(() => {

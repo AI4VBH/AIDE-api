@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Payloads Controller (GET) /payloads when Monai doesnt respond 1`] = `[Error: A decent error message (400)]`;
+exports[`/Payloads Integration Tests (GET) /payloads when Monai doesnt respond 1`] = `Decent error message (400)]`;
 
-exports[`Payloads Controller (GET) /payloads with returned data 1`] = `
+exports[`/Payloads Integration Tests (GET) /payloads with returned data 1`] = `
 {
   "data": [
     {
@@ -35,7 +35,7 @@ exports[`Payloads Controller (GET) /payloads with returned data 1`] = `
 }
 `;
 
-exports[`Payloads Controller (GET) /payloads with returned data 2`] = `
+exports[`/Payloads Integration Tests (GET) /payloads with returned data 2`] = `
 {
   "data": [
     {
@@ -62,7 +62,7 @@ exports[`Payloads Controller (GET) /payloads with returned data 2`] = `
 }
 `;
 
-exports[`Payloads Controller (GET) /payloads with returned data 3`] = `
+exports[`/Payloads Integration Tests (GET) /payloads with returned data 3`] = `
 {
   "data": [
     {
@@ -89,7 +89,7 @@ exports[`Payloads Controller (GET) /payloads with returned data 3`] = `
 }
 `;
 
-exports[`Payloads Controller (GET) /payloads with returned data 4`] = `
+exports[`/Payloads Integration Tests (GET) /payloads with returned data 4`] = `
 {
   "data": [
     {
@@ -134,7 +134,7 @@ exports[`Payloads Controller (GET) /payloads with returned data 4`] = `
 }
 `;
 
-exports[`Payloads Controller (GET) /payloads without returned data 1`] = `
+exports[`/Payloads Integration Tests (GET) /payloads without returned data 1`] = `
 {
   "data": [],
   "firstPage": "//payload?pageNumber=1&pageSize=10",
