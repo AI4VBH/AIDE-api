@@ -8,7 +8,7 @@ import { PayloadsService } from 'modules/admin/payloads/payloads.service';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
-import ApiMocks from './test_data/mocks/mockIndex';
+import ApiMocks from '../test_data/mocks/mockIndex';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
@@ -50,23 +50,25 @@ describe('Payloads Controller', () => {
     await app.init();
   });
 
-  it.each([ApiMocks.basicPayload, ApiMocks.singlePayload])(
-    '(GET) /payloads with returned data',
-    async (payload) => {
-      server.use(
-        rest.get(
-          `${testMonaiBasePath}/payload`,
-          (request, response, context) => {
-            return response(context.json(payload));
-          },
-        ),
-      );
-      const response = await request(app.getHttpServer()).get(
-        '/payloads?pageNumber=1&pageSize=10',
-      );
-      expect(response.body).toMatchSnapshot();
-    },
-  );
+  it.each([
+    ApiMocks.basicPayload1,
+    ApiMocks.basicPayload2,
+    ApiMocks.basicPayload3,
+    ApiMocks.basicPayload4,
+  ])('(GET) /payloads with returned data', async (payload) => {
+    server.use(
+      rest.get(
+        `${testMonaiBasePath}/payload`,
+        (_request, response, context) => {
+          return response(context.json(payload));
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer()).get(
+      '/payloads?pageNumber=1&pageSize=10',
+    );
+    expect(response.body).toMatchSnapshot();
+  });
 
   it('(GET) /payloads without returned data', async () => {
     server.use(
@@ -93,7 +95,7 @@ describe('Payloads Controller', () => {
     expect(response.error).toMatchSnapshot();
   });
 
-  // Get sam to add t unit tests
+  // Get sam to add unit tests
   // it.each([
   //   '?pageNumber=1&pageSize=10',
   //   '?pageNumber=10&pageSize=1',
