@@ -1,0 +1,65 @@
+step "add-docker-image-pull-secret" {
+    name = "Add Docker Image Pull Secret"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesRunScript"
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                export AWS_ACCESS_KEY_ID=$(get_octopusvariable "AWS_ACCESS_KEY_ID")
+                export AWS_SECRET_ACCESS_KEY=$(get_octopusvariable "AWS_SECRET_ACCESS_KEY")
+                export AWS_DEFAULT_REGION=$(get_octopusvariable "AWS_REGION")
+                
+                kubectl create namespace aide --dry-run=client -o yaml | kubectl apply -f -
+                
+                kubectl create secret docker-registry $(get_octopusvariable "imagePullSecretName") \
+                  --docker-server=$(get_octopusvariable "AWS_ACCOUNT").dkr.ecr.$(get_octopusvariable "AWS_REGION").amazonaws.com \
+                  --docker-username=AWS \
+                  --docker-password=$(aws ecr get-login-password) \
+                  --namespace=aide \
+                  --dry-run=client -o yaml | kubectl apply -f -
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
+
+step "deploy-the-aide-api" {
+    name = "Deploy the AIDE API"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.HelmChartUpgrade"
+        properties = {
+            Octopus.Action.Helm.ClientVersion = "V3"
+            Octopus.Action.Helm.Namespace = "aide"
+            Octopus.Action.Helm.ReleaseName = "aide-api"
+            Octopus.Action.Helm.ResetValues = "True"
+            Octopus.Action.Helm.YamlValues = <<-EOT
+                image:
+                  tag: #{Octopus.Action.Package.PackageVersion}
+                imagePullSecrets:
+                  - name: #{imagePullSecretName}
+            EOT
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "AIDE.API"
+        }
+        worker_pool_variable = "WorkerPoolName"
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "AIDE.API"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
