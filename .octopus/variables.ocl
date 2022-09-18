@@ -1,0 +1,3 @@
+variable "imagePullSecretName" {
+    value "regcred" {}
+}
