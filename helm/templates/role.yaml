@@ -1,0 +1,15 @@
+{{ if (.Values.serviceAccount)  -}}
+{{ if  (.Values.serviceAccount.role) -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: {{.Values.serviceAccount.namespace}}
+  name: {{.Values.serviceAccount.role.name}}
+rules:
+- apiGroups: [""]
+  resources: 
+    - {{ range .Values.serviceAccount.role.rules.resources }}{{- . | quote }}{{- end }}
+  verbs: {{- range .Values.serviceAccount.role.rules.verbs }}
+    - {{. | quote }}{{- end }}
+{{- end }}
+{{- end }}

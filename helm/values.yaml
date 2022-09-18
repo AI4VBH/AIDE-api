@@ -1,0 +1,85 @@
+replicaCount: 1
+
+image:
+  repository: 847264867502.dkr.ecr.eu-west-2.amazonaws.com/backend-api-nestjs
+  pullPolicy: IfNotPresent
+  tag: latest
+
+imagePullSecrets:
+ - name: regcred
+
+enviromentVariables:
+  RABBITMQ_HOST: host.docker.internal
+  RABBITMQ_API_URL: http://host.docker.internal:15672/api/
+  RABBITMQ_PORT: 5672  
+  CACERTFILE: /aide/data/certs/ca_certificate.pem
+  CERTFILE: /aide/data/certs/client_certificate.pem
+  KEYFILE: /aide/data/certs/client_key.pem
+  STORAGE_DIR: /aide/data
+  INPUT_MOUNT: /aide/data
+  ELASTICSEARCH_HOST: https://opensearch.shared.svc.cluster.local:9200
+  ELASTICSEARCH_INDEX: model_config
+  WORKER_CLASS: uvicorn.workers.UvicornH11Worker
+  PACS_HOST: internal-pacs.aide.svc.cluster.local
+  PACS_PORT: 4242
+  EXTERNAL_PACS_PORT: 4242
+  EXTERNAL_PACS_HOST: external-pacs-port-4242.aide.svc.cluster.local
+  EXTERNAL_PACS_AE_TITLE: ORTHANC
+  KEYCLOAK_URL: https://dev-aide.answerdigital.io:8443/auth
+  KEYCLOAK_URL_BACKEND: https://keycloak.aide.svc.cluster.local:8443/auth
+  FRONTEND_API_HOST: https://dev-aide.answerdigital.io:8000
+  WADO_URI_ROOT: https://dev-aide.answerdigital.io:8045/dicom-web
+  QIDO_ROOT: https://dev-aide.answerdigital.io:8045/dicom-web
+  WADO_ROOT: https://dev-aide.answerdigital.io:8045/dicom-web
+  CLINICAL_REVIEW_URL: http://clinical-review-port-5000.aide.svc.cluster.local:5000
+  ORTHANC_API_URL: https://dev-aide.answerdigital.io:8045
+  DATABASE_HOST: postgresql-db.aide.svc.cluster.local
+  DATABASE_NAME: nest_api  
+  DATABASE_PORT: 5432
+  PORT: 5000
+
+secrets:
+  - name: rabbit-secret-master
+    keyValues:
+      - key: username
+        value: bW9uYWlkZXBsb3k=
+      - key: password
+        value: bW9uYWlkZXBsb3k=
+  - name: elastic-secret-master
+    keyValues:
+      - key: username
+        value: cm9vdA==
+      - key: password
+        value: SDNQMm16MmVTTTlZRHRMag==
+  - name: database-secret-master
+    keyValues:
+      - key: user
+        value: cG9zdGdyZXM=
+      - key: password
+        value: TjhoNXJqYkZ3
+
+enviromentVariablesFromSecrets:
+  secrets:
+    - name: RABBITMQ_USERNAME
+      secretName: rabbit-secret-master
+      secretKey: username
+    - name: RABBITMQ_PASSWORD
+      secretName: rabbit-secret-master
+      secretKey: password
+    - name: ELASTICSEARCH_USERNAME
+      secretName: elastic-secret-master
+      secretKey: username
+    - name: ELASTICSEARCH_PASSWORD
+      secretName: elastic-secret-master
+      secretKey: password
+    - name: DATABASE_USER
+      secretName: database-secret-master
+      secretKey: user
+    - name: DATABASE_PASSWORD
+      secretName: database-secret-master
+      secretKey: password    
+      
+service:
+  type: NodePort
+  port: 5000
+  nodeport: 5000
