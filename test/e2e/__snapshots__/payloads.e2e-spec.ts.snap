@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`/Payloads Integration Tests (GET) /payloads when Monai doesnt respond 1`] = `Decent error message (400)]`;
+exports[`/Payloads Integration Tests (GET) /payloads when Monai doesnt respond 1`] = `[Error: cannot GET /payloads?pageNumber=1&pageSize=10 (500)]`;
 
 exports[`/Payloads Integration Tests (GET) /payloads with returned data 1`] = `
 {

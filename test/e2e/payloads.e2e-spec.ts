@@ -91,27 +91,7 @@ describe('/Payloads Integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/payloads?pageNumber=1&pageSize=10',
     );
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(500);
     expect(response.error).toMatchSnapshot();
   });
-
-  // Get sam to add unit tests
-  // it.each([
-  //   '?pageNumber=1&pageSize=10',
-  //   '?pageNumber=10&pageSize=1',
-  //   '?pageNumber=1&pageSize=100',
-  //   '',
-  // ])('GET /payloads passes through pagination query', async (query) => {
-  //   server.use(
-  //     rest.get(`${testMonaiBasePath}/payload`, (request, response, context) => {
-  //       return response(context.json(request.url.search));
-  //     }),
-  //   );
-
-  //   const response = await request(app.getHttpServer()).get(
-  //     `/payloads${query}`,
-  //   );
-
-  //   expect(response.body).toContain(query);
-  // });
 });

@@ -9,6 +9,7 @@
   "moduleNameMapper": {
     "^shared/(.*)": "<rootDir>/src/shared/$1",
     "^modules/(.*)": "<rootDir>/src/modules/$1",
-    "^common/(.*)": "<rootDir>/src/common/$1"
+    "^common/(.*)": "<rootDir>/src/common/$1",
+    "^test/(.*)": "<rootDir>/test/$1"
   }
 }

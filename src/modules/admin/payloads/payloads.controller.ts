@@ -5,7 +5,9 @@ import {
   Inject,
   Param,
   Query,
+  UseFilters,
 } from '@nestjs/common';
+import MonaiServerExceptionFilter from 'common/filters/monai-server-exception.filter';
 import { IPagedResponse } from 'common/helper/paging/paging.interface';
 import { ExecutionDTO } from './execution.dto';
 import { PayloadDTO } from './payload.dto';
@@ -13,6 +15,7 @@ import { IGetPayloadsQueryParams } from './payload.interface';
 import { PayloadsService } from './payloads.service';
 
 @Controller('payloads')
+@UseFilters(MonaiServerExceptionFilter)
 export class PayloadsController {
   @Inject(PayloadsService)
   private readonly appService: PayloadsService;

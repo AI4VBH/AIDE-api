@@ -1,5 +1,5 @@
 import { PayloadDTO } from "./payload.dto";
-import * as mockMonaiPayload from 'test/mocks/payloads/single-payload.json';
+import * as mockMonaiPayload from 'test/test_data/mocks/payloads/single-payload.json';
 
 describe('PayloadDTO', () => {
     test('fromMonaiPayload returns the expected result', () => {

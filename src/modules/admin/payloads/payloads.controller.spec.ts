@@ -31,19 +31,6 @@ describe('PayloadsController', () => {
 
     describe('getPayloads', () => {
         it.each([
-            undefined,
-            { pageNumber: undefined, pageSize: undefined },
-            { pageNumber: '1', pageSize: undefined }
-        ])(
-            'throws bad request when both query string parameters are not provided: %s',
-            async (queryParams: IGetPayloadsQueryParams) => {
-                const action = async () => await controller.getPayloads(queryParams);
-
-                await expect(action()).rejects.toThrowError(BadRequestException);
-            }
-        );
-
-        it.each([
             { pageNumber: '0', pageSize: '0' },
             { pageNumber: '0', pageSize: '10' }
         ])(

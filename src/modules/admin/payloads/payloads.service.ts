@@ -36,9 +36,7 @@ export class PayloadsService {
     );
 
     if (response.status === 500) {
-      throw new BadRequestException(
-        "Unable to reach MONAI service"
-      );
+      throw new Error("Unable to reach MONAI service");
     }
 
     if (!response.data.succeeded) {
