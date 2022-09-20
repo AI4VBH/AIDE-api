@@ -82,16 +82,22 @@ describe('/Payloads Integration Tests', () => {
     expect(response.body).toMatchSnapshot();
   });
 
-  it('(GET) /payloads when Monai doesnt respond', async () => {
-    server.use(
-      rest.get(`${testMonaiBasePath}/payload`, (request, response, context) => {
-        return response(context.status(408));
-      }),
-    );
-    const response = await request(app.getHttpServer()).get(
-      '/payloads?pageNumber=1&pageSize=10',
-    );
-    expect(response.statusCode).toBe(504);
-    expect(response.body).toMatchSnapshot();
-  });
+  it.each([408, 500, 501, 502, 503, 504])(
+    '(GET) /payloads when Monai gives general 500 error',
+    async (code) => {
+      server.use(
+        rest.get(
+          `${testMonaiBasePath}/payload`,
+          (request, response, context) => {
+            return response(context.status(code));
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer()).get(
+        '/payloads?pageNumber=1&pageSize=10',
+      );
+      expect(response.statusCode).toBe(500);
+      expect(response.body).toMatchSnapshot();
+    },
+  );
 });
