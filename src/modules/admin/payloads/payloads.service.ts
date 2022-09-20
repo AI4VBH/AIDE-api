@@ -19,17 +19,9 @@ export class PayloadsService {
   async getPayloads(
     query: IGetPayloadsQueryParams,
   ): Promise<IPagedResponse<PayloadDTO>> {
-    let queryParams = '';
-
-    if (query) {
-      const searchParams = new URLSearchParams();
-
-      Object.entries(query).forEach(([key, value]) =>
-        searchParams.append(key, value),
-      );
-
-      queryParams = `?${searchParams.toString()}`;
-    }
+    const queryParams = new URLSearchParams(
+      query as unknown as Record<string, string>,
+    );
 
     const response = await lastValueFrom(
       this.httpService.get<IMonaiPayloadResponse>(`payload?${queryParams}`),

@@ -18,10 +18,10 @@ export default class MonaiServerExceptionFilter implements ExceptionFilter {
         exception as AxiosError
       ).toJSON() as ResponseException;
 
-      if (status === 408) {
-        return response.status(HttpStatus.GATEWAY_TIMEOUT).json({
-          statusCode: HttpStatus.GATEWAY_TIMEOUT,
-          message: 'Unable to reach MONAI service',
+      if (status === 408 || status >= 500) {
+        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'An issue occurred with the MONAI service',
         });
       }
 
