@@ -1,10 +1,5 @@
 import { Module } from '@nestjs/common';
-import {
-  AuthGuard,
-  KeycloakConnectModule,
-  RoleGuard,
-} from 'nest-keycloak-connect';
-import { APP_GUARD } from '@nestjs/core';
+import { KeycloakConnectModule } from 'nest-keycloak-connect';
 import { getEnvPath } from 'common/helper/env.helper';
 import { ConfigModule } from '@nestjs/config';
 import { KeycloakService } from 'shared/keycloak/keycloak.service';
@@ -15,8 +10,6 @@ import { HttpConfigService } from 'shared/http/http.service';
 import { HttpModule } from '@nestjs/axios';
 import { RolesModule } from 'modules/roles/roles.module';
 import { UsersModule } from 'modules/users/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 

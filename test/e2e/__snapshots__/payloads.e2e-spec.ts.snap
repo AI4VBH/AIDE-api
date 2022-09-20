@@ -1,6 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`/Payloads Integration Tests (GET) /payloads when Monai doesnt respond 1`] = `[Error: cannot GET /payloads?pageNumber=1&pageSize=10 (500)]`;
+exports[`/Payloads Integration Tests (GET) /payloads when Monai doesnt respond 1`] = `
+{
+  "message": "Unable to reach MONAI service",
+  "statusCode": 504,
+}
+`;
 
 exports[`/Payloads Integration Tests (GET) /payloads with returned data 1`] = `
 {
@@ -85,7 +90,7 @@ exports[`/Payloads Integration Tests (GET) /payloads with returned data 3`] = `
   "pageSize": 10,
   "previousPage": null,
   "totalPages": 1,
-  "totalRecords": 4,
+  "totalRecords": 2,
 }
 `;
 
@@ -144,6 +149,6 @@ exports[`/Payloads Integration Tests (GET) /payloads without returned data 1`] =
   "pageSize": 10,
   "previousPage": null,
   "totalPages": 1,
-  "totalRecords": 3,
+  "totalRecords": 0,
 }
 `;

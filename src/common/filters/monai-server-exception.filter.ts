@@ -1,29 +1,45 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from "@nestjs/common";
-import { Response } from "express";
-
-type ResponseException = {
-    status: number;
-    message: string;
-};
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpStatus,
+} from '@nestjs/common';
+import MonaiNoResponseError from 'common/errors/monai-no-response.error';
+import { Response } from 'express';
+import { AxiosError } from 'axios';
 
 @Catch(Error)
 export default class MonaiServerExceptionFilter implements ExceptionFilter {
-    catch(exception: Error, host: ArgumentsHost) {
-        const ctx = host.switchToHttp();
-        const response = ctx.getResponse<Response>();
+  catch(exception: Error, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
 
-        const { status, message } = exception as unknown as ResponseException;
+    if (Object.keys(exception).includes('config')) {
+      const { message, status } = (
+        exception as AxiosError
+      ).toJSON() as ResponseException;
 
-        if (status) {
-            return response.status(status).json({
-                statusCode: status,
-                message
-            });
-        }
-
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            statusCode: 500,
-            message: "Internal Server Error"
+      if (status === 408) {
+        return response.status(HttpStatus.GATEWAY_TIMEOUT).json({
+          statusCode: HttpStatus.GATEWAY_TIMEOUT,
+          message: 'Unable to reach MONAI service',
         });
+      }
+
+      return response.status(status ?? HttpStatus.INTERNAL_SERVER_ERROR).json({
+        statusCode: status ?? HttpStatus.INTERNAL_SERVER_ERROR,
+        message,
+      });
     }
+
+    response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      statusCode: 500,
+      message: 'Internal Server Error',
+    });
+  }
 }
+
+type ResponseException = {
+  status: number;
+  message: string;
+};

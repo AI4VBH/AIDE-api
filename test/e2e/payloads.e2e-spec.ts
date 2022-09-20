@@ -85,13 +85,13 @@ describe('/Payloads Integration Tests', () => {
   it('(GET) /payloads when Monai doesnt respond', async () => {
     server.use(
       rest.get(`${testMonaiBasePath}/payload`, (request, response, context) => {
-        return response(context.status(500));
+        return response(context.status(408));
       }),
     );
     const response = await request(app.getHttpServer()).get(
       '/payloads?pageNumber=1&pageSize=10',
     );
-    expect(response.statusCode).toBe(500);
-    expect(response.error).toMatchSnapshot();
+    expect(response.statusCode).toBe(504);
+    expect(response.body).toMatchSnapshot();
   });
 });

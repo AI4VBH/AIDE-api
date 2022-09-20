@@ -4,7 +4,7 @@
     "firstPage": "//payload?pageNumber=1&pageSize=10",
     "lastPage": "//payload?pageNumber=1&pageSize=10",
     "totalPages": 1,
-    "totalRecords": 4,
+    "totalRecords": 2,
     "nextPage": null,
     "previousPage": null,
     "data": [

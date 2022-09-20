@@ -29,11 +29,7 @@ export class PayloadsController {
       validateParam(query.pageSize, 'pageSize');
     }
 
-    try {
-      return await this.appService.getPayloads(query);
-    } catch (error) {
-      throw error;
-    }
+    return await this.appService.getPayloads(query);
   }
 
   @Get(':payload_id/executions')
@@ -47,15 +43,11 @@ const validateParam = (param: string, label: string) => {
     const number = Number(param);
 
     if (isNaN(number)) {
-      throw new BadRequestException(
-        `${label} must be a numerical value`
-      );
+      throw new BadRequestException(`${label} must be a numerical value`);
     }
 
     if (number < 1) {
-      throw new BadRequestException(
-        `${label} must be a minimum of 1`,
-      );
+      throw new BadRequestException(`${label} must be a minimum of 1`);
     }
   }
-}
+};
