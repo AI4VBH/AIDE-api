@@ -23,7 +23,7 @@ npm run test:int
 ### Location of test files
 
 - Unit test files are labelled *.spec.ts and are located with the development files.
-- Integration/e2e test files are located in the /test folder in a directory labelled after the controller they are testing.
+- Integration/e2e test files are labelled *.e2e-spec.ts and are located in the /test folder in a directory labelled after the controller they are testing.
 
 ### Results
 
@@ -40,3 +40,5 @@ For the Integration/e2e tests we have mocked the [Monai](https://github.com/Proj
 ## Contributing
 
 Tests should be written alongside the development code and pushed in the same pull request. We must ensure any new/altered tests have the correct snapshot as this is easy to miss. It is also important for the individual doing the code review to look at the snapshots and ensure they agree with the output.
+
+Please ensure you follow all the conventions above for name/location/layout of test code. If in doubt try to copy the format of previous tests.
