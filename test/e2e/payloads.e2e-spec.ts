@@ -91,7 +91,7 @@ describe('/Payloads Integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/payloads?pageNumber=1&pageSize=10',
     );
-    expect(response.statusCode).toBe(504);
+    expect(response.statusCode).toBe(500);
     expect(response.body).toMatchSnapshot();
   });
 });

@@ -2,8 +2,8 @@
 
 exports[`/Payloads Integration Tests (GET) /payloads when Monai doesnt respond 1`] = `
 {
-  "message": "Unable to reach MONAI service",
-  "statusCode": 504,
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
 }
 `;
 
