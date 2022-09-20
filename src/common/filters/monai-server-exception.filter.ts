@@ -4,7 +4,6 @@ import {
   ExceptionFilter,
   HttpStatus,
 } from '@nestjs/common';
-import MonaiNoResponseError from 'common/errors/monai-no-response.error';
 import { Response } from 'express';
 import { AxiosError } from 'axios';
 

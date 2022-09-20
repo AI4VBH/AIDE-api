@@ -1,6 +1,5 @@
 import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
-import MonaiNoResponseError from 'common/errors/monai-no-response.error';
 import { lastValueFrom } from 'rxjs';
 import PagingDTO from '../../../common/helper/paging/paging.dto';
 import { IPagedResponse } from '../../../common/helper/paging/paging.interface';
