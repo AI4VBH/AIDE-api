@@ -1,4 +1,6 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+import { HttpConfigService } from 'shared/http/http.service';
 import { GraphController } from './graph/graph.controller';
 import { GraphService } from './graph/graph.service';
 import { IssuesController } from './issues/issues.controller';
@@ -13,6 +15,11 @@ import { PayloadsController } from './payloads/payloads.controller';
 import { PayloadsService } from './payloads/payloads.service';
 
 @Module({
+  imports: [
+    HttpModule.registerAsync({
+      useClass: HttpConfigService,
+    }),
+  ],
   controllers: [
     GraphController,
     IssuesController,

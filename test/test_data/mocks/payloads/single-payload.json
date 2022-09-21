@@ -1,0 +1,23 @@
+{
+    "id": "b3405a38-70e7-4618-8f8e-ffc2e25b45ad",
+    "payload_id": "86c0f117-4021-412e-b163-0dc621df672a",
+    "workflows": [
+        "dfcb81e5-5c52-491e-94ea-f23fc58333dd"
+    ],
+    "workflow_instance_ids": [],
+    "file_count": 3,
+    "correlation_id": "f1686133-c61e-4f16-a4eb-bb1e84f211ca",
+    "bucket": "bucket_1",
+    "calling_aetitle": "Basic_AE",
+    "called_aetitle": "MIG",
+    "timestamp": "2022-08-17T12:21:10.203Z",
+    "files": [],
+    "patient_details": {
+        "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c3f",
+        "patient_name": "Jane Doe",
+        "patient_sex": "female",
+        "patient_dob": null,
+        "patient_age": "",
+        "patient_hospital_id": ""
+    }
+}

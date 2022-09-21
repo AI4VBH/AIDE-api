@@ -1,15 +1,33 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  ParseIntPipe,
+  Query,
+  UseFilters,
+} from '@nestjs/common';
+import MonaiServerExceptionFilter from 'common/filters/monai-server-exception.filter';
 import { ExecutionDTO } from './execution.dto';
-import { PayloadDTO } from './payload.interface';
 import { PayloadsService } from './payloads.service';
 
 @Controller('payloads')
+@UseFilters(MonaiServerExceptionFilter)
 export class PayloadsController {
-  constructor(private readonly appService: PayloadsService) {}
+  @Inject(PayloadsService)
+  private readonly appService: PayloadsService;
 
   @Get()
-  getPayloads(): PayloadDTO[] {
-    return this.appService.getPayloads();
+  async getPayloads(
+    @Query('pageNumber', ParseIntPipe) pageNumber = 1,
+    @Query('pageSize', ParseIntPipe) pageSize = 10,
+  ) {
+    if (pageNumber <= 0 || pageSize <= 0) {
+      throw new BadRequestException('pageNumber or pageSize is invalid');
+    }
+
+    return await this.appService.getPayloads({ pageNumber, pageSize });
   }
 
   @Get(':payload_id/executions')

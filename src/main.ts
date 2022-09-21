@@ -13,7 +13,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   await app.listen(port, () => {
-    console.log('[WEB]', config.get<string>('BASE_URL'));
+    console.log('[WEB]', `${config.get<string>('BASE_URL')}:${port}`);
   });
 }
 bootstrap();
