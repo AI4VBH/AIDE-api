@@ -43,7 +43,7 @@ describe('PayloadsService', () => {
       );
 
       const action = async () =>
-        await service.getPayloads({ pageNumber: '1', pageSize: '10' });
+        await service.getPayloads({ pageNumber: 1, pageSize: 10 });
 
       await expect(action()).rejects.toThrowError(Error);
     });
@@ -91,8 +91,8 @@ describe('PayloadsService', () => {
       );
 
       const response = await service.getPayloads({
-        pageNumber: '1',
-        pageSize: '10',
+        pageNumber: 1,
+        pageSize: 10,
       });
 
       expect(response).toEqual(expectedResult);

@@ -4,14 +4,12 @@ import {
   Get,
   Inject,
   Param,
+  ParseIntPipe,
   Query,
   UseFilters,
 } from '@nestjs/common';
 import MonaiServerExceptionFilter from 'common/filters/monai-server-exception.filter';
-import { IPagedResponse } from 'common/helper/paging/paging.interface';
 import { ExecutionDTO } from './execution.dto';
-import { PayloadDTO } from './payload.dto';
-import { IGetPayloadsQueryParams } from './payload.interface';
 import { PayloadsService } from './payloads.service';
 
 @Controller('payloads')
@@ -22,14 +20,14 @@ export class PayloadsController {
 
   @Get()
   async getPayloads(
-    @Query() query: IGetPayloadsQueryParams,
-  ): Promise<IPagedResponse<PayloadDTO>> {
-    if (query) {
-      validateParam(query.pageNumber, 'pageNumber');
-      validateParam(query.pageSize, 'pageSize');
+    @Query('pageNumber', ParseIntPipe) pageNumber = 1,
+    @Query('pageSize', ParseIntPipe) pageSize = 10,
+  ) {
+    if (pageNumber <= 0 || pageSize <= 0) {
+      throw new BadRequestException('pageNumber or pageSize is invalid');
     }
 
-    return await this.appService.getPayloads(query);
+    return await this.appService.getPayloads({ pageNumber, pageSize });
   }
 
   @Get(':payload_id/executions')
@@ -37,17 +35,3 @@ export class PayloadsController {
     return this.appService.getPayloadExecutions(payload_id);
   }
 }
-
-const validateParam = (param: string, label: string) => {
-  if (param) {
-    const number = Number(param);
-
-    if (isNaN(number)) {
-      throw new BadRequestException(`${label} must be a numerical value`);
-    }
-
-    if (number < 1) {
-      throw new BadRequestException(`${label} must be a minimum of 1`);
-    }
-  }
-};

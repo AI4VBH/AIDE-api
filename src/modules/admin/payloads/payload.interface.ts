@@ -1,8 +1,8 @@
 import { IPagedMonaiResponse } from 'common/helper/paging/paging.interface';
 
 export interface IGetPayloadsQueryParams {
-  pageNumber: string;
-  pageSize: string;
+  pageNumber: number;
+  pageSize: number;
 }
 
 export interface IMonaiPayloadResponse

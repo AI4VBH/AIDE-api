@@ -29,12 +29,13 @@ describe('PayloadsController', () => {
 
   describe('getPayloads', () => {
     it.each([
-      { pageNumber: '0', pageSize: '0' },
-      { pageNumber: '0', pageSize: '10' },
+      [0, 0],
+      [0, 10],
     ])(
       'throws bad request when either query string parameter is not a minimum of 1: %s',
-      async (queryParams: IGetPayloadsQueryParams) => {
-        const action = async () => await controller.getPayloads(queryParams);
+      async (pageNumber, pageSize) => {
+        const action = async () =>
+          await controller.getPayloads(pageNumber, pageSize);
 
         await expect(action()).rejects.toThrowError(BadRequestException);
       },
@@ -74,10 +75,7 @@ describe('PayloadsController', () => {
 
       service.getPayloads.mockResolvedValue(expectedResult);
 
-      const response = await controller.getPayloads({
-        pageNumber: '1',
-        pageSize: '10',
-      });
+      const response = await controller.getPayloads(1, 10);
 
       expect(response).toStrictEqual(expectedResult);
     });
