@@ -1,0 +1,156 @@
+{
+    "pageNumber": 1,
+    "pageSize": 10,
+    "firstPage": "/workflows?pageNumber=1&pageSize=10",
+    "lastPage": "/workflows?pageNumber=1&pageSize=10",
+    "totalPages": 1,
+    "totalRecords": 3,
+    "nextPage": null,
+    "previousPage": null,
+    "data": [
+        {
+            "id": "c7418628-e06b-49c1-9001-428cd05cec4e",
+            "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+            "revision": 1,
+            "workflow": {
+                "name": "Test workflow 1",
+                "version": "3",
+                "description": ".",
+                "informatics_gateway": {
+                    "ae_title": "MonaiSCU",
+                    "data_origins": [
+                        "test"
+                    ],
+                    "export_destinations": [
+                        "ORTHANC"
+                    ]
+                },
+                "tasks": [
+                    {
+                        "id": "export-task-connectathon",
+                        "description": "Connectathon export task",
+                        "type": "export",
+                        "args": {
+                            "test": "test1"
+                        },
+                        "ref": "",
+                        "task_destinations": [],
+                        "export_destinations": [
+                            {
+                                "name": "ORTHANC"
+                            }
+                        ],
+                        "artifacts": {
+                            "input": [
+                                {
+                                    "name": "study",
+                                    "value": "{{ context.input.dicom }}",
+                                    "mandatory": true
+                                }
+                            ],
+                            "output": []
+                        },
+                        "input_parameters": null
+                    }
+                ]
+            }
+        },
+        {
+            "id": "5fc10709-98cc-4d6a-8b68-06a722fa5dd7",
+            "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+            "revision": 1,
+            "workflow": {
+                "name": "Export Workflow",
+                "version": "1.0.0",
+                "description": "This workflow is to be used for connectathon",
+                "informatics_gateway": {
+                    "ae_title": "MonaiSCU",
+                    "data_origins": [
+                        "test"
+                    ],
+                    "export_destinations": [
+                        "ORTHANC"
+                    ]
+                },
+                "tasks": [
+                    {
+                        "id": "export-task-connectathon",
+                        "description": "Connectathon export task",
+                        "type": "export",
+                        "args": {
+                            "test": "test1"
+                        },
+                        "ref": "",
+                        "task_destinations": [],
+                        "export_destinations": [
+                            {
+                                "name": "ORTHANC"
+                            }
+                        ],
+                        "artifacts": {
+                            "input": [
+                                {
+                                    "name": "study",
+                                    "value": "{{ context.input.dicom }}",
+                                    "mandatory": true
+                                }
+                            ],
+                            "output": []
+                        },
+                        "input_parameters": null
+                    }
+                ]
+            }
+        },
+        {
+            "id": "51725bf9-d7c6-49fa-bfd7-beb94a2a8733",
+            "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+            "revision": 2,
+            "workflow": {
+                "name": "Export Workflow",
+                "version": "1.0.0",
+                "description": "This workflow is to be used for connectathon",
+                "informatics_gateway": {
+                    "ae_title": "MonaiSCU",
+                    "data_origins": [
+                        "test"
+                    ],
+                    "export_destinations": [
+                        "ORTHANC"
+                    ]
+                },
+                "tasks": [
+                    {
+                        "id": "export-task-connectathon",
+                        "description": "Connectathon export task",
+                        "type": "export",
+                        "args": {
+                            "test": "test1"
+                        },
+                        "ref": "",
+                        "task_destinations": [],
+                        "export_destinations": [
+                            {
+                                "name": "ORTHANC"
+                            }
+                        ],
+                        "artifacts": {
+                            "input": [
+                                {
+                                    "name": "study",
+                                    "value": "{{ context.input.dicom }}",
+                                    "mandatory": true
+                                }
+                            ],
+                            "output": []
+                        },
+                        "input_parameters": null
+                    }
+                ]
+            }
+        }
+    ],
+    "succeeded": true,
+    "errors": null,
+    "message": null
+}

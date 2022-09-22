@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 import { of } from 'rxjs';
 import { PayloadsService } from './payloads.service';
-import * as mockMonaiPayloadsResponse from 'test/test_data/mocks/payloads/basic-payload-1.json';
+import * as mockMonaiPayloadsResponse from 'test/test_data/mocks/payloads/basic-payloads-1.json';
 
 describe('PayloadsService', () => {
   let httpService: DeepMocked<HttpService>;

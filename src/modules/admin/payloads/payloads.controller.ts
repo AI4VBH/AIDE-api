@@ -8,7 +8,7 @@ import {
   Query,
   UseFilters,
 } from '@nestjs/common';
-import MonaiServerExceptionFilter from 'common/filters/monai-server-exception.filter';
+import MonaiServerExceptionFilter from 'shared/http/monai-server-exception.filter';
 import { ExecutionDTO } from './execution.dto';
 import { PayloadsService } from './payloads.service';
 

@@ -1,41 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general 500 error 1`] = `
+exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 1`] = `
 {
   "message": "An issue occurred with the MONAI service",
   "statusCode": 500,
 }
 `;
 
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general 500 error 2`] = `
+exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 2`] = `
 {
   "message": "An issue occurred with the MONAI service",
   "statusCode": 500,
 }
 `;
 
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general 500 error 3`] = `
+exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 3`] = `
 {
   "message": "An issue occurred with the MONAI service",
   "statusCode": 500,
 }
 `;
 
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general 500 error 4`] = `
+exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 4`] = `
 {
   "message": "An issue occurred with the MONAI service",
   "statusCode": 500,
 }
 `;
 
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general 500 error 5`] = `
+exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 5`] = `
 {
   "message": "An issue occurred with the MONAI service",
   "statusCode": 500,
 }
 `;
 
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general 500 error 6`] = `
+exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 6`] = `
 {
   "message": "An issue occurred with the MONAI service",
   "statusCode": 500,

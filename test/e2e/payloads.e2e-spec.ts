@@ -8,7 +8,7 @@ import { PayloadsService } from 'modules/admin/payloads/payloads.service';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
-import ApiMocks from '../test_data/mocks/mockIndex';
+import PayloadMocks from '../test_data/mocks/payloads/payloadsIndex';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
@@ -51,10 +51,10 @@ describe('/Payloads Integration Tests', () => {
   });
 
   it.each([
-    ApiMocks.basicPayload1,
-    ApiMocks.basicPayload2,
-    ApiMocks.basicPayload3,
-    ApiMocks.basicPayload4,
+    PayloadMocks.basicPayloads1,
+    PayloadMocks.basicPayloads2,
+    PayloadMocks.basicPayloads3,
+    PayloadMocks.basicPayloads4,
   ])('(GET) /payloads with returned data', async (payload) => {
     server.use(
       rest.get(
@@ -73,7 +73,7 @@ describe('/Payloads Integration Tests', () => {
   it('(GET) /payloads without returned data', async () => {
     server.use(
       rest.get(`${testMonaiBasePath}/payload`, (request, response, context) => {
-        return response(context.json(ApiMocks.emptyPayload));
+        return response(context.json(PayloadMocks.emptyPayloadData));
       }),
     );
     const response = await request(app.getHttpServer()).get(
@@ -83,7 +83,7 @@ describe('/Payloads Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) /payloads when Monai gives general 500 error',
+    '(GET) /payloads when Monai gives general error',
     async (code) => {
       server.use(
         rest.get(

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { KeycloakConnectModule } from 'nest-keycloak-connect';
-import { getEnvPath } from 'common/helper/env.helper';
+import { getEnvPath } from 'shared/helper/env.helper';
 import { ConfigModule } from '@nestjs/config';
 import { KeycloakService } from 'shared/keycloak/keycloak.service';
 import { AdminModule } from 'modules/admin/admin.module';
@@ -9,7 +9,8 @@ import { ProxyModule } from 'modules/aide-hub-proxy/proxy.module';
 import { HttpConfigService } from 'shared/http/http.service';
 import { HttpModule } from '@nestjs/axios';
 import { RolesModule } from 'modules/roles/roles.module';
-import { UsersModule } from 'modules/users/users.module';
+import { UsersModule } from './modules/users/users.module';
+import { WorkflowsModule } from './modules/workflows/workflows.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -31,6 +32,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     ClinicalReviewModule,
     ProxyModule,
     RolesModule,
+    WorkflowsModule,
   ],
   controllers: [],
   providers: [

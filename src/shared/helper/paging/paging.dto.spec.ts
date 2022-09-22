@@ -1,5 +1,5 @@
 import PagingDTO from './paging.dto';
-import * as mockMonaiPayloadResponse from 'test/test_data/mocks/payloads/basic-payload-1.json';
+import * as mockMonaiPayloadResponse from 'test/test_data/mocks/payloads/basic-payloads-1.json';
 import { IMonaiPayload } from 'modules/admin/payloads/payload.interface';
 import { PayloadDTO } from 'modules/admin/payloads/payload.dto';
 

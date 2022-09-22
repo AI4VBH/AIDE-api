@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mapToPagedWorkflowsDto returns expected result 1`] = `
+{
+  "data": [],
+  "totalPages": 1,
+  "totalRecords": 0,
+}
+`;
+
+exports[`mapToPagedWorkflowsItemDto returns expected result 1`] = `
+{
+  "description": "Some description",
+  "id": "fb94b9da-e957-4378-a626-8f0374e60cfb",
+  "name": "Super Workflow",
+  "revision": 2,
+  "version": "1.0.0",
+  "workflow_id": "c7610e0b-02b7-474d-b6e5-1224debc414d",
+}
+`;

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WorkflowsService getPagedWorkflows returns expected result 1`] = `
+{
+  "data": [],
+  "totalPages": 1,
+  "totalRecords": 1,
+}
+`;
