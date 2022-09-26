@@ -105,14 +105,16 @@ describe('/Payloads Integration Tests', () => {
     PayloadMocks.basicExecution1,
     PayloadMocks.basicExecution2,
     PayloadMocks.basicExecution3,
+    PayloadMocks.basicExecution4,
+    PayloadMocks.basicExecution5,
   ])(
     '(GET) /payloads/:payloadid/executions with returned data',
-    async (payload) => {
+    async (...payload) => {
       server.use(
         rest.get(
           `${testMonaiBasePath}/workflowinstances`,
           (_request, response, context) => {
-            return response(context.json([payload]));
+            return response(context.json(payload));
           },
         ),
       );

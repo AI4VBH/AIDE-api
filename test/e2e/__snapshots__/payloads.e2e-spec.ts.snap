@@ -322,3 +322,108 @@ exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with 
   },
 ]
 `;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with returned data 4`] = `
+[
+  {
+    "ae_title": "MonaiSCU",
+    "id": "e26bec36-9a22-4be2-8402-379cb96c22e5",
+    "payload_id": "5f624ab5-88f2-4f47-b239-f05851a94c31",
+    "start_time": "2022-09-16T09:37:59.634Z",
+    "status": "Created",
+    "tasks": [
+      {
+        "execution_id": "1f3d4b42-8a8f-41b1-9cc7-bfb19d9716de",
+        "next_task": [],
+        "payload_id": "5f624ab5-88f2-4f47-b239-f05851a94c31",
+        "status": "Failed",
+        "task_id": "export-task-connectathon",
+        "task_start_time": "2022-09-16T09:37:59.634Z",
+        "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e5",
+      },
+    ],
+    "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+  },
+  {
+    "ae_title": "MonaiSCU",
+    "id": "a54a30a9-516b-4906-9315-e7dc23af4539",
+    "payload_id": "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+    "start_time": "2022-09-16T09:38:560.634Z",
+    "status": "Succeeded",
+    "tasks": [
+      {
+        "execution_id": "8a070831-53a3-4dfe-b568-a3edbf62282f",
+        "next_task": [],
+        "payload_id": "e3a91e70-ade6-40b8-96f4-a9f8151919ac",
+        "status": "Failed",
+        "task_id": "export-task-connectathon",
+        "task_start_time": "2022-09-16T09:37:59.634Z",
+        "workflow_instance_id": "a54a30a9-516b-4906-9315-e7dc23af4539",
+      },
+    ],
+    "workflow_id": "739e4f70-a6c0-4e98-8e47-469f7b8b9606",
+  },
+]
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with returned data 5`] = `
+[
+  {
+    "ae_title": "MONAI",
+    "id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+    "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+    "start_time": "2022-09-22T12:45:13.102Z",
+    "status": "Succeeded",
+    "tasks": [
+      {
+        "execution_id": "3b9d94b9-4285-45d4-bea9-491fa62b8f91",
+        "next_task": [
+          {
+            "execution_id": "47d73804-ea9b-4aaf-b375-bd19ae8feaae",
+            "next_task": [],
+            "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+            "status": "Succeeded",
+            "task_id": "export-report",
+            "task_start_time": "2022-09-22T12:45:59.689Z",
+            "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+          },
+          {
+            "execution_id": "47d73804-ea9b-4aaf-b375-bd19ae8feaae",
+            "next_task": [],
+            "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+            "status": "Succeeded",
+            "task_id": "export-report",
+            "task_start_time": "2022-09-22T12:45:59.689Z",
+            "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+          },
+        ],
+        "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+        "status": "Succeeded",
+        "task_id": "mean-pixel-calc",
+        "task_start_time": "2022-09-22T12:45:13.102Z",
+        "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+      },
+      {
+        "execution_id": "3b9d94b9-4285-45d4-bea9-491fa62b8f91",
+        "next_task": [
+          {
+            "execution_id": "47d73804-ea9b-4aaf-b375-bd19ae8feaae",
+            "next_task": [],
+            "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+            "status": "Succeeded",
+            "task_id": "export-report",
+            "task_start_time": "2022-09-22T12:45:59.689Z",
+            "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+          },
+        ],
+        "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+        "status": "Succeeded",
+        "task_id": "mean-pixel-calc2",
+        "task_start_time": "2022-09-22T12:45:13.102Z",
+        "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+      },
+    ],
+    "workflow_id": "0c262733-05a1-4811-9d9a-b5cadb5a475a",
+  },
+]
+`;
