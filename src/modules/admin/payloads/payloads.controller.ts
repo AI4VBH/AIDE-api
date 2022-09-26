@@ -9,7 +9,6 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import MonaiServerExceptionFilter from 'shared/http/monai-server-exception.filter';
-import { ExecutionDTO } from './execution.dto';
 import { PayloadsService } from './payloads.service';
 
 @Controller('payloads')
@@ -19,7 +18,7 @@ export class PayloadsController {
   private readonly appService: PayloadsService;
 
   @Get()
-  async getPayloads(
+  getPayloads(
     @Query('pageNumber', ParseIntPipe) pageNumber = 1,
     @Query('pageSize', ParseIntPipe) pageSize = 10,
   ) {
@@ -27,11 +26,11 @@ export class PayloadsController {
       throw new BadRequestException('pageNumber or pageSize is invalid');
     }
 
-    return await this.appService.getPayloads({ pageNumber, pageSize });
+    return this.appService.getPayloads({ pageNumber, pageSize });
   }
 
   @Get(':payload_id/executions')
-  getPayloadExecutions(@Param('payload_id') payload_id): ExecutionDTO[] {
+  getPayloadExecutions(@Param('payload_id') payload_id) {
     return this.appService.getPayloadExecutions(payload_id);
   }
 }

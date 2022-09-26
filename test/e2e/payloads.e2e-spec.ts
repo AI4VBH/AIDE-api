@@ -100,4 +100,80 @@ describe('/Payloads Integration Tests', () => {
       expect(response.body).toMatchSnapshot();
     },
   );
+
+  it.each([
+    PayloadMocks.basicExecution1,
+    PayloadMocks.basicExecution2,
+    PayloadMocks.basicExecution3,
+  ])(
+    '(GET) /payloads/:payloadid/executions with returned data',
+    async (payload) => {
+      server.use(
+        rest.get(
+          `${testMonaiBasePath}/workflowinstances`,
+          (_request, response, context) => {
+            return response(context.json([payload]));
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer()).get(
+        `/payloads/${payload.payload_id}/executions`,
+      );
+      expect(response.body).toMatchSnapshot();
+    },
+  );
+
+  it('(GET) /payloads/:payloadid/executions without returned data', async () => {
+    server.use(
+      rest.get(
+        `${testMonaiBasePath}/workflowinstances`,
+        (request, response, context) => {
+          return response(context.json([]));
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer()).get(
+      '/payloads/a07b72b1-8603-47b0-9a79-da0749261062/executions',
+    );
+    expect(response.body).toStrictEqual([]);
+  });
+
+  it('(GET) /payloads/:payloadid/executions with invalid id', async () => {
+    server.use(
+      rest.get(
+        `${testMonaiBasePath}/workflowinstances`,
+        (request, response, context) => {
+          return response(
+            context.status(400),
+            context.json(PayloadMocks.InvalidPayloadIdError),
+          );
+        },
+      ),
+    );
+
+    const response = await request(app.getHttpServer()).get(
+      '/payloads/invalidID/executions',
+    );
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toMatchSnapshot();
+  });
+
+  it.each([408, 500, 501, 502, 503, 504])(
+    '(GET) /payloads/:payloadid/executions when Monai gives general error',
+    async (code) => {
+      server.use(
+        rest.get(
+          `${testMonaiBasePath}/workflowinstances`,
+          (request, response, context) => {
+            return response(context.status(code));
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer()).get(
+        '/payloads/a07b72b1-8603-47b0-9a79-da0749261062/executions',
+      );
+      expect(response.statusCode).toBe(500);
+      expect(response.body).toMatchSnapshot();
+    },
+  );
 });

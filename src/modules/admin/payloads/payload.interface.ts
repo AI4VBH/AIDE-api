@@ -35,3 +35,49 @@ export interface IMonaiPayloadPatient {
   patient_age: string;
   patient_hospital_id: string;
 }
+
+/**
+ * This does not represent all of the properties of a Workflow Instance
+ */
+export interface MonaiWorkflowInstance {
+  id: string;
+  ae_title: string;
+  workflow_id: string;
+  start_time: string;
+  payload_id: string;
+  status: string;
+  tasks: MonaiWorkflowTask[];
+}
+
+/**
+ * This does not represent all of the properties of a Task
+ */
+export interface MonaiWorkflowTask {
+  execution_id: string;
+  workflow_instance_id: string;
+  payload_id: string;
+  previous_task_id: string;
+  task_id: string;
+  task_start_time: string;
+  status: string;
+}
+
+export interface WorkflowInstanceDto {
+  id: string;
+  ae_title: string;
+  workflow_id: string;
+  start_time: string;
+  payload_id: string;
+  status: string;
+  tasks: TaskExecutionDto[];
+}
+
+export interface TaskExecutionDto {
+  execution_id: string;
+  payload_id: string;
+  workflow_instance_id: string;
+  task_start_time: string;
+  task_id: string;
+  status: string;
+  next_task: TaskExecutionDto[];
+}

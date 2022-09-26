@@ -187,3 +187,138 @@ exports[`/Payloads Integration Tests (GET) /payloads without returned data 1`] =
   "totalRecords": 0,
 }
 `;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 1`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 2`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 3`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 4`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 5`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 6`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with invalid id 1`] = `
+{
+  "detail": "Failed to validate payloadId, not a valid guid",
+  "instance": "/workflowinstances?payloadid=invalidID&disablePagination=true",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with returned data 1`] = `
+[
+  {
+    "ae_title": "MonaiSCU",
+    "id": "73909439-57da-465e-b529-2addd36cbcd9",
+    "payload_id": "bb8891d4-0c02-41fe-9ec4-21516afa06e5",
+    "start_time": "2022-09-08T09:14:09.89Z",
+    "status": "Created",
+    "tasks": [
+      {
+        "execution_id": "fd89296e-29b7-4d54-be27-26e185db820c",
+        "next_task": [],
+        "payload_id": "bb8891d4-0c02-41fe-9ec4-21516afa06e5",
+        "status": "Failed",
+        "task_id": "export-task-connectathon",
+        "task_start_time": "2022-09-08T09:14:09.89Z",
+        "workflow_instance_id": "73909439-57da-465e-b529-2addd36cbcd9",
+      },
+    ],
+    "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+  },
+]
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with returned data 2`] = `
+[
+  {
+    "ae_title": "MONAI",
+    "id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+    "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+    "start_time": "2022-09-22T12:45:13.102Z",
+    "status": "Succeeded",
+    "tasks": [
+      {
+        "execution_id": "3b9d94b9-4285-45d4-bea9-491fa62b8f91",
+        "next_task": [
+          {
+            "execution_id": "47d73804-ea9b-4aaf-b375-bd19ae8feaae",
+            "next_task": [],
+            "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+            "status": "Succeeded",
+            "task_id": "export-report",
+            "task_start_time": "2022-09-22T12:45:59.689Z",
+            "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+          },
+        ],
+        "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+        "status": "Succeeded",
+        "task_id": "mean-pixel-calc",
+        "task_start_time": "2022-09-22T12:45:13.102Z",
+        "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+      },
+    ],
+    "workflow_id": "0c262733-05a1-4811-9d9a-b5cadb5a475a",
+  },
+]
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with returned data 3`] = `
+[
+  {
+    "ae_title": "MonaiSCU",
+    "id": "e26bec36-9a22-4be2-8402-379cb96c22e5",
+    "payload_id": "5f624ab5-88f2-4f47-b239-f05851a94c31",
+    "start_time": "2022-09-16T09:37:59.634Z",
+    "status": "Created",
+    "tasks": [
+      {
+        "execution_id": "1f3d4b42-8a8f-41b1-9cc7-bfb19d9716de",
+        "next_task": [],
+        "payload_id": "5f624ab5-88f2-4f47-b239-f05851a94c31",
+        "status": "Failed",
+        "task_id": "export-task-connectathon",
+        "task_start_time": "2022-09-16T09:37:59.634Z",
+        "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e5",
+      },
+    ],
+    "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+  },
+]
+`;

@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`taskToTaskExecution maps the tasks correctly 1`] = `
+[
+  {
+    "execution_id": "981eca65-294a-434a-930a-b1828b54253a",
+    "next_task": [
+      {
+        "execution_id": "981eca65-294a-434a-930a-b1828b54253a",
+        "next_task": [
+          {
+            "execution_id": "981eca65-294a-434a-930a-b1828b54253a",
+            "next_task": [],
+            "payload_id": "some-payload-id",
+            "status": "Suceeded",
+            "task_id": "email-task",
+            "task_start_time": "2022-09-23T12:50:00.305Z",
+            "workflow_instance_id": "e02e3bbc-a760-4d83-8cfe-ce3a77424171",
+          },
+        ],
+        "payload_id": "some-payload-id",
+        "status": "Suceeded",
+        "task_id": "export-task",
+        "task_start_time": "2022-09-23T12:50:00.305Z",
+        "workflow_instance_id": "e02e3bbc-a760-4d83-8cfe-ce3a77424171",
+      },
+    ],
+    "payload_id": "some-payload-id",
+    "status": "Suceeded",
+    "task_id": "some-special-task",
+    "task_start_time": "2022-09-23T12:50:00.305Z",
+    "workflow_instance_id": "e02e3bbc-a760-4d83-8cfe-ce3a77424171",
+  },
+]
+`;
+
+exports[`workflowInstancesToExecutionsMapper returns expected result 1`] = `
+[
+  {
+    "ae_title": "some-title",
+    "id": "c5e980ff-e278-441b-af64-8630bf57b7e3",
+    "payload_id": "041293d0-ab97-4ea1-b967-42ec62f26608",
+    "start_time": "2022-09-22T12:45:13.102Z",
+    "status": "Succeeded",
+    "tasks": [
+      {
+        "execution_id": "981eca65-294a-434a-930a-b1828b54253a",
+        "next_task": [
+          {
+            "execution_id": "981eca65-294a-434a-930a-b1828b54253a",
+            "next_task": [
+              {
+                "execution_id": "981eca65-294a-434a-930a-b1828b54253a",
+                "next_task": [],
+                "payload_id": "041293d0-ab97-4ea1-b967-42ec62f26608",
+                "status": "Suceeded",
+                "task_id": "email-task",
+                "task_start_time": "2022-09-23T12:50:00.305Z",
+                "workflow_instance_id": "e02e3bbc-a760-4d83-8cfe-ce3a77424171",
+              },
+            ],
+            "payload_id": "041293d0-ab97-4ea1-b967-42ec62f26608",
+            "status": "Suceeded",
+            "task_id": "export-task",
+            "task_start_time": "2022-09-23T12:50:00.305Z",
+            "workflow_instance_id": "e02e3bbc-a760-4d83-8cfe-ce3a77424171",
+          },
+        ],
+        "payload_id": "041293d0-ab97-4ea1-b967-42ec62f26608",
+        "status": "Suceeded",
+        "task_id": "some-special-task",
+        "task_start_time": "2022-09-23T12:50:00.305Z",
+        "workflow_instance_id": "e02e3bbc-a760-4d83-8cfe-ce3a77424171",
+      },
+    ],
+    "workflow_id": "fca60a4d-2932-4196-9206-cf123c82332b",
+  },
+]
+`;
