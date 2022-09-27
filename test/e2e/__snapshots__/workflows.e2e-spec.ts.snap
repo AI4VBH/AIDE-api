@@ -524,14 +524,7 @@ exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or 
 }
 `;
 
-exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or destination 2`] = `
-{
-  "status": 404,
-  "title": "Not Found",
-  "traceId": "00-94f8b8fd10151bd5a0cb24f807e7b20e-43f32ad16f573a0f-00",
-  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-}
-`;
+exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or destination 2`] = `"Not all export destinations are registered"`;
 
 exports[`/Workflows Integration Tests (POST) /workflows when Monai gives general error 1`] = `
 {
@@ -608,14 +601,7 @@ exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae 
 }
 `;
 
-exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae or destination 2`] = `
-{
-  "status": 404,
-  "title": "Not Found",
-  "traceId": "00-94f8b8fd10151bd5a0cb24f807e7b20e-43f32ad16f573a0f-00",
-  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-}
-`;
+exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae or destination 2`] = `"Not all export destinations are registered"`;
 
 exports[`/Workflows Integration Tests (PUT) /workflows/:id when Monai gives general error 1`] = `
 {

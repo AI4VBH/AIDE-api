@@ -239,24 +239,16 @@ describe('/Workflows Integration Tests', () => {
       WorkflowMocks.invalidBodyAETitle,
       400,
       WorkflowMocks.basicDestination1,
-      200,
     ],
     [
       WorkflowMocks.singleWorkflow1,
       WorkflowMocks.existsAETitle,
       409,
-      WorkflowMocks.notFoundDestination,
-      400,
+      WorkflowMocks.basicDestination2,
     ],
   ])(
     '(PUT) /workflows/:id unsuccessful with ae or destination',
-    async (
-      putBody,
-      aeResponse,
-      aeStatus,
-      destinationResponse,
-      destinationStatus,
-    ) => {
+    async (putBody, aeResponse, aeStatus, destinationResponse) => {
       server.use(
         rest.put(
           `${testMonaiBasePath}/workflows/${putBody.workflow_id}`,
@@ -273,10 +265,7 @@ describe('/Workflows Integration Tests', () => {
         rest.get(
           `${testMigBasePath}/config/destination`,
           (request, response, context) => {
-            return response(
-              context.status(destinationStatus),
-              context.json(destinationResponse),
-            );
+            return response(context.json(destinationResponse));
           },
         ),
       );
@@ -545,24 +534,16 @@ describe('/Workflows Integration Tests', () => {
       WorkflowMocks.invalidBodyAETitle,
       400,
       WorkflowMocks.basicDestination1,
-      200,
     ],
     [
       WorkflowMocks.singleWorkflow1,
       WorkflowMocks.existsAETitle,
       409,
-      WorkflowMocks.notFoundDestination,
-      400,
+      WorkflowMocks.basicDestination2,
     ],
   ])(
     '(POST) /workflows unsuccessful with ae or destination',
-    async (
-      postBody,
-      aeResponse,
-      aeStatus,
-      destinationResponse,
-      destinationStatus,
-    ) => {
+    async (postBody, aeResponse, aeStatus, destinationResponse) => {
       server.use(
         rest.post(
           `${testMonaiBasePath}/workflows`,
@@ -579,10 +560,7 @@ describe('/Workflows Integration Tests', () => {
         rest.get(
           `${testMigBasePath}/config/destination`,
           (request, response, context) => {
-            return response(
-              context.status(destinationStatus),
-              context.json(destinationResponse),
-            );
+            return response(context.json(destinationResponse));
           },
         ),
       );
