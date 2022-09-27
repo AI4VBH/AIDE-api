@@ -2,10 +2,12 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
+  HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AxiosError } from 'axios';
+import { HttpError } from './http-error';
 
 @Catch(Error)
 export default class MonaiServerExceptionFilter implements ExceptionFilter {
@@ -41,6 +43,35 @@ export default class MonaiServerExceptionFilter implements ExceptionFilter {
         statusCode: status ?? HttpStatus.INTERNAL_SERVER_ERROR,
         message,
       });
+    }
+
+    if (Object.keys(exception).includes('statusCode')) {
+      const { message, statusCode } = exception as HttpError
+
+      if (
+        statusCode === HttpStatus.REQUEST_TIMEOUT ||
+        statusCode >= HttpStatus.INTERNAL_SERVER_ERROR
+      ) {
+        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'An issue occurred with the MONAI service',
+        });
+      }
+
+      if (
+        statusCode === HttpStatus.BAD_REQUEST ||
+        statusCode === HttpStatus.NOT_FOUND
+      ) {
+        return response
+          .status(statusCode)
+          .json(message);
+      }
+
+      return response.status(statusCode ?? HttpStatus.INTERNAL_SERVER_ERROR).json({
+        statusCode: status ?? HttpStatus.INTERNAL_SERVER_ERROR,
+        message,
+      });
+
     }
 
     response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({

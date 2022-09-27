@@ -12,4 +12,9 @@ export default class WorkflowMocks {
   public static invalidWorkflowBodyError = require('./invalid-workflow-body-error.json');
   public static emptyWorkflowData = require('./empty-workflow-data.json');
   public static postPutResponse = require('./post-put-response.json');
+  public static invalidBodyAETitle = require('./invalid-body-aetitle.json');
+  public static existsAETitle = require('./exists-aetitle.json');
+  public static notFoundDestination = require('./not-found-destination.json');
+  public static createdAETitle = require('./created-aetitle.json');
+  public static basicDestination1 = require('./basic-destination-1.json');
 }

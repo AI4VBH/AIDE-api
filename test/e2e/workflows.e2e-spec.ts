@@ -13,6 +13,7 @@ import { MonaiWorkflow } from 'modules/workflows/monai-workflow.interfaces';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
+const testMigBasePath = 'https://localhost:7338';
 
 describe('/Workflows Integration Tests', () => {
   let app: INestApplication;
@@ -36,7 +37,12 @@ describe('/Workflows Integration Tests', () => {
         ConfigModule.forRoot({
           isGlobal: true,
           // we mock the path to the MONAI API
-          load: [() => ({ MONAI_API_HOST: testMonaiBasePath })],
+          load: [
+            () => ({
+              MONAI_API_HOST: testMonaiBasePath,
+              MIG_API_HOST: testMigBasePath
+            }),
+          ],
         }),
         // we register the HttpService with no stubbing! 🎉
         HttpModule.registerAsync({
@@ -184,20 +190,103 @@ describe('/Workflows Integration Tests', () => {
     },
   );
 
-  it('(PUT) /workflows/:id success with returned data', async () => {
-    server.use(
-      rest.put(
-        `${testMonaiBasePath}/workflows/${WorkflowMocks.postPutResponse.workflow_id}`,
-        (request, response, context) => {
-          return response(context.json(WorkflowMocks.postPutResponse));
-        },
-      ),
-    );
-    const response = await request(app.getHttpServer()).put(
-      `/workflows/${WorkflowMocks.postPutResponse.workflow_id}`,
-    );
-    expect(response.body).toMatchSnapshot();
-  });
+  it.each([
+    [
+      WorkflowMocks.singleWorkflow1,
+      WorkflowMocks.createdAETitle,
+      201,
+      WorkflowMocks.basicDestination1,
+    ],
+    [
+      WorkflowMocks.singleWorkflow1,
+      WorkflowMocks.existsAETitle,
+      409,
+      WorkflowMocks.basicDestination1,
+    ],
+  ])(
+    '(PUT) /workflows/:id success with returned data',
+    async (putBody, aeResponse, aeStatus, destinationResponse) => {
+      server.use(
+        rest.put(
+          `${testMonaiBasePath}/workflows/${putBody.workflow_id}`,
+          (request, response, context) => {
+            return response(context.json(WorkflowMocks.postPutResponse));
+          },
+        ),
+        rest.post(
+          `${testMigBasePath}/config/ae`,
+          (request, response, context) => {
+            return response(context.status(aeStatus), context.json(aeResponse));
+          },
+        ),
+        rest.get(
+          `${testMigBasePath}/config/destination`,
+          (request, response, context) => {
+            return response(context.json(destinationResponse));
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer())
+        .put(`/workflows/${putBody.workflow_id}`)
+        .send(putBody);
+      expect(response.body).toMatchSnapshot();
+    },
+  );
+
+  it.each([
+    [
+      WorkflowMocks.singleWorkflow1,
+      WorkflowMocks.invalidBodyAETitle,
+      400,
+      WorkflowMocks.basicDestination1,
+      200,
+    ],
+    [
+      WorkflowMocks.singleWorkflow1,
+      WorkflowMocks.existsAETitle,
+      409,
+      WorkflowMocks.notFoundDestination,
+      400,
+    ],
+  ])(
+    '(PUT) /workflows/:id unsuccessful with ae or destination',
+    async (
+      putBody,
+      aeResponse,
+      aeStatus,
+      destinationResponse,
+      destinationStatus,
+    ) => {
+      server.use(
+        rest.put(
+          `${testMonaiBasePath}/workflows/${putBody.workflow_id}`,
+          (request, response, context) => {
+            return response(context.json(WorkflowMocks.postPutResponse));
+          },
+        ),
+        rest.post(
+          `${testMigBasePath}/config/ae`,
+          (request, response, context) => {
+            return response(context.status(aeStatus), context.json(aeResponse));
+          },
+        ),
+        rest.get(
+          `${testMigBasePath}/config/destination`,
+          (request, response, context) => {
+            return response(
+              context.status(destinationStatus),
+              context.json(destinationResponse),
+            );
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer())
+        .put(`/workflows/${putBody.workflow_id}`)
+        .send(putBody);
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toMatchSnapshot();
+    },
+  );
 
   it('(PUT) /workflows/:id with non-existent id', async () => {
     server.use(
@@ -210,10 +299,25 @@ describe('/Workflows Integration Tests', () => {
           );
         },
       ),
+      rest.post(
+        `${testMigBasePath}/config/ae`,
+        (request, response, context) => {
+          return response(
+            context.status(201), 
+            context.json(WorkflowMocks.createdAETitle)
+          );
+        },
+      ),
+      rest.get(
+        `${testMigBasePath}/config/destination`,
+        (request, response, context) => {
+          return response(context.json(WorkflowMocks.basicDestination1));
+        },
+      ),
     );
-    const response = await request(app.getHttpServer()).put(
-      '/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d',
-    );
+    const response = await await request(app.getHttpServer())
+      .put('/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d')
+      .send(WorkflowMocks.singleWorkflow1);
     expect(response.statusCode).toBe(404);
     expect(response.body).toMatchSnapshot();
   });
@@ -229,10 +333,25 @@ describe('/Workflows Integration Tests', () => {
           );
         },
       ),
+      rest.post(
+        `${testMigBasePath}/config/ae`,
+        (request, response, context) => {
+          return response(
+            context.status(201), 
+            context.json(WorkflowMocks.createdAETitle)
+          );
+        },
+      ),
+      rest.get(
+        `${testMigBasePath}/config/destination`,
+        (request, response, context) => {
+          return response(context.json(WorkflowMocks.basicDestination1));
+        },
+      ),
     );
-    const response = await request(app.getHttpServer()).put(
-      '/workflows/invalidID',
-    );
+    const response = await await request(app.getHttpServer())
+      .put('/workflows/invalidID')
+      .send(WorkflowMocks.singleWorkflow1);
     expect(response.statusCode).toBe(400);
     expect(response.body).toMatchSnapshot();
   });
@@ -248,10 +367,25 @@ describe('/Workflows Integration Tests', () => {
           );
         },
       ),
+      rest.post(
+        `${testMigBasePath}/config/ae`,
+        (request, response, context) => {
+          return response(
+            context.status(201),
+            context.json(WorkflowMocks.createdAETitle)
+          );
+        },
+      ),
+      rest.get(
+        `${testMigBasePath}/config/destination`,
+        (request, response, context) => {
+          return response(context.json(WorkflowMocks.basicDestination1));
+        },
+      ),
     );
-    const response = await request(app.getHttpServer()).put(
-      '/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d',
-    );
+    const response = await await request(app.getHttpServer())
+      .put('/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d')
+      .send(WorkflowMocks.singleWorkflow1);
     expect(response.statusCode).toBe(400);
     expect(response.body).toMatchSnapshot();
   });
@@ -261,15 +395,30 @@ describe('/Workflows Integration Tests', () => {
     async (code) => {
       server.use(
         rest.put(
-          `${testMonaiBasePath}/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca`,
+          `${testMonaiBasePath}/workflows/${WorkflowMocks.singleWorkflow1.workflow_id}`,
           (request, response, context) => {
             return response(context.status(code));
           },
         ),
+        rest.post(
+          `${testMigBasePath}/config/ae`,
+          (request, response, context) => {
+            return response(
+              context.status(201), 
+              context.json(WorkflowMocks.createdAETitle)
+            );
+          },
+        ),
+        rest.get(
+          `${testMigBasePath}/config/destination`,
+          (request, response, context) => {
+            return response(context.json(WorkflowMocks.basicDestination1));
+          }
+        ),
       );
-      const response = await request(app.getHttpServer()).put(
-        '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
-      );
+      const response = await request(app.getHttpServer())
+        .put(`/workflows/${WorkflowMocks.singleWorkflow1.workflow_id}`)
+        .send(WorkflowMocks.singleWorkflow1);
       expect(response.statusCode).toBe(500);
       expect(response.body).toMatchSnapshot();
     },
@@ -347,21 +496,121 @@ describe('/Workflows Integration Tests', () => {
     },
   );
 
-  it('(POST) /workflows success with returned data', async () => {
-    server.use(
-      rest.post(
-        `${testMonaiBasePath}/workflows`,
-        (request, response, context) => {
-          return response(context.json(WorkflowMocks.postPutResponse));
-        },
-      ),
-    );
-    const response = await request(app.getHttpServer()).post(`/workflows`);
-    expect(response.body).toMatchSnapshot();
-  });
+  it.each([
+    [
+      WorkflowMocks.singleWorkflow1,
+      WorkflowMocks.createdAETitle,
+      201,
+      WorkflowMocks.basicDestination1,
+    ],
+    [
+      WorkflowMocks.singleWorkflow1,
+      WorkflowMocks.existsAETitle,
+      409,
+      WorkflowMocks.basicDestination1,
+    ],
+  ])(
+    '(POST) /workflows success with returned data',
+    async (postBody, aeResponse, aeStatus, destinationResponse) => {
+      server.use(
+        rest.post(
+          `${testMonaiBasePath}/workflows`,
+          (request, response, context) => {
+            return response(context.json(WorkflowMocks.postPutResponse));
+          },
+        ),
+        rest.post(
+          `${testMigBasePath}/config/ae`,
+          (request, response, context) => {
+            return response(context.status(aeStatus), context.json(aeResponse));
+          },
+        ),
+        rest.get(
+          `${testMigBasePath}/config/destination`,
+          (request, response, context) => {
+            return response(context.json(destinationResponse));
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer())
+        .post(`/workflows`)
+        .send(postBody);
+      expect(response.body).toMatchSnapshot();
+    },
+  );
+
+  it.each([
+    [
+      WorkflowMocks.singleWorkflow1,
+      WorkflowMocks.invalidBodyAETitle,
+      400,
+      WorkflowMocks.basicDestination1,
+      200,
+    ],
+    [
+      WorkflowMocks.singleWorkflow1,
+      WorkflowMocks.existsAETitle,
+      409,
+      WorkflowMocks.notFoundDestination,
+      400,
+    ],
+  ])(
+    '(POST) /workflows unsuccessful with ae or destination',
+    async (
+      postBody,
+      aeResponse,
+      aeStatus,
+      destinationResponse,
+      destinationStatus,
+    ) => {
+      server.use(
+        rest.post(
+          `${testMonaiBasePath}/workflows`,
+          (request, response, context) => {
+            return response(context.json(WorkflowMocks.postPutResponse));
+          },
+        ),
+        rest.post(
+          `${testMigBasePath}/config/ae`,
+          (request, response, context) => {
+            return response(context.status(aeStatus), context.json(aeResponse));
+          },
+        ),
+        rest.get(
+          `${testMigBasePath}/config/destination`,
+          (request, response, context) => {
+            return response(
+              context.status(destinationStatus),
+              context.json(destinationResponse),
+            );
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer())
+        .post(`/workflows`)
+        .send(postBody);
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toMatchSnapshot();
+    },
+  );
 
   it('(POST) /workflows with invalid body', async () => {
     server.use(
+      rest.post(
+        `${testMigBasePath}/config/ae`,
+        (request, response, context) => {
+          return response(
+            context.status(201), 
+            context.json(WorkflowMocks.createdAETitle)
+          );
+        },
+      ),
+      rest.get(
+        `${testMigBasePath}/config/destination`,
+        (request, response, context) => {
+          return response(context.json(WorkflowMocks.basicDestination1));
+        },
+      ),
       rest.post(
         `${testMonaiBasePath}/workflows`,
         (request, response, context) => {
@@ -370,10 +619,46 @@ describe('/Workflows Integration Tests', () => {
             context.json(WorkflowMocks.invalidWorkflowBodyError),
           );
         },
-      ),
+      )
     );
-    const response = await request(app.getHttpServer()).post('/workflows');
+    const response = await await request(app.getHttpServer())
+      .post('/workflows')
+      .send(WorkflowMocks.singleWorkflow1);
     expect(response.statusCode).toBe(400);
     expect(response.body).toMatchSnapshot();
   });
+
+  it.each([408, 500, 501, 502, 503, 504])(
+    '(POST) /workflows when Monai gives general error',
+    async (code) => {
+      server.use(
+        rest.post(
+          `${testMonaiBasePath}/workflows`,
+          (request, response, context) => {
+            return response(context.status(code));
+          },
+        ),
+        rest.post(
+          `${testMigBasePath}/config/ae`,
+          (request, response, context) => {
+            return response(
+              context.status(201), 
+              context.json(WorkflowMocks.createdAETitle)
+            );
+          },
+        ),
+        rest.get(
+          `${testMigBasePath}/config/destination`,
+          (request, response, context) => {
+            return response(context.json(WorkflowMocks.basicDestination1));
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer())
+        .post('/workflows')
+        .send(WorkflowMocks.singleWorkflow1);
+      expect(response.statusCode).toBe(500);
+      expect(response.body).toMatchSnapshot();
+    },
+  );
 });

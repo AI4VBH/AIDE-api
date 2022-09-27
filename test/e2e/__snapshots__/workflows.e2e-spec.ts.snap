@@ -508,6 +508,73 @@ exports[`/Workflows Integration Tests (POST) /workflows success with returned da
 }
 `;
 
+exports[`/Workflows Integration Tests (POST) /workflows success with returned data 2`] = `
+{
+  "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or destination 1`] = `
+{
+  "detail": "'' is not a valid AE Title (source: MonaiApplicationEntity).",
+  "status": 400,
+  "title": "Validation error.",
+  "traceId": "00-3795116b33338ae69581d64083acddc1-5cfe47801bc246c4-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or destination 2`] = `
+{
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-94f8b8fd10151bd5a0cb24f807e7b20e-43f32ad16f573a0f-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows when Monai gives general error 1`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows when Monai gives general error 2`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows when Monai gives general error 3`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows when Monai gives general error 4`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows when Monai gives general error 5`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows when Monai gives general error 6`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
 exports[`/Workflows Integration Tests (POST) /workflows with invalid body 1`] = `
 {
   "detail": "Failed to validate workflow: 'informaticsGateway' cannot be null (source: Artifact 1)., '' is not a valid AE Title (source: informaticsGateway)., '' is not a valid Informatics Gateway - exportDestinations (source: informaticsGateway)., Missing Workflow Version., Missing Workflow Tasks.",
@@ -522,6 +589,31 @@ exports[`/Workflows Integration Tests (POST) /workflows with invalid body 1`] = 
 exports[`/Workflows Integration Tests (PUT) /workflows/:id success with returned data 1`] = `
 {
   "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id success with returned data 2`] = `
+{
+  "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae or destination 1`] = `
+{
+  "detail": "'' is not a valid AE Title (source: MonaiApplicationEntity).",
+  "status": 400,
+  "title": "Validation error.",
+  "traceId": "00-3795116b33338ae69581d64083acddc1-5cfe47801bc246c4-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae or destination 2`] = `
+{
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-94f8b8fd10151bd5a0cb24f807e7b20e-43f32ad16f573a0f-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
 }
 `;
 

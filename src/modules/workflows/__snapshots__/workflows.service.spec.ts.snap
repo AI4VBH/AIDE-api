@@ -1,5 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`WorkflowsService createWorkflow aeTitle exists returns expected result 1`] = `
+{
+  "informatics_gateway": {
+    "ae_title": "monai",
+    "export_destinations": [
+      "TESTDEST",
+      "TESTDEST2",
+    ],
+  },
+}
+`;
+
+exports[`WorkflowsService createWorkflow destination does not exist throws error 1`] = `"Not all export destinations are registered"`;
+
+exports[`WorkflowsService createWorkflow missing aeTitle throws error 1`] = `"AE Title not found, config valid"`;
+
+exports[`WorkflowsService createWorkflow returns expected result 1`] = `
+{
+  "informatics_gateway": {
+    "ae_title": "monai",
+    "export_destinations": [
+      "TESTDEST",
+      "TESTDEST2",
+    ],
+  },
+}
+`;
+
+exports[`WorkflowsService editWorkflow destination does not exist throws error 1`] = `"Not all export destinations are registered"`;
+
+exports[`WorkflowsService editWorkflow missing aeTitle throws error 1`] = `"AE Title not found, config valid"`;
+
+exports[`WorkflowsService editWorkflow returns expected result 1`] = `
+{
+  "informatics_gateway": {
+    "ae_title": "monai",
+    "export_destinations": [
+      "TESTDEST",
+      "TESTDEST2",
+    ],
+  },
+}
+`;
+
 exports[`WorkflowsService getPagedWorkflows returns expected result 1`] = `
 {
   "data": [],

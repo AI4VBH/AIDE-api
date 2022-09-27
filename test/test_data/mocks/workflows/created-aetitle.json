@@ -1,0 +1,9 @@
+{
+    "name": "MonaiSCU",
+    "aeTitle": "MonaiSCU",
+    "grouping": "0020,000D",
+    "workflows": [],
+    "ignoredSopClasses": [],
+    "allowedSopClasses": [],
+    "timeout": 5
+  }

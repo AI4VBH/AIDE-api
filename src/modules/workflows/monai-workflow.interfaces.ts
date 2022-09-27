@@ -12,3 +12,11 @@ export interface MonaiWorkflow {
     description: string;
   };
 }
+
+export interface Destination {
+  port: number;
+  name: string;
+  aeTitle: string;
+  hostIp: string;
+}
+

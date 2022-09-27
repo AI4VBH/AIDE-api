@@ -1,0 +1,7 @@
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "Validation error.",
+  "status": 409,
+  "detail": "A MONAI Application Entity with the same name 'MonaiSCU' already exists.",
+  "traceId": "00-d3c9db7212b4123201614acaf4e14efb-320498ca3ca6fb5d-00"
+}
