@@ -76,7 +76,10 @@ describe('WorkflowsController', () => {
           name: 'some-name',
           version: 'v1.0.0',
           description: 'some description',
-          informationGateway: {},
+          informatics_gateway: {
+            ae_title: 'title',
+            export_destinations: [],
+          },
           tasks: [],
         },
       };
@@ -96,7 +99,10 @@ describe('WorkflowsController', () => {
           name: 'some-name',
           version: 'v1.0.0',
           description: 'some description',
-          informationGateway: {},
+          informatics_gateway: {
+            ae_title: 'title',
+            export_destinations: [],
+          },
           tasks: [],
         },
       };

@@ -13,6 +13,16 @@ export interface PagedWorkflowsItemDto {
   description: string;
 }
 
+interface InformaticsGateway {
+  ae_title: string;
+  export_destinations: string[];
+}
+
+export interface WorkflowDto extends Object {
+  [key: string]: any;
+  informatics_gateway: Partial<InformaticsGateway>;
+}
+
 export interface CreateEditWorkflowDto {
-  workflow: object;
+  workflow: Partial<WorkflowDto>;
 }

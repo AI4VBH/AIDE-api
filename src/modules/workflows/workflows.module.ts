@@ -1,4 +1,4 @@
-import { HttpModule, HttpService } from '@nestjs/axios';
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { HttpConfigService } from 'shared/http/http.service';
 import { WorkflowsController } from './workflows.controller';

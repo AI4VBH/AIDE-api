@@ -8,14 +8,14 @@ import {
   Query,
   UseFilters,
 } from '@nestjs/common';
-import MonaiServerExceptionFilter from 'shared/http/monai-server-exception.filter';
+import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { PayloadsService } from './payloads.service';
 
 @Controller('payloads')
-@UseFilters(MonaiServerExceptionFilter)
+@UseFilters(ExternalServerExceptionFilter)
 export class PayloadsController {
   @Inject(PayloadsService)
-  private readonly appService: PayloadsService;
+  private readonly payloadsService: PayloadsService;
 
   @Get()
   getPayloads(
@@ -26,11 +26,11 @@ export class PayloadsController {
       throw new BadRequestException('pageNumber or pageSize is invalid');
     }
 
-    return this.appService.getPayloads({ pageNumber, pageSize });
+    return this.payloadsService.getPayloads({ pageNumber, pageSize });
   }
 
   @Get(':payload_id/executions')
   getPayloadExecutions(@Param('payload_id') payload_id) {
-    return this.appService.getPayloadExecutions(payload_id);
+    return this.payloadsService.getPayloadExecutions(payload_id);
   }
 }

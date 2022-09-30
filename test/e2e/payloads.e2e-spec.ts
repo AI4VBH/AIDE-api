@@ -8,7 +8,7 @@ import { PayloadsService } from 'modules/admin/payloads/payloads.service';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
-import PayloadMocks from '../test_data/mocks/payloads/payloadsIndex';
+import PayloadMocks from '../test_data/mocks/payloads/payloads-index';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
@@ -35,7 +35,11 @@ describe('/Payloads Integration Tests', () => {
         ConfigModule.forRoot({
           isGlobal: true,
           // we mock the path to the MONAI API
-          load: [() => ({ MONAI_API_HOST: testMonaiBasePath })],
+          load: [
+            () => ({
+              MONAI_API_HOST: testMonaiBasePath,
+            }),
+          ],
         }),
         // we register the HttpService with no stubbing! 🎉
         HttpModule.registerAsync({
@@ -119,7 +123,7 @@ describe('/Payloads Integration Tests', () => {
         ),
       );
       const response = await request(app.getHttpServer()).get(
-        `/payloads/${payload.payload_id}/executions`,
+        `/payloads/${payload[0].payload_id}/executions`,
       );
       expect(response.body).toMatchSnapshot();
     },

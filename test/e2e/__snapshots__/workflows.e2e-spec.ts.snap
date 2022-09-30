@@ -524,7 +524,12 @@ exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or 
 }
 `;
 
-exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or destination 2`] = `"Not all export destinations are registered"`;
+exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or destination 2`] = `
+{
+  "message": "Not all export destinations are registered",
+  "statusCode": 400,
+}
+`;
 
 exports[`/Workflows Integration Tests (POST) /workflows when Monai gives general error 1`] = `
 {
@@ -601,7 +606,12 @@ exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae 
 }
 `;
 
-exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae or destination 2`] = `"Not all export destinations are registered"`;
+exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae or destination 2`] = `
+{
+  "message": "Not all export destinations are registered",
+  "statusCode": 400,
+}
+`;
 
 exports[`/Workflows Integration Tests (PUT) /workflows/:id when Monai gives general error 1`] = `
 {

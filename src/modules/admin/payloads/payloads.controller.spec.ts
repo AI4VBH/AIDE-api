@@ -1,7 +1,6 @@
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { IGetPayloadsQueryParams } from './payload.interface';
 import { PayloadsController } from './payloads.controller';
 import { PayloadsService } from './payloads.service';
 

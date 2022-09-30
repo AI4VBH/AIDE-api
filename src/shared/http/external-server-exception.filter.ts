@@ -7,13 +7,27 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AxiosError } from 'axios';
-import { HttpError } from './http-error';
+import { WorkflowServiceException } from 'modules/workflows/workflow.service.exceptions';
+import { MinoiClientException } from 'shared/minio/minio-client';
+import {
+  ExecutionsServiceException,
+  ExecutionsServiceExceptionType,
+} from 'modules/admin/executions/executions.service.exceptions';
 
 @Catch(Error)
-export default class MonaiServerExceptionFilter implements ExceptionFilter {
+export default class ExternalServerExceptionFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+
+    if (exception instanceof HttpException) {
+      const status = exception.getStatus();
+
+      return response.status(status).json({
+        statusCode: status,
+        message: exception.message,
+      });
+    }
 
     if (Object.keys(exception).includes('config')) {
       const { message, status } = (
@@ -45,33 +59,27 @@ export default class MonaiServerExceptionFilter implements ExceptionFilter {
       });
     }
 
-    if (Object.keys(exception).includes('statusCode')) {
-      const { message, statusCode } = exception as HttpError
+    if (exception instanceof WorkflowServiceException) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: exception.message,
+      });
+    }
 
-      if (
-        statusCode === HttpStatus.REQUEST_TIMEOUT ||
-        statusCode >= HttpStatus.INTERNAL_SERVER_ERROR
-      ) {
-        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'An issue occurred with the MONAI service',
+    if (exception instanceof MinoiClientException) {
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'An issue occurred with the MINIO service',
+      });
+    }
+
+    if (exception instanceof ExecutionsServiceException) {
+      if (exception.type === ExecutionsServiceExceptionType.MISSING_TASK) {
+        return response.status(HttpStatus.NOT_FOUND).json({
+          statusCode: HttpStatus.NOT_FOUND,
+          message: exception.message,
         });
       }
-
-      if (
-        statusCode === HttpStatus.BAD_REQUEST ||
-        statusCode === HttpStatus.NOT_FOUND
-      ) {
-        return response
-          .status(statusCode)
-          .json(message);
-      }
-
-      return response.status(statusCode ?? HttpStatus.INTERNAL_SERVER_ERROR).json({
-        statusCode: status ?? HttpStatus.INTERNAL_SERVER_ERROR,
-        message,
-      });
-
     }
 
     response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({

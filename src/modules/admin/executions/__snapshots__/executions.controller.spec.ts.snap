@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExecutionsController getArtifactDownloadUrl returns expected result 1`] = `
+{
+  "url": "http://some.minio.com/file.ext",
+}
+`;
+
+exports[`ExecutionsController getWorkflowInstanceArtifacts returns expected result 1`] = `
+{
+  "file-2.ext": "minio-object-key/file-2.ext",
+  "file.ext": "minio-object-key/file.ext",
+}
+`;
+
+exports[`ExecutionsController getWorkflowInstanceMetadata returns expected result 1`] = `
+{
+  "stat-1": "value",
+  "stat-2": "value 2",
+}
+`;

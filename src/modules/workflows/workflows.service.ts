@@ -1,5 +1,5 @@
-import axios, { HttpService } from '@nestjs/axios';
-import { HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { Inject, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -8,7 +8,8 @@ import {
   PagedMonaiWorkflows,
 } from './monai-workflow.interfaces';
 import { mapToPagedWorkflowsDto } from './workflows.mapper';
-import { HttpError } from 'shared/http/http-error';
+import { WorkflowDto } from './dto/aide-workflow.dto';
+import { WorkflowServiceException } from './workflow.service.exceptions';
 
 @Injectable()
 export class WorkflowsService {
@@ -39,49 +40,51 @@ export class WorkflowsService {
     return detail.data;
   }
 
-  async resgisterAeTitleAndVerifyDestinations(aeTitle: string, destinations: string[]) {
+  async registerAeTitleAndVerifyDestinations(
+    aeTitle: string,
+    destinations: string[],
+  ) {
     if (!aeTitle || !aeTitle.trim()) {
-      throw new HttpError(HttpStatus.BAD_REQUEST,
-        'AE Title not found, config valid');
+      throw new WorkflowServiceException(
+        'AE Title not found, config is invalid',
+      );
     }
 
+    const baseURL = this.configService.get<string>('MIG_API_HOST');
     const aeTitleRequest = { name: aeTitle, aeTitle: aeTitle };
 
     await firstValueFrom(
-      this.httpService.post('/config/ae',
-      aeTitleRequest, 
-      { 
-        baseURL: this.configService.get<string>('MIG_API_HOST'),
-        validateStatus:  (status: number) => status === 201 || status === 409
-      })
+      this.httpService.post('/config/ae', aeTitleRequest, {
+        baseURL,
+        validateStatus: (status: number) => status === 201 || status === 409,
+      }),
     );
 
-    if (destinations && destinations.length > 0){
-
-
+    if (destinations && destinations.length > 0) {
       const getDestination = await firstValueFrom(
-        this.httpService.get<Destination[]>('/config/destination', 
-        { 
-          baseURL: this.configService.get<string>('MIG_API_HOST')
-        })
+        this.httpService.get<Destination[]>('/config/destination', {
+          baseURL,
+        }),
       );
 
-      let existingDestinations = getDestination.data.map((item) => item.aeTitle);
+      const existingDestinations = getDestination.data.map(
+        (item) => item.aeTitle,
+      );
 
-      if (!destinations.every(v => existingDestinations.includes(v)))
-      {
-        throw new HttpError(HttpStatus.BAD_REQUEST,
-          'Not all export destinations are registered');
+      if (!destinations.every((v) => existingDestinations.includes(v))) {
+        throw new WorkflowServiceException(
+          'Not all export destinations are registered',
+        );
       }
     }
   }
 
-  async createWorkflow(workflow: any) {
+  async createWorkflow(workflow: Partial<WorkflowDto>) {
+    const aeTitle = workflow?.informatics_gateway?.ae_title as string;
+    const destinations = workflow?.informatics_gateway
+      ?.export_destinations as string[];
 
-    var aeTitle = workflow?.informatics_gateway?.ae_title as string;
-    var destinations = workflow?.informatics_gateway?.export_destinations as string[];
-
-    await this.resgisterAeTitleAndVerifyDestinations(aeTitle, destinations);
+    await this.registerAeTitleAndVerifyDestinations(aeTitle, destinations);
 
     const result = await firstValueFrom(
       this.httpService.post('/workflows', workflow),
@@ -90,12 +93,12 @@ export class WorkflowsService {
     return result.data;
   }
 
-  async editWorkflow(workflowId: string, workflow: any) {
+  async editWorkflow(workflowId: string, workflow: Partial<WorkflowDto>) {
+    const aeTitle = workflow?.informatics_gateway?.ae_title as string;
+    const destinations = workflow?.informatics_gateway
+      ?.export_destinations as string[];
 
-    var aeTitle = workflow?.informatics_gateway?.ae_title as string;
-    var destinations = workflow?.informatics_gateway?.export_destinations as string[];
-
-    await this.resgisterAeTitleAndVerifyDestinations(aeTitle, destinations);
+    await this.registerAeTitleAndVerifyDestinations(aeTitle, destinations);
 
     const result = await firstValueFrom(
       this.httpService.put(`/workflows/${workflowId}`, workflow),

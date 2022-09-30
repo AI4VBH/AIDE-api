@@ -12,12 +12,12 @@ import {
   Query,
   UseFilters,
 } from '@nestjs/common';
-import MonaiServerExceptionFilter from 'shared/http/monai-server-exception.filter';
-import { CreateEditWorkflowDto } from './dto/aide-workflow.dto';
+import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
+import { CreateEditWorkflowDto, WorkflowDto } from './dto/aide-workflow.dto';
 import { WorkflowsService } from './workflows.service';
 
 @Controller('workflows')
-@UseFilters(MonaiServerExceptionFilter)
+@UseFilters(ExternalServerExceptionFilter)
 export class WorkflowsController {
   @Inject(WorkflowsService)
   private readonly service: WorkflowsService;
@@ -41,7 +41,11 @@ export class WorkflowsController {
 
   @Post()
   createWorkflow(@Body() createWorkflow: CreateEditWorkflowDto) {
-    return this.service.createWorkflow(createWorkflow.workflow);
+    const { workflow } = createWorkflow;
+
+    this.validateWorkflow(workflow);
+
+    return this.service.createWorkflow(workflow);
   }
 
   @Put(':workflowId')
@@ -49,11 +53,28 @@ export class WorkflowsController {
     @Param('workflowId') workflowId: string,
     @Body() editWorkflow: CreateEditWorkflowDto,
   ) {
-    return this.service.editWorkflow(workflowId, editWorkflow.workflow);
+    const { workflow } = editWorkflow;
+
+    this.validateWorkflow(workflow);
+
+    return this.service.editWorkflow(workflowId, workflow);
   }
 
   @Delete(':workflowId')
   deleteWorkflowById(@Param('workflowId') workflowId: string) {
     return this.service.deleteWorkflow(workflowId);
+  }
+
+  private validateWorkflow(workflow: Partial<WorkflowDto>) {
+    if (!workflow || !workflow.informatics_gateway) {
+      throw new BadRequestException('workflow object cannot be empty');
+    }
+
+    if (
+      !workflow.informatics_gateway.ae_title ||
+      !workflow.informatics_gateway.export_destinations
+    ) {
+      throw new BadRequestException('ae_title or export_destination missing');
+    }
   }
 }

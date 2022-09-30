@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata empty json 1`] = `{}`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata json object 1`] = `
+{
+  "key": {
+    "name": "madeup name",
+    "score": 34,
+  },
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata metadata - execution id does not exist 1`] = `
+{
+  "message": "Task not found",
+  "statusCode": 404,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata metadata - invalid execution GUID 1`] = `
+{
+  "message": "Validation failed (uuid is expected)",
+  "statusCode": 400,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata metadata - invalid workflow GUID 1`] = `
+{
+  "detail": "Failed to validate payloadId, not a valid guid",
+  "instance": "/workflowinstances?payloadid=invalidID&disablePagination=true",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata metadata - workflow does not exist 1`] = `
+{
+  "message": "Task not found",
+  "statusCode": 404,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata when Monai gives general error 1`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata when Monai gives general error 2`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata when Monai gives general error 3`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata when Monai gives general error 4`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata when Monai gives general error 5`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata when Monai gives general error 6`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts execution id does not exist 1`] = `
+{
+  "message": "Task not found",
+  "statusCode": 404,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts invalid execution GUID 1`] = `
+{
+  "message": "Validation failed (uuid is expected)",
+  "statusCode": 400,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts invalid workflow GUID 1`] = `
+{
+  "detail": "Failed to validate payloadId, not a valid guid",
+  "instance": "/workflowinstances?payloadid=invalidID&disablePagination=true",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts with artifacts 1`] = `
+{
+  "report-dicom": "d801bd68-381d-4ff3-95a8-85c46380e075/workflows/a67a7af7-068b-44b8-a81b-def7b3e5403b/3b9d94b9-4285-45d4-bea9-491fa62b8f91/report-dicom",
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts workflow instance does not exist 1`] = `
+{
+  "detail": "Failed to validate id, workflow not found",
+  "instance": "/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca",
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/artifact-download minio object key does not exist 1`] = `
+{
+  "message": "key query value is missing",
+  "statusCode": 400,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/artifact-download?key=minio-object-key minio returns general error 1`] = `
+{
+  "message": "An issue occurred with the MINIO service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/artifact-download?key=minio-object-key minio returns general error 2`] = `
+{
+  "message": "An issue occurred with the MINIO service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/artifact-download?key=minio-object-key minio returns general error 3`] = `
+{
+  "message": "An issue occurred with the MINIO service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/artifact-download?key=minio-object-key minio returns general error 4`] = `
+{
+  "message": "An issue occurred with the MINIO service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/artifact-download?key=minio-object-key minio returns general error 5`] = `
+{
+  "message": "An issue occurred with the MINIO service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/artifact-download?key=minio-object-key minio returns general error 6`] = `
+{
+  "message": "An issue occurred with the MINIO service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /executions/artifact-download?key=minio-object-key minio with download link 1`] = `{}`;
+
+exports[`/executions Integration Tests (GET) /payloads when Monai gives general error 1`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /payloads when Monai gives general error 2`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /payloads when Monai gives general error 3`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /payloads when Monai gives general error 4`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /payloads when Monai gives general error 5`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;
+
+exports[`/executions Integration Tests (GET) /payloads when Monai gives general error 6`] = `
+{
+  "message": "An issue occurred with the MONAI service",
+  "statusCode": 500,
+}
+`;

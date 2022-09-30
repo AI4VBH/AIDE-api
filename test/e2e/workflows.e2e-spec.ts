@@ -8,7 +8,7 @@ import { WorkflowsService } from 'modules/workflows/workflows.service';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
-import WorkflowMocks from '../test_data/mocks/workflows/workflowsIndex';
+import WorkflowMocks from '../test_data/mocks/workflows/workflows-index';
 import { MonaiWorkflow } from 'modules/workflows/monai-workflow.interfaces';
 
 const server = setupServer();
@@ -40,7 +40,7 @@ describe('/Workflows Integration Tests', () => {
           load: [
             () => ({
               MONAI_API_HOST: testMonaiBasePath,
-              MIG_API_HOST: testMigBasePath
+              MIG_API_HOST: testMigBasePath,
             }),
           ],
         }),
@@ -272,6 +272,7 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer())
         .put(`/workflows/${putBody.workflow_id}`)
         .send(putBody);
+
       expect(response.statusCode).toBe(400);
       expect(response.body).toMatchSnapshot();
     },
@@ -292,8 +293,8 @@ describe('/Workflows Integration Tests', () => {
         `${testMigBasePath}/config/ae`,
         (request, response, context) => {
           return response(
-            context.status(201), 
-            context.json(WorkflowMocks.createdAETitle)
+            context.status(201),
+            context.json(WorkflowMocks.createdAETitle),
           );
         },
       ),
@@ -326,8 +327,8 @@ describe('/Workflows Integration Tests', () => {
         `${testMigBasePath}/config/ae`,
         (request, response, context) => {
           return response(
-            context.status(201), 
-            context.json(WorkflowMocks.createdAETitle)
+            context.status(201),
+            context.json(WorkflowMocks.createdAETitle),
           );
         },
       ),
@@ -361,7 +362,7 @@ describe('/Workflows Integration Tests', () => {
         (request, response, context) => {
           return response(
             context.status(201),
-            context.json(WorkflowMocks.createdAETitle)
+            context.json(WorkflowMocks.createdAETitle),
           );
         },
       ),
@@ -393,8 +394,8 @@ describe('/Workflows Integration Tests', () => {
           `${testMigBasePath}/config/ae`,
           (request, response, context) => {
             return response(
-              context.status(201), 
-              context.json(WorkflowMocks.createdAETitle)
+              context.status(201),
+              context.json(WorkflowMocks.createdAETitle),
             );
           },
         ),
@@ -402,7 +403,7 @@ describe('/Workflows Integration Tests', () => {
           `${testMigBasePath}/config/destination`,
           (request, response, context) => {
             return response(context.json(WorkflowMocks.basicDestination1));
-          }
+          },
         ),
       );
       const response = await request(app.getHttpServer())
@@ -567,6 +568,7 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer())
         .post(`/workflows`)
         .send(postBody);
+
       expect(response.statusCode).toBe(400);
       expect(response.body).toMatchSnapshot();
     },
@@ -578,8 +580,8 @@ describe('/Workflows Integration Tests', () => {
         `${testMigBasePath}/config/ae`,
         (request, response, context) => {
           return response(
-            context.status(201), 
-            context.json(WorkflowMocks.createdAETitle)
+            context.status(201),
+            context.json(WorkflowMocks.createdAETitle),
           );
         },
       ),
@@ -597,7 +599,7 @@ describe('/Workflows Integration Tests', () => {
             context.json(WorkflowMocks.invalidWorkflowBodyError),
           );
         },
-      )
+      ),
     );
     const response = await await request(app.getHttpServer())
       .post('/workflows')
@@ -620,8 +622,8 @@ describe('/Workflows Integration Tests', () => {
           `${testMigBasePath}/config/ae`,
           (request, response, context) => {
             return response(
-              context.status(201), 
-              context.json(WorkflowMocks.createdAETitle)
+              context.status(201),
+              context.json(WorkflowMocks.createdAETitle),
             );
           },
         ),

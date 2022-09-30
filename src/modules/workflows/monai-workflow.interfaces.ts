@@ -19,4 +19,3 @@ export interface Destination {
   aeTitle: string;
   hostIp: string;
 }
-

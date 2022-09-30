@@ -60,6 +60,8 @@ export interface MonaiWorkflowTask {
   task_id: string;
   task_start_time: string;
   status: string;
+  output_artifacts?: { [key: string]: string };
+  execution_stats?: { [key: string]: string };
 }
 
 export interface WorkflowInstanceDto {
