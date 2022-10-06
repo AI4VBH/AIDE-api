@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`DestinationsService getDestinations echoDestination returns the expected response 1`] = `undefined`;
+
+exports[`DestinationsService getDestinations registerDestination returns the expected result 1`] = `
+{
+  "aeTitle": "testing ae title",
+  "hostIp": "example.host.ip",
+  "name": "example name",
+  "port": 3456,
+}
+`;
+
 exports[`DestinationsService getDestinations returns expected result 1`] = `
 [
   {
@@ -15,4 +26,13 @@ exports[`DestinationsService getDestinations returns expected result 1`] = `
     "port": 104,
   },
 ]
+`;
+
+exports[`DestinationsService getDestinations updateDestination returns the expected result 1`] = `
+{
+  "aeTitle": "testing ae title",
+  "hostIp": "example.host.ip",
+  "name": "example name",
+  "port": 3456,
+}
 `;

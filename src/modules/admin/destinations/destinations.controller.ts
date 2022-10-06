@@ -1,8 +1,20 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Put,
+  UseFilters,
+} from '@nestjs/common';
+import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { IDestination } from './destinations.interface';
 import { DestinationsService } from './destinations.service';
 
 @Controller('destinations')
+@UseFilters(ExternalServerExceptionFilter)
 export class DestinationsController {
   @Inject(DestinationsService)
   private readonly service: DestinationsService;
@@ -14,6 +26,40 @@ export class DestinationsController {
 
   @Post()
   registerDestination(@Body() destination: IDestination) {
+    this.validateDestination(destination);
+
     return this.service.registerDestination(destination);
+  }
+
+  @Put()
+  updateDestination(@Body() destination: IDestination) {
+    this.validateDestination(destination);
+
+    return this.service.updateDestination(destination);
+  }
+
+  @Get(':name')
+  echoDestination(@Param('name') name) {
+    return this.service.echoDestination(name);
+  }
+
+  private validateDestination(destination: IDestination) {
+    if (!destination) {
+      throw new BadRequestException('destination object cannot be empty');
+    }
+
+    const missingProps: string[] = [];
+
+    ['aeTitle', 'hostIp', 'name', 'port'].forEach(
+      (key) => !destination[key] && missingProps.push(key),
+    );
+
+    if (missingProps.length !== 0) {
+      throw new BadRequestException(
+        `The following properties are missing from the destinations object: ${missingProps.join(
+          ', ',
+        )}`,
+      );
+    }
   }
 }
