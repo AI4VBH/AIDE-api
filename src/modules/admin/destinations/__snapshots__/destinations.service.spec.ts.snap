@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DestinationsService getDestinations returns expected result 1`] = `
+[
+  {
+    "aeTitle": "PACSUSEAST",
+    "hostIp": "10.20.3.4",
+    "name": "USEAST",
+    "port": 104,
+  },
+  {
+    "aeTitle": "PACSUSWEST",
+    "hostIp": "10.50.3.4",
+    "name": "USWEST",
+    "port": 104,
+  },
+]
+`;

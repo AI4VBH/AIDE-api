@@ -16,6 +16,8 @@ import { PayloadsController } from './payloads/payloads.controller';
 import { PayloadsService } from './payloads/payloads.service';
 import { ExecutionsController } from './executions/executions.controller';
 import { ExecutionsService } from './executions/executions.service';
+import { DestinationsController } from './destinations/destinations.controller';
+import { DestinationsService } from './destinations/destinations.service';
 
 @Module({
   imports: [
@@ -31,6 +33,7 @@ import { ExecutionsService } from './executions/executions.service';
     PayloadsController,
     LogsController,
     ExecutionsController,
+    DestinationsController,
   ],
   providers: [
     GraphService,
@@ -41,6 +44,7 @@ import { ExecutionsService } from './executions/executions.service';
     LogsService,
     MinioClient,
     ExecutionsService,
+    DestinationsService,
   ],
 })
 export class AdminModule {}
