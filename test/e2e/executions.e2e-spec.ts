@@ -129,7 +129,7 @@ describe('/executions Integration Tests', () => {
     expect(response.body).toMatchSnapshot();
   });
 
-  it('(GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts invalid workflow GUID', async () => {
+  it('(GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts invalid workflow instance GUID', async () => {
     server.use(
       rest.get(
         `${testMonaiBasePath}/workflowinstances/invalidguid`,
@@ -241,15 +241,18 @@ describe('/executions Integration Tests', () => {
       '/executions/a67a7af7-068b-44b8-a81b-def7b3e5403b/tasks/3b9d94b9-4285-45d4-bea9-491fa62b8f91/metadata',
     );
     expect(response.status).toBe(200);
-    expect(response.body).toMatchSnapshot();
+    expect(response.body).toMatchObject({});
   });
 
-  it('(GET) /executions/${workflow_instance_id}/tasks/${execution_id}/metadata metadata - workflow does not exist', async () => {
+  it('(GET) /executions/${workflow_instance_id}/tasks/${execution_id}/metadata metadata - workflow instance does not exist', async () => {
     server.use(
       rest.get(
         `${testMonaiBasePath}/workflowinstances/a67a7af7-068b-44b8-a81b-def7b3e5403b`,
         (req, res, ctx) => {
-          return res(ctx.json(ExecutionsMock.nonExistentWorkflow));
+          return res(
+            ctx.status(404),
+            ctx.json(ExecutionsMock.nonExistentWorkflow),
+          );
         },
       ),
     );
@@ -279,7 +282,7 @@ describe('/executions Integration Tests', () => {
     expect(response.body).toMatchSnapshot();
   });
 
-  it('(GET) /executions/${workflow_instance_id}/tasks/${execution_id}/metadata metadata - invalid workflow GUID', async () => {
+  it('(GET) /executions/${workflow_instance_id}/tasks/${execution_id}/metadata metadata - invalid workflow instance GUID', async () => {
     server.use(
       rest.get(
         `${testMonaiBasePath}/workflowinstances/invalidguid`,

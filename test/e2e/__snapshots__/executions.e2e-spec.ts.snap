@@ -1,11 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata empty json 1`] = `{}`;
-
 exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata json object 1`] = `
 {
   "key": {
-    "name": "madeup name",
+    "name": "Some metadata",
     "score": 34,
   },
 }
@@ -25,10 +23,10 @@ exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id
 }
 `;
 
-exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata metadata - invalid workflow GUID 1`] = `
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata metadata - invalid workflow instance GUID 1`] = `
 {
-  "detail": "Failed to validate payloadId, not a valid guid",
-  "instance": "/workflowinstances?payloadid=invalidID&disablePagination=true",
+  "detail": "Failed to validate workflow instance id, not a valid guid",
+  "instance": "/workflowinstances/invalidguid",
   "status": 400,
   "title": "Bad Request",
   "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
@@ -36,10 +34,14 @@ exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id
 }
 `;
 
-exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata metadata - workflow does not exist 1`] = `
+exports[`/executions Integration Tests (GET) /executions/\${workflow_instance_id}/tasks/\${execution_id}/metadata metadata - workflow instance does not exist 1`] = `
 {
-  "message": "Task not found",
-  "statusCode": 404,
+  "detail": "Failed to validate id, workflow instance not found",
+  "instance": "/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca",
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
 }
 `;
 
@@ -99,10 +101,10 @@ exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks
 }
 `;
 
-exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts invalid workflow GUID 1`] = `
+exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts invalid workflow instance GUID 1`] = `
 {
-  "detail": "Failed to validate payloadId, not a valid guid",
-  "instance": "/workflowinstances?payloadid=invalidID&disablePagination=true",
+  "detail": "Failed to validate workflow instance id, not a valid guid",
+  "instance": "/workflowinstances/invalidguid",
   "status": 400,
   "title": "Bad Request",
   "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
@@ -118,7 +120,7 @@ exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks
 
 exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks/:execution_id/artifacts workflow instance does not exist 1`] = `
 {
-  "detail": "Failed to validate id, workflow not found",
+  "detail": "Failed to validate id, workflow instance not found",
   "instance": "/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca",
   "status": 404,
   "title": "Not Found",

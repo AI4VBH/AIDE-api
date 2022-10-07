@@ -5,7 +5,10 @@ import { PayloadsService } from './payloads.service';
 import * as mockMonaiPayloadsResponse from 'test/test_data/mocks/payloads/basic-payloads-1.json';
 import { AxiosInstance } from 'axios';
 import { makeObservableForTest } from 'test/utilities/test-make-observable';
-import { MonaiWorkflowInstance } from './payload.interface';
+import {
+  MonaiWorkflowInstance,
+  MonaiWorkflowTask,
+} from '../workflowinstances/workflowinstances.interface';
 
 describe('PayloadsService', () => {
   let axios: DeepMocked<AxiosInstance>;
@@ -86,32 +89,29 @@ describe('PayloadsService', () => {
             {
               task_id: 'some-special-task',
               workflow_instance_id: 'e02e3bbc-a760-4d83-8cfe-ce3a77424171',
-              payload_id: '02d85950-56ce-4cca-8a09-f0037bf8c9af',
               execution_id: '981eca65-294a-434a-930a-b1828b54253a',
               previous_task_id: '',
               status: 'Suceeded',
               task_start_time: '2022-09-23T12:50:00.305Z',
-            },
+            } as MonaiWorkflowTask,
             {
               task_id: 'export-task',
               workflow_instance_id: 'e02e3bbc-a760-4d83-8cfe-ce3a77424171',
-              payload_id: '02d85950-56ce-4cca-8a09-f0037bf8c9af',
               execution_id: '981eca65-294a-434a-930a-b1828b54253a',
               previous_task_id: 'some-special-task',
               status: 'Suceeded',
               task_start_time: '2022-09-23T12:50:00.305Z',
-            },
+            } as MonaiWorkflowTask,
             {
               task_id: 'email-task',
               workflow_instance_id: 'e02e3bbc-a760-4d83-8cfe-ce3a77424171',
-              payload_id: '02d85950-56ce-4cca-8a09-f0037bf8c9af',
               execution_id: '981eca65-294a-434a-930a-b1828b54253a',
               previous_task_id: 'export-task',
               status: 'Suceeded',
               task_start_time: '2022-09-23T12:50:00.305Z',
-            },
+            } as MonaiWorkflowTask,
           ],
-        },
+        } as MonaiWorkflowInstance,
       ];
 
       axios.get.mockResolvedValue({

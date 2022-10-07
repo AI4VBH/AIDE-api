@@ -2,7 +2,7 @@
     "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
     "title": "Bad Request",
     "status": 400,
-    "detail": "Failed to validate workflow instance id, not a valid guid",
-    "instance": "/workflowinstances/invalidguid",
+    "detail": "Failed to validate workflow instance ID, not a valid GUID",
+    "instance": "/workflowinstances/invalidGUID/executions/3b9d94b9-4285-45d4-bea9-491fa62b8f91/acknowledge",
     "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00"
 }

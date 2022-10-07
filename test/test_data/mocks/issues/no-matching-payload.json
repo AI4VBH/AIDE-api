@@ -2,7 +2,7 @@
     "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
     "title": "Not Found",
     "status": 404,
-    "detail": "Failed to validate id, workflow instance not found",
-    "instance": "/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca",
+    "detail": "Request failed, no matching payload found",
+    "instance": "/payloads/fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
     "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00"
 }

@@ -3,12 +3,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import PagingDTO from 'shared/helper/paging/paging.dto';
 import { IPagedResponse } from 'shared/helper/paging/paging.interface';
+import { MonaiWorkflowInstance } from '../workflowinstances/workflowinstances.interface';
 import { PayloadDTO } from './payload.dto';
 import {
   IMonaiPayload,
   IMonaiPayloadResponse,
   IGetPayloadsQueryParams,
-  MonaiWorkflowInstance,
 } from './payload.interface';
 import { mapWorkflowInstancesToExecutions } from './payloads.mapper';
 

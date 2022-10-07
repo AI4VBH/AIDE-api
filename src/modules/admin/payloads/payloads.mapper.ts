@@ -1,9 +1,8 @@
 import {
   MonaiWorkflowInstance,
   MonaiWorkflowTask,
-  TaskExecutionDto,
-  WorkflowInstanceDto,
-} from './payload.interface';
+} from '../workflowinstances/workflowinstances.interface';
+import { TaskExecutionDto, WorkflowInstanceDto } from './payload.interface';
 
 export function mapWorkflowInstancesToExecutions(
   instances: MonaiWorkflowInstance[],

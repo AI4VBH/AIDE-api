@@ -1,18 +1,34 @@
-import { Controller, Get, Patch } from '@nestjs/common';
-import { IssueDTO } from './issues.dto';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Inject,
+  Query,
+  UseFilters,
+} from '@nestjs/common';
+import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
+import { WorkflowInstancesService } from '../workflowinstances/workflowinstances.service';
 import { IssuesService } from './issues.service';
 
 @Controller('issues')
+@UseFilters(ExternalServerExceptionFilter)
 export class IssuesController {
-  constructor(private readonly appService: IssuesService) {}
+  @Inject(WorkflowInstancesService)
+  private readonly wfiService: WorkflowInstancesService;
 
-  @Get()
-  getHello(): IssueDTO[] {
-    return this.appService.getIssues();
-  }
+  @Inject(IssuesService)
+  private readonly issuesService: IssuesService;
 
-  @Patch()
-  dismissTask(): IssueDTO {
-    return this.appService.dismissTask();
+  @Get('failed')
+  async getAcknowledgedTaskErrors(@Query('acknowledged') acknowledged: string) {
+    if (!acknowledged || !acknowledged.trim()) {
+      throw new BadRequestException('acknowledged query value is missing');
+    }
+
+    const response = await this.wfiService.getAcknowledgedTaskErrors(
+      acknowledged,
+    );
+
+    return this.issuesService.getIssues(response);
   }
 }

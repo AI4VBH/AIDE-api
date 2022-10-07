@@ -5,7 +5,7 @@
         "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
         "payload_id": "bb8891d4-0c02-41fe-9ec4-21516afa06e5",
         "start_time": "2022-09-08T09:14:09.89Z",
-        "status": "Created",
+        "status": "Failed",
         "bucket_id": "monaideploy",
         "input_metadata": {},
         "tasks": [

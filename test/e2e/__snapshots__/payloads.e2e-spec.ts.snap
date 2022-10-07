@@ -248,7 +248,7 @@ exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with 
     "id": "73909439-57da-465e-b529-2addd36cbcd9",
     "payload_id": "bb8891d4-0c02-41fe-9ec4-21516afa06e5",
     "start_time": "2022-09-08T09:14:09.89Z",
-    "status": "Created",
+    "status": "Failed",
     "tasks": [
       {
         "execution_id": "fd89296e-29b7-4d54-be27-26e185db820c",

@@ -18,6 +18,8 @@ import { ExecutionsController } from './executions/executions.controller';
 import { ExecutionsService } from './executions/executions.service';
 import { DestinationsController } from './destinations/destinations.controller';
 import { DestinationsService } from './destinations/destinations.service';
+import { WorkflowInstanceController } from './workflowinstances/workflowinstances.controller';
+import { WorkflowInstancesService } from './workflowinstances/workflowinstances.service';
 
 @Module({
   imports: [
@@ -34,6 +36,7 @@ import { DestinationsService } from './destinations/destinations.service';
     LogsController,
     ExecutionsController,
     DestinationsController,
+    WorkflowInstanceController,
   ],
   providers: [
     GraphService,
@@ -45,6 +48,7 @@ import { DestinationsService } from './destinations/destinations.service';
     MinioClient,
     ExecutionsService,
     DestinationsService,
+    WorkflowInstancesService,
   ],
 })
 export class AdminModule {}

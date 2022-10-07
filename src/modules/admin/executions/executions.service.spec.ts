@@ -4,7 +4,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosInstance } from 'axios';
 import { MinioClient } from 'shared/minio/minio-client';
 import { makeObservableForTest } from 'test/utilities/test-make-observable';
-import { MonaiWorkflowInstance } from '../payloads/payload.interface';
 import { ExecutionsService } from './executions.service';
 import { ExecutionsServiceException } from './executions.service.exceptions';
 

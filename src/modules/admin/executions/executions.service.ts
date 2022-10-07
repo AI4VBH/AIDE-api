@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { MinioClient, MinoiClientException } from 'shared/minio/minio-client';
-import { MonaiWorkflowInstance } from '../payloads/payload.interface';
+import { MonaiWorkflowInstance } from '../workflowinstances/workflowinstances.interface';
 import {
   ExecutionsServiceException,
   ExecutionsServiceExceptionType,

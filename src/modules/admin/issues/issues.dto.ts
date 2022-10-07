@@ -1,20 +1,34 @@
-export class IssueDTO {
-  task_id: number;
+import { IMonaiPayload } from '../payloads/payload.interface';
+import {
+  MonaiWorkflowInstance,
+  MonaiWorkflowTask,
+} from '../workflowinstances/workflowinstances.interface';
+
+export class IssueDto {
+  task_id: string;
   status: string;
-  model_name: string;
+  workflow_name: string;
   patient_name: string;
   patient_id: string;
   execution_time: string;
+  workflow_instance_id: string;
+  execution_id: string;
 
-  public static from(dto: Partial<IssueDTO>) {
-    const it = new IssueDTO();
-    it.task_id = dto.task_id;
-    it.status = dto.status;
-    it.model_name = dto.model_name;
-    it.patient_name = dto.patient_name;
-    it.patient_id = dto.patient_id;
-    it.execution_time = dto.execution_time;
-    return it;
+  public static from(
+    task: MonaiWorkflowTask,
+    relativePayload: IMonaiPayload,
+    relativeWorkflowInstance: MonaiWorkflowInstance,
+  ) {
+    const issue = new IssueDto();
+    issue.task_id = task.task_id;
+    issue.workflow_instance_id = task.workflow_instance_id;
+    issue.execution_id = task.execution_id;
+    issue.patient_id = relativePayload?.patient_details?.patient_id;
+    issue.patient_name = relativePayload?.patient_details?.patient_name;
+    issue.status = task.status;
+    issue.execution_time = task.task_start_time;
+    issue.workflow_name = relativeWorkflowInstance.workflow_name;
+    return issue;
   }
 
   // TODO: Implement fromEntity method
