@@ -31,14 +31,14 @@ export class DestinationsController {
     return this.service.registerDestination(destination);
   }
 
-  @Put()
+  @Put(':name')
   updateDestination(@Body() destination: IDestination) {
     this.validateDestination(destination);
 
     return this.service.updateDestination(destination);
   }
 
-  @Get(':name')
+  @Get('echo/:name')
   echoDestination(@Param('name') name) {
     return this.service.echoDestination(name);
   }

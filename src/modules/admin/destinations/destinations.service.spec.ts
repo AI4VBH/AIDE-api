@@ -92,23 +92,6 @@ describe('DestinationsService', () => {
     });
 
     describe('registerDestination', () => {
-      it('throw error if the mig request is unsuccessful', async () => {
-        axios.post.mockResolvedValue({ status: 404 });
-
-        httpService.post.mockReturnValue(makeObservableForTest(axios.post));
-
-        const action = async () =>
-          await destinationsService.registerDestination({
-            aeTitle: 'testing ae title',
-            port: 3456,
-            hostIp: 'example.host.ip',
-            name: 'example name',
-          });
-
-        await expect(action()).rejects.toThrowError();
-        expect(httpService.post).toHaveBeenCalled();
-      });
-
       it('returns the expected result', async () => {
         axios.post.mockResolvedValue({
           status: 201,
@@ -137,23 +120,6 @@ describe('DestinationsService', () => {
     });
 
     describe('updateDestination', () => {
-      it('throws error if the mig request is unsuccessful', async () => {
-        axios.put.mockResolvedValue({ status: 404 });
-
-        httpService.put.mockReturnValue(makeObservableForTest(axios.put));
-
-        const action = async () =>
-          await destinationsService.updateDestination({
-            aeTitle: 'testing ae title',
-            port: 3456,
-            hostIp: 'example.host.ip',
-            name: 'example name',
-          });
-
-        await expect(action()).rejects.toThrowError();
-        expect(httpService.put).toHaveBeenCalled();
-      });
-
       it('returns the expected result', async () => {
         axios.put.mockResolvedValue({
           status: 200,

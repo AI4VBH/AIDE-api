@@ -30,13 +30,8 @@ export class DestinationsService {
     const result = await lastValueFrom(
       this.httpService.post('/config/destination', destination, {
         baseURL,
-        validateStatus: (status: number) => status === 201 || result === 409,
       }),
     );
-
-    if (result.status !== 201) {
-      throw new Error('Unable to add new destination');
-    }
 
     return result.data;
   }
@@ -47,13 +42,8 @@ export class DestinationsService {
     const result = await lastValueFrom(
       this.httpService.put('/config/destination', destination, {
         baseURL,
-        validateStatus: (status: number) => status === 200,
       }),
     );
-
-    if (result.status !== 200) {
-      throw new Error('Unable to update destination');
-    }
 
     return result.data;
   }
