@@ -75,6 +75,7 @@ describe('/Workflows Integration Tests', () => {
       '/workflows?pageNumber=1&pageSize=10',
     );
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
   });
 
   it('(GET) /workflows without returned data', async () => {
@@ -90,6 +91,7 @@ describe('/Workflows Integration Tests', () => {
       '/workflows?pageNumber=1&pageSize=10',
     );
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -106,8 +108,8 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/workflows?pageNumber=1&pageSize=10',
       );
-      expect(response.statusCode).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(500);
     },
   );
 
@@ -130,6 +132,7 @@ describe('/Workflows Integration Tests', () => {
         `/workflows/${workflow.workflow_id}`,
       );
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(200);
     },
   );
 
@@ -148,8 +151,8 @@ describe('/Workflows Integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
     );
-    expect(response.statusCode).toBe(404);
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(404);
   });
 
   it('(GET) /workflows/:id with invalid id', async () => {
@@ -167,8 +170,8 @@ describe('/Workflows Integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/workflows/invalidID',
     );
-    expect(response.statusCode).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(400);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -185,8 +188,8 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
       );
-      expect(response.statusCode).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(500);
     },
   );
 
@@ -230,6 +233,7 @@ describe('/Workflows Integration Tests', () => {
         .put(`/workflows/${putBody.workflow_id}`)
         .send(putBody);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(200);
     },
   );
 
@@ -272,9 +276,8 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer())
         .put(`/workflows/${putBody.workflow_id}`)
         .send(putBody);
-
-      expect(response.statusCode).toBe(400);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(400);
     },
   );
 
@@ -308,8 +311,8 @@ describe('/Workflows Integration Tests', () => {
     const response = await await request(app.getHttpServer())
       .put('/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d')
       .send(WorkflowMocks.singleWorkflow1);
-    expect(response.statusCode).toBe(404);
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(404);
   });
 
   it('(PUT) /workflows/:id with invalid id', async () => {
@@ -342,8 +345,8 @@ describe('/Workflows Integration Tests', () => {
     const response = await await request(app.getHttpServer())
       .put('/workflows/invalidID')
       .send(WorkflowMocks.singleWorkflow1);
-    expect(response.statusCode).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(400);
   });
 
   it('(PUT) /workflows/:id with invalid body', async () => {
@@ -376,8 +379,8 @@ describe('/Workflows Integration Tests', () => {
     const response = await await request(app.getHttpServer())
       .put('/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d')
       .send(WorkflowMocks.singleWorkflow1);
-    expect(response.statusCode).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(400);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -409,8 +412,8 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer())
         .put(`/workflows/${WorkflowMocks.singleWorkflow1.workflow_id}`)
         .send(WorkflowMocks.singleWorkflow1);
-      expect(response.statusCode).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(500);
     },
   );
 
@@ -427,6 +430,7 @@ describe('/Workflows Integration Tests', () => {
       `/workflows/${WorkflowMocks.singleWorkflow1.workflow_id}`,
     );
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(200);
   });
 
   it('(DELETE) /workflows/:id with non-existent id', async () => {
@@ -444,8 +448,8 @@ describe('/Workflows Integration Tests', () => {
     const response = await request(app.getHttpServer()).delete(
       '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
     );
-    expect(response.statusCode).toBe(404);
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(404);
   });
 
   it('(DELETE) /workflows/:id with invalid id', async () => {
@@ -463,8 +467,8 @@ describe('/Workflows Integration Tests', () => {
     const response = await request(app.getHttpServer()).delete(
       '/workflows/invalidID',
     );
-    expect(response.statusCode).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(400);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -481,8 +485,8 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer()).delete(
         '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
       );
-      expect(response.statusCode).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(500);
     },
   );
 
@@ -526,6 +530,7 @@ describe('/Workflows Integration Tests', () => {
         .post(`/workflows`)
         .send(postBody);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(201);
     },
   );
 
@@ -568,9 +573,8 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer())
         .post(`/workflows`)
         .send(postBody);
-
-      expect(response.statusCode).toBe(400);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(400);
     },
   );
 
@@ -604,8 +608,8 @@ describe('/Workflows Integration Tests', () => {
     const response = await await request(app.getHttpServer())
       .post('/workflows')
       .send(WorkflowMocks.singleWorkflow1);
-    expect(response.statusCode).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(400);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -637,8 +641,8 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer())
         .post('/workflows')
         .send(WorkflowMocks.singleWorkflow1);
-      expect(response.statusCode).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(500);
     },
   );
 });

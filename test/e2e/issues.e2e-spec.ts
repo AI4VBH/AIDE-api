@@ -86,8 +86,8 @@ describe('/issues integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/issues/failed?acknowledged=2022-01-01',
     );
-    expect(response.status).toBe(200);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
   });
 
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Multiple workflow instances with 1 failed task each, with time', async () => {
@@ -120,8 +120,8 @@ describe('/issues integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/issues/failed?acknowledged=2022-01-01T01:01:01',
     );
-    expect(response.status).toBe(200);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
   });
 
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Single workflow instance with multiple failed tasks', async () => {
@@ -142,8 +142,8 @@ describe('/issues integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/issues/failed?acknowledged=2022-01-01',
     );
-    expect(response.status).toBe(200);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
   });
 
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Single workflow instance with multiple failed tasks, with time', async () => {
@@ -164,8 +164,8 @@ describe('/issues integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/issues/failed?acknowledged=2022-01-01T01:01:01',
     );
-    expect(response.status).toBe(200);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
   });
 
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - No workflow instances returned', async () => {
@@ -183,8 +183,8 @@ describe('/issues integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/issues/failed?acknowledged=2022-01-01',
     );
-    expect(response.status).toBe(404);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(404);
   });
 
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Workflow instance exists but no matching payload', async () => {
@@ -208,8 +208,8 @@ describe('/issues integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/issues/failed?acknowledged=2022-01-01',
     );
-    expect(response.status).toBe(404);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(404);
   });
 
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Invalid date, workflow instance date in the future', async () => {
@@ -227,8 +227,8 @@ describe('/issues integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/issues/failed?acknowledged=2023-01-01',
     );
-    expect(response.status).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(400);
   });
 
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Payload id is invalid GUID', async () => {
@@ -252,8 +252,8 @@ describe('/issues integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/issues/failed?acknowledged=2022-01-01',
     );
-    expect(response.status).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(400);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -270,8 +270,8 @@ describe('/issues integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/issues/failed?acknowledged=2022-01-01',
       );
-      expect(response.status).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.status).toBe(500);
     },
   );
 
@@ -295,8 +295,8 @@ describe('/issues integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/issues/failed?acknowledged=2022-01-01',
       );
-      expect(response.status).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.status).toBe(500);
     },
   );
 });

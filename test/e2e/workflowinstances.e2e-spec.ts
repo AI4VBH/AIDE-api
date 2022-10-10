@@ -68,8 +68,8 @@ describe('/workflowinstances integration Tests', () => {
     const response = await request(app.getHttpServer()).put(
       '/workflowinstances/a67a7af7-068b-44b8-a81b-def7b3e5403b/executions/3b9d94b9-4285-45d4-bea9-491fa62b8f91/acknowledge',
     );
-    expect(response.status).toBe(200);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
   });
 
   it('(PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Non existent workflow instance id', async () => {
@@ -87,8 +87,8 @@ describe('/workflowinstances integration Tests', () => {
     const response = await request(app.getHttpServer()).put(
       '/workflowinstances/a67a7af7-068b-44b8-a81b-def7b3e5403b/executions/3b9d94b9-4285-45d4-bea9-491fa62b8f91/acknowledge',
     );
-    expect(response.status).toBe(404);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(404);
   });
 
   it('(PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Non existent execution id', async () => {
@@ -106,8 +106,8 @@ describe('/workflowinstances integration Tests', () => {
     const response = await request(app.getHttpServer()).put(
       '/workflowinstances/a67a7af7-068b-44b8-a81b-def7b3e5403b/executions/3b9d94b9-4285-45d4-bea9-491fa62b8g66/acknowledge',
     );
-    expect(response.status).toBe(404);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(404);
   });
 
   it('(PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Invalid workflow instance ID', async () => {
@@ -125,8 +125,8 @@ describe('/workflowinstances integration Tests', () => {
     const response = await request(app.getHttpServer()).put(
       '/workflowinstances/invalidGUID/executions/3b9d94b9-4285-45d4-bea9-491fa62b8f91/acknowledge',
     );
-    expect(response.status).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(400);
   });
 
   it('(PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Invalid execution ID', async () => {
@@ -144,8 +144,8 @@ describe('/workflowinstances integration Tests', () => {
     const response = await request(app.getHttpServer()).put(
       '/workflowinstances/a67a7af7-068b-44b8-a81b-def7b3e5403b/executions/invalidGUID/acknowledge',
     );
-    expect(response.status).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(400);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -162,8 +162,8 @@ describe('/workflowinstances integration Tests', () => {
       const response = await request(app.getHttpServer()).put(
         '/workflowinstances/a67a7af7-068b-44b8-a81b-def7b3e5403b/executions/3b9d94b9-4285-45d4-bea9-491fa62b8f91/acknowledge',
       );
-      expect(response.statusCode).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(500);
     },
   );
 });

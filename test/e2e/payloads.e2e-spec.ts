@@ -72,6 +72,7 @@ describe('/Payloads Integration Tests', () => {
       '/payloads?pageNumber=1&pageSize=10',
     );
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
   });
 
   it('(GET) /payloads without returned data', async () => {
@@ -84,6 +85,7 @@ describe('/Payloads Integration Tests', () => {
       '/payloads?pageNumber=1&pageSize=10',
     );
     expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -100,8 +102,8 @@ describe('/Payloads Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/payloads?pageNumber=1&pageSize=10',
       );
-      expect(response.statusCode).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(500);
     },
   );
 
@@ -126,6 +128,7 @@ describe('/Payloads Integration Tests', () => {
         `/payloads/${payload[0].payload_id}/executions`,
       );
       expect(response.body).toMatchSnapshot();
+      expect(response.status).toBe(200);
     },
   );
 
@@ -142,6 +145,7 @@ describe('/Payloads Integration Tests', () => {
       '/payloads/a07b72b1-8603-47b0-9a79-da0749261062/executions',
     );
     expect(response.body).toStrictEqual([]);
+    expect(response.status).toBe(200);
   });
 
   it('(GET) /payloads/:payloadid/executions with invalid id', async () => {
@@ -160,8 +164,8 @@ describe('/Payloads Integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/payloads/invalidID/executions',
     );
-    expect(response.statusCode).toBe(400);
     expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(400);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -178,8 +182,8 @@ describe('/Payloads Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/payloads/a07b72b1-8603-47b0-9a79-da0749261062/executions',
       );
-      expect(response.statusCode).toBe(500);
       expect(response.body).toMatchSnapshot();
+      expect(response.statusCode).toBe(500);
     },
   );
 });
