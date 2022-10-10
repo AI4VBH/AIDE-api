@@ -1,33 +1,35 @@
-name: 'pull-requests'
+name: 'Build'
 
-# Controls when the workflow will run
 on:
   pull_request:
 
+env:
+  NODE_VERSION: '16.x'
+
 jobs:
   check-build-integrity:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
       - run: npm ci
       - run: npm run build
 
   lint:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
       - run: npm ci
       - run: sudo npx eslint './src/**/*.ts' -f json -o ./eslint.json || exit 0
 
