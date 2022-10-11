@@ -1,20 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Client } from 'minio';
-
-const parseBoolean = (value: string): boolean => {
-  switch (value) {
-    case 'false':
-    case 'False':
-      return false;
-    case 'true':
-    case 'True':
-      return true;
-
-    default:
-      return false;
-  }
-};
+import { parseBoolean } from 'shared/util/parseBoolean';
 
 @Injectable()
 export class MinioClient extends Client {

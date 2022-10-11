@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LogsController get logs calls service 1`] = `
+[
+  {
+    "level": "Information",
+    "renderedMessage": "this is a message",
+    "timestamp": 2022-09-26T15:19:22.966Z,
+  },
+  {
+    "level": "Information",
+    "renderedMessage": "this is a message",
+    "timestamp": 2022-09-26T15:19:22.966Z,
+  },
+  {
+    "level": "Debug",
+    "renderedMessage": "Publishing message to "rabbitmq.monai"/"monaideploy". Exchange="monaideploy", Routing Key="md.tasks.dispatch".",
+    "timestamp": 2022-09-26T15:18:22.966Z,
+  },
+]
+`;

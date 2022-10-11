@@ -1,0 +1,289 @@
+{
+    "took": 208,
+    "timed_out": false,
+    "_shards": {
+        "total": 235,
+        "successful": 235,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 21,
+            "relation": "eq"
+        },
+        "max_score": 0.094831765,
+        "hits": [
+            {
+                "_index": "logstash-2022.09.26",
+                "_type": "_doc",
+                "_id": "FFRheoMBaINYSMWtqMnV",
+                "_score": 0.094831765,
+                "_source": {
+                    "headers": {
+                        "request_method": "POST",
+                        "http_version": "HTTP/1.1",
+                        "content_length": "1645",
+                        "http_accept": null,
+                        "request_path": "/",
+                        "http_user_agent": null,
+                        "http_host": "logstash.shared:5011",
+                        "content_type": "application/json"
+                    },
+                    "MessageTemplate": "Task dispatch event saved {executionId}.",
+                    "RenderedMessage": "Task dispatch event saved \"04a0cded-6aad-408c-b45d-1852ad54fae3\".",
+                    "@version": "1",
+                    "Timestamp": "2022-09-26T15:19:23.6849023Z",
+                    "Properties": {
+                        "dllversion": "0.0.0.0",
+                        "EventId": {
+                            "Id": 1001,
+                            "Name": "TaskDispatchEventSaved"
+                        },
+                        "enviroment": "Dev",
+                        "dllName": "Monai.Deploy.WorkflowManager.TaskManager",
+                        "serviceName": "MTM",
+                        "Scope": [
+                            "Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54."
+                        ],
+                        "taskId": "argo-task-1",
+                        "executionId": "04a0cded-6aad-408c-b45d-1852ad54fae3",
+                        "SourceContext": "Monai.Deploy.WorkflowManager.TaskManager.Services.TaskDispatchEventService",
+                        "workflowInstanceId": "a5a00865-a331-481c-9a82-c0c2eee281d6",
+                        "messageId": "c9687c4a-2043-4cd9-9b33-dd49be2908cb",
+                        "messageType": "TaskDispatchEvent",
+                        "MachineName": "mtm-monai-6d7cbf64b7-xdslj",
+                        "correlationId": "e4b06f00-5ce3-4477-86cb-4f3bf20680c2"
+                    },
+                    "@timestamp": "2022-09-26T15:19:23.684Z",
+                    "Level": "Trace"
+                }
+            },
+            {
+                "_index": "logstash-2022.09.26",
+                "_type": "_doc",
+                "_id": "FFRheoMBaINYSMWtqMnV",
+                "_score": 0.094831765,
+                "_source": {
+                    "headers": {
+                        "request_method": "POST",
+                        "http_version": "HTTP/1.1",
+                        "content_length": "1645",
+                        "http_accept": null,
+                        "request_path": "/",
+                        "http_user_agent": null,
+                        "http_host": "logstash.shared:5011",
+                        "content_type": "application/json"
+                    },
+                    "MessageTemplate": "Task dispatch event saved {executionId}.",
+                    "RenderedMessage": "Task dispatch event saved \"04a0cded-6aad-408c-b45d-1852ad54fae3\".",
+                    "@version": "1",
+                    "Timestamp": "2000-09-26T15:19:23.6849023Z",
+                    "Properties": {
+                        "dllversion": "0.0.0.0",
+                        "EventId": {
+                            "Id": 1001,
+                            "Name": "TaskDispatchEventSaved"
+                        },
+                        "enviroment": "Dev",
+                        "dllName": "Monai.Deploy.WorkflowManager.TaskManager",
+                        "serviceName": "MTM",
+                        "Scope": [
+                            "Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54."
+                        ],
+                        "taskId": "argo-task-1",
+                        "executionId": "04a0cded-6aad-408c-b45d-1852ad54fae3",
+                        "SourceContext": "Monai.Deploy.WorkflowManager.TaskManager.Services.TaskDispatchEventService",
+                        "workflowInstanceId": "a5a00865-a331-481c-9a82-c0c2eee281d6",
+                        "messageId": "c9687c4a-2043-4cd9-9b33-dd49be2908cb",
+                        "messageType": "TaskDispatchEvent",
+                        "MachineName": "mtm-monai-6d7cbf64b7-xdslj",
+                        "correlationId": "e4b06f00-5ce3-4477-86cb-4f3bf20680c2"
+                    },
+                    "@timestamp": "2022-09-26T15:19:23.684Z",
+                    "Level": "Debug"
+                }
+            },
+            {
+                "_index": "logstash-2022.09.26",
+                "_type": "_doc",
+                "_id": "FFRheoMBaINYSMWtqMnV",
+                "_score": 0.094831765,
+                "_source": {
+                    "headers": {
+                        "request_method": "POST",
+                        "http_version": "HTTP/1.1",
+                        "content_length": "1645",
+                        "http_accept": null,
+                        "request_path": "/",
+                        "http_user_agent": null,
+                        "http_host": "logstash.shared:5011",
+                        "content_type": "application/json"
+                    },
+                    "MessageTemplate": "Task dispatch event saved {executionId}.",
+                    "RenderedMessage": "Task dispatch event saved \"04a0cded-6aad-408c-b45d-1852ad54fae3\".",
+                    "@version": "1",
+                    "Timestamp": "2022-09-26T15:19:23.6849023Z",
+                    "Properties": {
+                        "dllversion": "0.0.0.0",
+                        "EventId": {
+                            "Id": 1001,
+                            "Name": "TaskDispatchEventSaved"
+                        },
+                        "enviroment": "Dev",
+                        "dllName": "Monai.Deploy.WorkflowManager.TaskManager",
+                        "serviceName": "MTM",
+                        "Scope": [
+                            "Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54."
+                        ],
+                        "taskId": "argo-task-1",
+                        "executionId": "04a0cded-6aad-408c-b45d-1852ad54fae3",
+                        "SourceContext": "Monai.Deploy.WorkflowManager.TaskManager.Services.TaskDispatchEventService",
+                        "workflowInstanceId": "a5a00865-a331-481c-9a82-c0c2eee281d6",
+                        "messageId": "c9687c4a-2043-4cd9-9b33-dd49be2908cb",
+                        "messageType": "TaskDispatchEvent",
+                        "MachineName": "mtm-monai-6d7cbf64b7-xdslj",
+                        "correlationId": "e4b06f00-5ce3-4477-86cb-4f3bf20680c2"
+                    },
+                    "@timestamp": "2022-09-26T15:19:23.684Z",
+                    "Level": "Information"
+                }
+            },
+            {
+                "_index": "logstash-2022.09.26",
+                "_type": "_doc",
+                "_id": "FFRheoMBaINYSMWtqMnV",
+                "_score": 0.094831765,
+                "_source": {
+                    "headers": {
+                        "request_method": "POST",
+                        "http_version": "HTTP/1.1",
+                        "content_length": "1645",
+                        "http_accept": null,
+                        "request_path": "/",
+                        "http_user_agent": null,
+                        "http_host": "logstash.shared:5011",
+                        "content_type": "application/json"
+                    },
+                    "MessageTemplate": "Task dispatch event saved {executionId}.",
+                    "RenderedMessage": "Task dispatch event saved \"04a0cded-6aad-408c-b45d-1852ad54fae3\".",
+                    "@version": "1",
+                    "Timestamp": "2022-09-26T15:37:23.6849023Z",
+                    "Properties": {
+                        "dllversion": "0.0.0.0",
+                        "EventId": {
+                            "Id": 1001,
+                            "Name": "TaskDispatchEventSaved"
+                        },
+                        "enviroment": "Dev",
+                        "dllName": "Monai.Deploy.WorkflowManager.TaskManager",
+                        "serviceName": "MTM",
+                        "Scope": [
+                            "Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54."
+                        ],
+                        "taskId": "argo-task-1",
+                        "executionId": "04a0cded-6aad-408c-b45d-1852ad54fae3",
+                        "SourceContext": "Monai.Deploy.WorkflowManager.TaskManager.Services.TaskDispatchEventService",
+                        "workflowInstanceId": "a5a00865-a331-481c-9a82-c0c2eee281d6",
+                        "messageId": "c9687c4a-2043-4cd9-9b33-dd49be2908cb",
+                        "messageType": "TaskDispatchEvent",
+                        "MachineName": "mtm-monai-6d7cbf64b7-xdslj",
+                        "correlationId": "e4b06f00-5ce3-4477-86cb-4f3bf20680c2"
+                    },
+                    "@timestamp": "2022-09-26T01:19:23.684Z",
+                    "Level": "Warn"
+                }
+            },
+            {
+                "_index": "logstash-2022.09.26",
+                "_type": "_doc",
+                "_id": "FFRheoMBaINYSMWtqMnV",
+                "_score": 0.094831765,
+                "_source": {
+                    "headers": {
+                        "request_method": "POST",
+                        "http_version": "HTTP/1.1",
+                        "content_length": "1645",
+                        "http_accept": null,
+                        "request_path": "/",
+                        "http_user_agent": null,
+                        "http_host": "logstash.shared:5011",
+                        "content_type": "application/json"
+                    },
+                    "MessageTemplate": "Task dispatch event saved {executionId}.",
+                    "RenderedMessage": "Task dispatch event saved \"04a0cded-6aad-408c-b45d-1852ad54fae3\".",
+                    "@version": "1",
+                    "Timestamp": "2100-09-26T15:19:23.6849023Z",
+                    "Properties": {
+                        "dllversion": "0.0.0.0",
+                        "EventId": {
+                            "Id": 1001,
+                            "Name": "TaskDispatchEventSaved"
+                        },
+                        "enviroment": "Dev",
+                        "dllName": "Monai.Deploy.WorkflowManager.TaskManager",
+                        "serviceName": "MTM",
+                        "Scope": [
+                            "Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54."
+                        ],
+                        "taskId": "argo-task-1",
+                        "executionId": "04a0cded-6aad-408c-b45d-1852ad54fae3",
+                        "SourceContext": "Monai.Deploy.WorkflowManager.TaskManager.Services.TaskDispatchEventService",
+                        "workflowInstanceId": "a5a00865-a331-481c-9a82-c0c2eee281d6",
+                        "messageId": "c9687c4a-2043-4cd9-9b33-dd49be2908cb",
+                        "messageType": "TaskDispatchEvent",
+                        "MachineName": "mtm-monai-6d7cbf64b7-xdslj",
+                        "correlationId": "e4b06f00-5ce3-4477-86cb-4f3bf20680c2"
+                    },
+                    "@timestamp": "2100-09-26T15:19:23.684Z",
+                    "Level": "Error"
+                }
+            },
+            {
+                "_index": "logstash-2022.09.26",
+                "_type": "_doc",
+                "_id": "FFRheoMBaINYSMWtqMnV",
+                "_score": 0.094831765,
+                "_source": {
+                    "headers": {
+                        "request_method": "POST",
+                        "http_version": "HTTP/1.1",
+                        "content_length": "1645",
+                        "http_accept": null,
+                        "request_path": "/",
+                        "http_user_agent": null,
+                        "http_host": "logstash.shared:5011",
+                        "content_type": "application/json"
+                    },
+                    "MessageTemplate": "Task dispatch event saved {executionId}.",
+                    "RenderedMessage": "Task dispatch event saved \"04a0cded-6aad-408c-b45d-1852ad54fae3\".",
+                    "@version": "1",
+                    "Timestamp": "2022-09-26T15:19:23.6849023Z",
+                    "Properties": {
+                        "dllversion": "0.0.0.0",
+                        "EventId": {
+                            "Id": 1001,
+                            "Name": "TaskDispatchEventSaved"
+                        },
+                        "enviroment": "Dev",
+                        "dllName": "Monai.Deploy.WorkflowManager.TaskManager",
+                        "serviceName": "MTM",
+                        "Scope": [
+                            "Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54."
+                        ],
+                        "taskId": "argo-task-1",
+                        "executionId": "04a0cded-6aad-408c-b45d-1852ad54fae3",
+                        "SourceContext": "Monai.Deploy.WorkflowManager.TaskManager.Services.TaskDispatchEventService",
+                        "workflowInstanceId": "a5a00865-a331-481c-9a82-c0c2eee281d6",
+                        "messageId": "c9687c4a-2043-4cd9-9b33-dd49be2908cb",
+                        "messageType": "TaskDispatchEvent",
+                        "MachineName": "mtm-monai-6d7cbf64b7-xdslj",
+                        "correlationId": "e4b06f00-5ce3-4477-86cb-4f3bf20680c2"
+                    },
+                    "@timestamp": "1900-09-26T15:19:23.684Z",
+                    "Level": "Fatal"
+                }
+            }
+        ]
+    }
+}

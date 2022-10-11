@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/Logs Integration Tests (GET) /logs/:taskid with returned data 1`] = `
+[
+  {
+    "level": "Information",
+    "renderedMessage": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:19:23.6849023Z",
+  },
+  {
+    "level": "Information",
+    "renderedMessage": "Publishing message to "rabbitmq.monai"/"monaideploy". Exchange="monaideploy", Routing Key="md.tasks.dispatch".",
+    "timestamp": "2022-09-26T15:19:22.9668840Z",
+  },
+  {
+    "level": "Debug",
+    "renderedMessage": "Generating Argo workflow template.",
+    "timestamp": "2022-09-26T15:19:28.2563475Z",
+  },
+  {
+    "level": "Debug",
+    "renderedMessage": "Creating Argo client with base URL: "https://argo-server.argo:2746".",
+    "timestamp": "2022-09-26T15:19:28.2619000Z",
+  },
+  {
+    "level": "Information",
+    "renderedMessage": "Start processing HTTP request "GET" https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow",
+    "timestamp": "2022-09-26T15:19:28.2769858Z",
+  },
+  {
+    "level": "Information",
+    "renderedMessage": "Sending HTTP request "GET" https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow",
+    "timestamp": "2022-09-26T15:19:28.2790058Z",
+  },
+  {
+    "level": "Information",
+    "renderedMessage": "Received HTTP response headers after 386.078ms - 200",
+    "timestamp": "2022-09-26T15:19:28.6713753Z",
+  },
+  {
+    "level": "Information",
+    "renderedMessage": "End processing HTTP request after 398.1257ms - 200",
+    "timestamp": "2022-09-26T15:19:28.6737060Z",
+  },
+  {
+    "level": "Debug",
+    "renderedMessage": "Creating Kubernetes client: host="https://10.233.0.1:443/", namespace="monai".",
+    "timestamp": "2022-09-26T15:19:28.8045840Z",
+  },
+  {
+    "level": "Debug",
+    "renderedMessage": "Generating Kubernetes secrets for accessing artifacts: "argo-task-1".",
+    "timestamp": "2022-09-26T15:19:28.8112027Z",
+  },
+]
+`;
+
+exports[`/Logs Integration Tests (GET) /logs/:taskid with returned data 2`] = `
+[
+  {
+    "level": "Information",
+    "renderedMessage": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:19:23.6849023Z",
+  },
+]
+`;
+
+exports[`/Logs Integration Tests (GET) /logs/:taskid with returned data 3`] = `
+[
+  {
+    "level": "Trace",
+    "renderedMessage": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:19:23.6849023Z",
+  },
+  {
+    "level": "Debug",
+    "renderedMessage": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2000-09-26T15:19:23.6849023Z",
+  },
+  {
+    "level": "Information",
+    "renderedMessage": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:19:23.6849023Z",
+  },
+  {
+    "level": "Warn",
+    "renderedMessage": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:37:23.6849023Z",
+  },
+  {
+    "level": "Error",
+    "renderedMessage": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2100-09-26T15:19:23.6849023Z",
+  },
+  {
+    "level": "Fatal",
+    "renderedMessage": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:19:23.6849023Z",
+  },
+]
+`;

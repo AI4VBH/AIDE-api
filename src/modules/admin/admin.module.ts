@@ -18,6 +18,7 @@ import { ExecutionsController } from './executions/executions.controller';
 import { ExecutionsService } from './executions/executions.service';
 import { DestinationsController } from './destinations/destinations.controller';
 import { DestinationsService } from './destinations/destinations.service';
+import { ElasticClient } from 'shared/elastic/elastic-client';
 import { WorkflowInstanceController } from './workflowinstances/workflowinstances.controller';
 import { WorkflowInstancesService } from './workflowinstances/workflowinstances.service';
 
@@ -48,6 +49,7 @@ import { WorkflowInstancesService } from './workflowinstances/workflowinstances.
     MinioClient,
     ExecutionsService,
     DestinationsService,
+    ElasticClient,
     WorkflowInstancesService,
   ],
 })
