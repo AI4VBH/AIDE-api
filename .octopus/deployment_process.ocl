@@ -28,6 +28,23 @@ step "add-docker-image-pull-secret" {
     }
 }
 
+step "add-secret" {
+    name = "Add Secret"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesRunScript"
+        properties = {
+            Octopus.Action.Script.ScriptBody = "kubectl -n $(get_octopusvariable \"namespace\") create secret generic rabbit-secret-master --from-literal=username=$(get_octopusvariable \"RabbitUser\") --from-literal=password=$(get_octopusvariable \"RabbitPassword\")  --save-config --dry-run=client -o yaml | kubectl apply -f -"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
+
 step "deploy-the-aide-api" {
     name = "Deploy the AIDE API"
     properties = {
