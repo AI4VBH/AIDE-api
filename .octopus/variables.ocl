@@ -1,3 +1,7 @@
 variable "imagePullSecretName" {
     value "regcred" {}
 }
+
+variable "namespace" {
+    value "aide" {}
+}
