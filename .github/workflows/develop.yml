@@ -8,6 +8,7 @@ on:
 
 jobs:
   check_build_integrity:
+    name: Check Build Integrity
     runs-on: ubuntu-latest
 
     steps:
@@ -18,10 +19,13 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-  docker_build:
+  Deploy:
+    needs: [check_build_integrity]
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -34,7 +38,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       
       - name: Set branch name
-        run: echo "BRANCH_NAME=$(echo develop-$(date +%Y-%m-%d-%H-%M))" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=$(echo $(date +%Y.%m.%d))-develop.$(echo $(date +%H%M))" >> $GITHUB_ENV
 
       - name: Build and push
         uses: docker/build-push-action@v3
@@ -42,24 +46,10 @@ jobs:
           push: true
           pull: true
           tags: ${{ secrets.AWS_DEV_ECR_REGISTRY }}/backend-api-nestjs:${{ env.BRANCH_NAME }}
-
-  Deploy:
-    needs: [check_build_integrity, docker_build]
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Set branch name
-        run: echo "BRANCH_NAME=$(echo develop-$(date +%Y-%m-%d-%H-%M))" >> $GITHUB_ENV
       
       - name: Create artifacts folder and copy helm charts
         run: |
-          mkdir "$GITHUB_WORKSPACE/artifacts"
-          mkdir "$GITHUB_WORKSPACE/artifacts/aide-api"
-          mkdir "$GITHUB_WORKSPACE/artifacts/aide-api/helm"
+          mkdir -p "$GITHUB_WORKSPACE/artifacts/aide-api/helm"
           cp -a $GITHUB_WORKSPACE/helm/. $GITHUB_WORKSPACE/artifacts/aide-api/helm/
           echo BASE_PATH="$GITHUB_WORKSPACE/artifacts/aide-api" >> $GITHUB_ENV
           echo OUT_FOLDER="$GITHUB_WORKSPACE/artifacts/" >> $GITHUB_ENV
