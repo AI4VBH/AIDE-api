@@ -113,12 +113,6 @@ step "deploy-the-aide-api" {
                         value: #{ElasticUser}
                       - key: password
                         value: #{ElasticPassword}
-                  - name: database-secret-master
-                    keyValues:
-                      - key: user
-                        value: #{PostgresUser}
-                      - key: password
-                        value: #{PostgresPassword}
                 enviromentVariables:
                   RABBITMQ_API_URL: rabbitmq.rabbitmq:5672/api/
                   KEYCLOAK_URL: #{keycloakUrl}
