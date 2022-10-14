@@ -99,6 +99,13 @@ step "deploy-the-aide-api" {
                   tag: #{Octopus.Action.Package.PackageVersion}
                 imagePullSecrets:
                   - name: #{imagePullSecretName}
+                secrets:
+                  - name: rabbit-secret-master
+                    keyValues:
+                      - key: username
+                        value: bW9uaWFkZXBsb3k=
+                      - key: password
+                        value: bW9uaWFkZXBsb3k=
                 enviromentVariables:
                   RABBITMQ_API_URL: rabbitmq.rabbitmq:5672/api/
                   KEYCLOAK_URL: #{keycloakUrl}
