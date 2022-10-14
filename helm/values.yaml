@@ -42,9 +42,9 @@ secrets:
   - name: rabbit-secret-master
     keyValues:
       - key: username
-        value: bW9uYWlkZXBsb3k=
+        value: bW9uYWlkZXBsb3kx
       - key: password
-        value: bW9uYWlkZXBsb3k=
+        value: bW9uYWlkZXBsb3kx
   - name: elastic-secret-master
     keyValues:
       - key: username
