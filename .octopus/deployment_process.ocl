@@ -28,6 +28,39 @@ step "add-docker-image-pull-secret" {
     }
 }
 
+step "add-certificate-secret" {
+    name = "Add certificate secret"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesRunScript"
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                kubectl create namespace $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
+                
+                cat <<EOF >> certificate.pem
+                $(get_octopusvariable "IngressCertificate.CertificatePem")
+                $(get_octopusvariable "IngressCertificate.ChainPem")
+                EOF
+                
+                cat <<EOF >> key.pem
+                $(get_octopusvariable "IngressCertificate.PrivateKeyPem")
+                EOF
+                
+                kubectl create secret tls $(get_octopusvariable "certificateSecretName") --cert certificate.pem --key key.pem -n $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
+                
+                rm -f certificate.pem
+                rm -f key.pem
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
+
 step "add-secret" {
     name = "Add Secret"
     properties = {
@@ -63,6 +96,16 @@ step "deploy-the-aide-api" {
                   tag: #{Octopus.Action.Package.PackageVersion}
                 imagePullSecrets:
                   - name: #{imagePullSecretName}
+                enviromentVariables:
+                  RABBITMQ_API_URL: rabbitmq.rabbitmq:5672/api/
+                  KEYCLOAK_URL: #{keycloakUrl}
+                  KEYCLOAK_URL_BACKEND: #{keycloakUrlBackend}
+                  FRONTEND_API_HOST: #{frontendApi}
+                  WADO_URI_ROOT: #{WadoUriRoot}
+                  QIDO_ROOT: #{QidoRoot}
+                  WADO_ROOT: #{WadoRoot}
+                  CLINICAL_REVIEW_URL: #{ClinicalReviewUrl}
+                  ORTHANC_API_URL: #{OrthancApiUrl}
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
@@ -78,38 +121,5 @@ step "deploy-the-aide-api" {
                 SelectionMode = "immediate"
             }
         }
-    }
-}
-
-step "add-certificate-secret" {
-    name = "Add certificate secret"
-    properties = {
-        Octopus.Action.TargetRoles = "kubernetes"
-    }
-
-    action {
-        action_type = "Octopus.KubernetesRunScript"
-        properties = {
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                kubectl create namespace $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
-                
-                cat <<EOF >> certificate.pem
-                $(get_octopusvariable "IngressCertificate.CertificatePem")
-                $(get_octopusvariable "IngressCertificate.ChainPem")
-                EOF
-                
-                cat <<EOF >> key.pem
-                $(get_octopusvariable "IngressCertificate.PrivateKeyPem")
-                EOF
-                
-                kubectl create secret tls $(get_octopusvariable "certificateSecretName") --cert certificate.pem --key key.pem -n $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
-                
-                rm -f certificate.pem
-                rm -f key.pem
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        worker_pool_variable = "WorkerPoolName"
     }
 }
