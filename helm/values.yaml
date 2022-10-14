@@ -17,8 +17,8 @@ enviromentVariables:
   KEYFILE:  /data/certs/tls.key
   STORAGE_DIR: /aide/data
   INPUT_MOUNT: /aide/data
-  ELASTICSEARCH_HOST: https://opensearch.shared.svc.cluster.local:9200
-  ELASTICSEARCH_INDEX: model_config
+  ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
+  ELASTIC_INDEX: model_config
   WORKER_CLASS: uvicorn.workers.UvicornH11Worker
   PACS_HOST: internal-pacs.aide.svc.cluster.local
   PACS_PORT: 4242
@@ -42,19 +42,19 @@ secrets:
   - name: rabbit-secret-master
     keyValues:
       - key: username
-        value: rabbit
+        value: user
       - key: password
         value: password
   - name: elastic-secret-master
     keyValues:
       - key: username
-        value: root
+        value: user
       - key: password
         value: password
   - name: database-secret-master
     keyValues:
       - key: user
-        value: postgres
+        value: user
       - key: password
         value: password
         
@@ -66,10 +66,10 @@ enviromentVariablesFromSecrets:
     - name: RABBITMQ_PASSWORD
       secretName: rabbit-secret-master
       secretKey: password
-    - name: ELASTICSEARCH_USERNAME
+    - name: ELASTIC_USERNAME
       secretName: elastic-secret-master
       secretKey: username
-    - name: ELASTICSEARCH_PASSWORD
+    - name: ELASTIC_PASSWORD
       secretName: elastic-secret-master
       secretKey: password
     - name: DATABASE_USER
