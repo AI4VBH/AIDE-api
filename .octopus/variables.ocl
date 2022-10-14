@@ -5,3 +5,35 @@ variable "imagePullSecretName" {
 variable "namespace" {
     value "aide" {}
 }
+
+variable "WadoUriRoot" {
+    value "https://sit-aide.answerdigital.io:8045/dicom-web" {}
+}
+
+variable "WadoRoot" {
+    value "https://sit-aide.answerdigital.io:8045/dicom-web" {}
+}
+
+variable "StorageClaimName" {
+    value "aide-frontend-pvc" {}
+}
+
+variable "QidoRoot" {
+    value "https://sit-aide.answerdigital.io:8045/dicom-web" {}
+}
+
+variable "OrthancApiUrl" {
+    value "https://sit-aide.answerdigital.io:8045" {}
+}
+
+variable "keycloakUrlBackend" {
+    value "https://keycloak-service.keycloak.svc.cluster.local:8443/auth" {}
+}
+
+variable "keycloakUrl" {
+    value "https://sit-aide.answerdigital.io:8443/auth" {}
+}
+
+variable "certificateSecretName" {
+    value "certificatesecret" {}
+}
