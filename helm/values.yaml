@@ -42,22 +42,22 @@ secrets:
   - name: rabbit-secret-master
     keyValues:
       - key: username
-        value: bW9uYWlkZXBsb3kx
+        value: rabbit
       - key: password
-        value: bW9uYWlkZXBsb3kx
+        value: password
   - name: elastic-secret-master
     keyValues:
       - key: username
-        value: cm9vdA==
+        value: root
       - key: password
-        value: SDNQMm16MmVTTTlZRHRMag==
+        value: password
   - name: database-secret-master
     keyValues:
       - key: user
-        value: cG9zdGdyZXM=
+        value: postgres
       - key: password
-        value: TjhoNXJqYkZ3
-
+        value: password
+        
 enviromentVariablesFromSecrets:
   secrets:
     - name: RABBITMQ_USERNAME
