@@ -12,9 +12,9 @@ enviromentVariables:
   RABBITMQ_HOST: host.docker.internal
   RABBITMQ_API_URL: http://host.docker.internal:15672/api/
   RABBITMQ_PORT: 5672  
-  CACERTFILE: /aide/data/certs/ca_certificate.pem
-  CERTFILE: /aide/data/certs/client_certificate.pem
-  KEYFILE: /aide/data/certs/client_key.pem
+  CACERTFILE: /data/certs/tls.crt
+  CERTFILE: /data/certs/client_certificate.pem
+  KEYFILE:  /data/certs/tls.key
   STORAGE_DIR: /aide/data
   INPUT_MOUNT: /aide/data
   ELASTICSEARCH_HOST: https://opensearch.shared.svc.cluster.local:9200
@@ -83,3 +83,13 @@ service:
   type: NodePort
   port: 5000
   nodeport: 5000
+  
+volumes:
+  - name: cert
+    secret:
+      secretName: certificatesecret
+      optional: false
+        
+volumeMounts:
+  - name: cert
+    mountPath: "/data/certs"
