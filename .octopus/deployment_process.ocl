@@ -70,7 +70,11 @@ step "add-secret" {
     action {
         action_type = "Octopus.KubernetesRunScript"
         properties = {
-            Octopus.Action.Script.ScriptBody = "kubectl -n $(get_octopusvariable \"namespace\") create secret generic rabbit-secret-master --from-literal=username=$(get_octopusvariable \"RabbitUser\") --from-literal=password=$(get_octopusvariable \"RabbitPassword\")  --save-config --dry-run=client -o yaml | kubectl apply -f -"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                kubectl -n $(get_octopusvariable "namespace") create secret generic rabbit-secret-master --from-literal=username=$(get_octopusvariable "RabbitUser") --from-literal=password=$(get_octopusvariable "RabbitPassword")  --save-config --dry-run=client -o yaml | kubectl apply -f -
+                kubectl -n monai create secret generic rabbit-secret-master --from-literal=username=$(get_octopusvariable "RabbitUser") --from-literal=password=$(get_octopusvariable "RabbitPassword")  --save-config --dry-run=client -o yaml | kubectl apply -f -
+                kubectl -n monai create secret generic database-secret-master --from-literal=user=$(get_octopusvariable "PostgresUser") --from-literal=password=$(get_octopusvariable "PostgresPassword")  --save-config --dry-run=client -o yaml | kubectl apply -f -
+            EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
