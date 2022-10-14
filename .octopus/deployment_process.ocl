@@ -80,3 +80,36 @@ step "deploy-the-aide-api" {
         }
     }
 }
+
+step "add-certificate-secret" {
+    name = "Add certificate secret"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesRunScript"
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                kubectl create namespace $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
+                
+                cat <<EOF >> certificate.pem
+                $(get_octopusvariable "IngressCertificate.CertificatePem")
+                $(get_octopusvariable "IngressCertificate.ChainPem")
+                EOF
+                
+                cat <<EOF >> key.pem
+                $(get_octopusvariable "IngressCertificate.PrivateKeyPem")
+                EOF
+                
+                kubectl create secret tls $(get_octopusvariable "certificateSecretName") --cert certificate.pem --key key.pem -n $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
+                
+                rm -f certificate.pem
+                rm -f key.pem
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
