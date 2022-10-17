@@ -1,47 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Generic MONAI errors 1`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Generic MONAI errors 2`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Generic MONAI errors 3`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Generic MONAI errors 4`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Generic MONAI errors 5`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Generic MONAI errors 6`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
 exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Invalid execution ID 1`] = `
 {
   "detail": "Failed to validate execution ID, not a valid GUID",

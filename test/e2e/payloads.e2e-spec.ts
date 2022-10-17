@@ -89,7 +89,7 @@ describe('/Payloads Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) /payloads when Monai gives general error',
+    '(GET) /payloads correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.get(
@@ -102,7 +102,10 @@ describe('/Payloads Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/payloads?pageNumber=1&pageSize=10',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );
@@ -169,7 +172,7 @@ describe('/Payloads Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) /payloads/:payloadid/executions when Monai gives general error',
+    '(GET) /payloads/:payloadid/executions correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.get(
@@ -182,7 +185,10 @@ describe('/Payloads Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/payloads/a07b72b1-8603-47b0-9a79-da0749261062/executions',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );

@@ -55,7 +55,6 @@ describe('/executions Integration Tests', () => {
       providers: [ExecutionsService, MinioClient],
     }).compile();
     app = moduleFixture.createNestApplication();
-    // app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await app.init();
   });
 
@@ -157,7 +156,7 @@ describe('/executions Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) /payloads when Monai gives general error',
+    '(GET) /payloads correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.get(
@@ -170,7 +169,10 @@ describe('/executions Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/executions/a67a7af7-068b-44b8-a81b-def7b3e5403b/tasks/6b9d94b9-4285-45d4-bea9-491fa62b8f88/artifacts',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );
@@ -192,12 +194,12 @@ describe('/executions Integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/executions/artifact-download',
     );
-    expect(response.body).toMatchSnapshot();
+    expect(response.body).toMatchObject({});
     expect(response.status).toBe(400);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) /executions/artifact-download?key=minio-object-key minio returns general error',
+    '(GET) /executions/artifact-download?key=minio-object-key correct status when MINIO gives general error with code %s',
     async (code) => {
       server.use(
         rest.get(`http://localhost:9000/bucket-name`, (_req, res, ctx) => {
@@ -207,7 +209,10 @@ describe('/executions Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/executions/artifact-download?key=minio-object-key',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MINIO service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );
@@ -310,7 +315,7 @@ describe('/executions Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) /executions/${workflow_instance_id}/tasks/${execution_id}/metadata when Monai gives general error',
+    '(GET) /executions/${workflow_instance_id}/tasks/${execution_id}/metadata correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.get(
@@ -323,7 +328,10 @@ describe('/executions Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/executions/a67a7af7-068b-44b8-a81b-def7b3e5403b/tasks/6b9d94b9-4285-45d4-bea9-491fa62b8f88/metadata',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );

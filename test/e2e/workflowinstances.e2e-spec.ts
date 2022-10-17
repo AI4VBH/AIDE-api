@@ -149,7 +149,7 @@ describe('/workflowinstances integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Generic MONAI errors',
+    '(PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.put(
@@ -162,7 +162,10 @@ describe('/workflowinstances integration Tests', () => {
       const response = await request(app.getHttpServer()).put(
         '/workflowinstances/a67a7af7-068b-44b8-a81b-def7b3e5403b/executions/3b9d94b9-4285-45d4-bea9-491fa62b8f91/acknowledge',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );

@@ -95,7 +95,7 @@ describe('/Workflows Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) /workflows when Monai gives general error',
+    '(GET) /workflows correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.get(
@@ -108,7 +108,10 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/workflows?pageNumber=1&pageSize=10',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );
@@ -175,7 +178,7 @@ describe('/Workflows Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) /workflows/:id when Monai gives general error',
+    '(GET) /workflows/:id correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.get(
@@ -188,7 +191,10 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );
@@ -384,7 +390,7 @@ describe('/Workflows Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(PUT) /workflows/:id when Monai gives general error',
+    '(PUT) /workflows/:id correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.put(
@@ -412,7 +418,10 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer())
         .put(`/workflows/${WorkflowMocks.singleWorkflow1.workflow_id}`)
         .send(WorkflowMocks.singleWorkflow1);
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );
@@ -472,7 +481,7 @@ describe('/Workflows Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(DELETE) /workflows/:id when Monai gives general error',
+    '(DELETE) /workflows/:id correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.delete(
@@ -485,7 +494,10 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer()).delete(
         '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );
@@ -613,7 +625,7 @@ describe('/Workflows Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(POST) /workflows when Monai gives general error',
+    '(POST) /workflows correct status when MONAI gives general error with code %s',
     async (code) => {
       server.use(
         rest.post(
@@ -641,7 +653,10 @@ describe('/Workflows Integration Tests', () => {
       const response = await request(app.getHttpServer())
         .post('/workflows')
         .send(WorkflowMocks.singleWorkflow1);
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.statusCode).toBe(500);
     },
   );

@@ -119,7 +119,7 @@ describe('/Logs Integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) /logs/:taskid when Elastic gives general error',
+    '(GET) /destinations correct status when Elastic gives general error with code %s',
     async (code) => {
       server.use(
         rest.post(

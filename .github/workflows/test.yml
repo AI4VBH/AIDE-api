@@ -7,7 +7,7 @@ env:
   NODE_VERSION: '16.x'
 
 jobs:
-  int-tests:
+  e2e-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,6 +25,13 @@ jobs:
       - name: Run e2e tests
         run: npm run test:e2e
 
+      - name: Publish report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: E2ETestReport
+          path: ./e2e-test-report.html
+
   unit-tests:
     runs-on: ubuntu-latest
     steps:
@@ -41,3 +48,10 @@ jobs:
 
       - name: Run unit tests
         run: npm run test:unit
+
+      - name: Publish report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: UnitTestReport
+          path: ./unit-test-report.html

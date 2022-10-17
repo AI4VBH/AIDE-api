@@ -1,47 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 1`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 2`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 3`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 4`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 5`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads when Monai gives general error 6`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
 exports[`/Payloads Integration Tests (GET) /payloads with returned data 1`] = `
 {
   "data": [
@@ -185,48 +143,6 @@ exports[`/Payloads Integration Tests (GET) /payloads without returned data 1`] =
   "previousPage": null,
   "totalPages": 1,
   "totalRecords": 0,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 1`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 2`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 3`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 4`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 5`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
-}
-`;
-
-exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions when Monai gives general error 6`] = `
-{
-  "message": "An issue occurred with the MONAI service",
-  "statusCode": 500,
 }
 `;
 

@@ -27,15 +27,19 @@ npm run test:int
 
 ### Results
 
-Results will be shown as text in the terminal in which the tests are run. In the pipeline they will be shown in the step in which the test command was executed.
+- Results will be shown as text in the terminal in which the tests are run. In the pipeline they will be shown in the step in which the test command was executed.
+- A HTML report will be created at the root of the project and exported as an artifact in Github actions after running named:
+  - e2e-test-report.html
+  - unit-test-report.html  
 
 ### Snapshots
 
 Most of the Integration/e2e tests are using Jest snapshots. These will be located in the /test/snapshots folder. It is very important that these are checked regularly as an incorrectly commited snapshot means a test that is checking for the wrong thing. For further info on how to use these please see [the docs](https://jestjs.io/docs/snapshot-testing).
+> Please note where we are repetitively returning a set body e.g. general 500 tests or where we are returning simple objects e.g. "{}" we do not use snapshots as what you gain from ease of use does not outweigh the danger that these could be added incorrectly. In this case we do a literal assertion for the object.
 
 ### Mocking
 
-For the Integration/e2e tests we have mocked the [Monai](https://github.com/Project-MONAI) server responses. These can be found in /test/test_data/mocks. It is important to make sure these are accurate to how Monai responds as if these drift our testing will not work correctly.
+For the Integration/e2e tests we have mocked the external API's ([MONAI Workflow Manager](https://github.com/Project-MONAI/monai-deploy-workflow-manager), [MONAI Informatics Gateway](https://github.com/Project-MONAI/monai-deploy-informatics-gateway), [MINIO](https://min.io/), [OpenSearch](https://opensearch.org/)) server responses. These can be found in /test/test_data/mocks. It is important to make sure these are accurate to how these services respond as if these drift our testing will not work correctly.
 
 ## Contributing
 

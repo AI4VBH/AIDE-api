@@ -19,5 +19,14 @@
     "**/*.(t|j)s"
   ],
   "coverageDirectory": "../coverage",
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "reporters": [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Unit Test Report",
+      "outputPath": "unit-test-report.html",
+      "includeFailureMsg": true,
+      "includeSuiteFailure": true
+    }]
+  ]
 }

@@ -257,11 +257,11 @@ describe('/issues integration Tests', () => {
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) issues/failed?acknowledged=YYYY-MM-DD - Generic MONAI error returned on workflow instances request',
+    '(GET) issues/failed?acknowledged=YYYY-MM-DD - correct status when MONAI gives general error for /workflowinstances/failed with code %s',
     async (code) => {
       server.use(
         rest.get(
-          `${testMonaiBasePath}/workflowinstances/failed?acknowledged=2022-01-01`,
+          `${testMonaiBasePath}/workflowinstances/failed`,
           (_request, response, context) => {
             return response(context.status(code));
           },
@@ -270,17 +270,20 @@ describe('/issues integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/issues/failed?acknowledged=2022-01-01',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.status).toBe(500);
     },
   );
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) issues/failed?acknowledged=YYYY-MM-DD - Generic MONAI error returned on payload request',
+    '(GET) issues/failed?acknowledged=YYYY-MM-DD - correct status when MONAI gives general error for /payloads/:UUID with code %s',
     async (code) => {
       server.use(
         rest.get(
-          `${testMonaiBasePath}/workflowinstances/failed?acknowledged=2022-01-01`,
+          `${testMonaiBasePath}/workflowinstances/failed`,
           (_request, response, context) => {
             return response(context.json(IssuesMocks.failedTasks2));
           },
@@ -295,7 +298,10 @@ describe('/issues integration Tests', () => {
       const response = await request(app.getHttpServer()).get(
         '/issues/failed?acknowledged=2022-01-01',
       );
-      expect(response.body).toMatchSnapshot();
+      expect(response.body).toMatchObject({
+        message: 'An issue occurred with the MONAI service',
+        statusCode: 500,
+      });
       expect(response.status).toBe(500);
     },
   );
