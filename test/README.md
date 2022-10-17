@@ -12,10 +12,10 @@ Unit tests
 npm run test:unit
 ```
 
-Integration/e2e tests
+E2E tests
 
 ```bash
-npm run test:int
+npm run test:e2e
 ```
 
 ## Details

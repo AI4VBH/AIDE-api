@@ -49,10 +49,10 @@ Unit tests
 npm run test:unit
 ```
 
-Integration/e2e tests
+E2E tests
 
 ```bash
-npm run test:int
+npm run test:e2e
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
