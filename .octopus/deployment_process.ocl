@@ -129,10 +129,10 @@ step "deploy-the-aide-api" {
                       secretKey: password
                     - name: MINIO_ACCESS_KEY
                       secretName: minio-admin-user
-                      secretKey: accessKey
+                      secretKey: user
                     - name: MINIO_SECRET_KEY
                       secretName: minio-admin-user
-                      secretKey: secretKey
+                      secretKey: password
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
