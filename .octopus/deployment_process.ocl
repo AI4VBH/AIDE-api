@@ -101,12 +101,6 @@ step "deploy-the-aide-api" {
                 imagePullSecrets:
                   - name: #{imagePullSecretName}
                 secrets:
-                  - name: rabbit-secret-master
-                    keyValues:
-                      - key: username
-                        value: #{RabbitUser}
-                      - key: password
-                        value: #{RabbitPassword}
                   - name: elastic-secret-master
                     keyValues:
                       - key: username
@@ -115,14 +109,54 @@ step "deploy-the-aide-api" {
                         value: #{ElasticPassword}
                 enviromentVariables:
                   RABBITMQ_API_URL: rabbitmq.rabbitmq:5672/api/
+                  ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
+                  ELASTIC_INDEX: model_config  
                   KEYCLOAK_URL: #{keycloakUrl}
-                  KEYCLOAK_URL_BACKEND: #{keycloakUrlBackend}
-                  FRONTEND_API_HOST: #{frontendApi}
-                  WADO_URI_ROOT: #{WadoUriRoot}
-                  QIDO_ROOT: #{QidoRoot}
-                  WADO_ROOT: #{WadoRoot}
-                  CLINICAL_REVIEW_URL: #{ClinicalReviewUrl}
+                  MONAI_API_HOST: workflow-manager.monai.svc.cluster.local:5000
+                  MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000
                   ORTHANC_API_URL: #{OrthancApiUrl}
+                  CLINICAL_REVIEW_URL: #{ClinicalReviewUrl}
+                  MINIO_HOST: minio-hl.minio.svc.cluster.local
+                  MINIO_PORT: 9000
+                  MINIO_USE_SSL: false
+                  MINIO_BUCKET: 'monaideploy'
+                  PORT: 5000
+                
+                enviromentVariablesFromSecrets:
+                  secrets:
+                    - name: RABBITMQ_USERNAME
+                      secretName: #{RabbitSecretName}
+                      secretKey: username
+                    - name: RABBITMQ_PASSWORD
+                      secretName: #{RabbitSecretName}
+                      secretKey: password
+                    - name: ELASTIC_USERNAME
+                      secretName: elastic-secret-master
+                      secretKey: username
+                    - name: ELASTIC_PASSWORD
+                      secretName: elastic-secret-master
+                      secretKey: password
+                    - name: DATABASE_HOST
+                      secretName: postgres-pguser-aide
+                      secretKey: host
+                    - name: DATABASE_PORT
+                      secretName: postgres-pguser-aide
+                      secretKey: port
+                    - name: DATABASE_NAME
+                      secretName: postgres-pguser-aide
+                      secretKey: dbname
+                    - name: DATABASE_USER
+                      secretName: postgres-pguser-aide
+                      secretKey: user
+                    - name: DATABASE_PASSWORD
+                      secretName: postgres-pguser-aide
+                      secretKey: password
+                    - name: MINIO_ACCESS_KEY
+                      secretName: minio-admin-user
+                      secretKey: accessKey
+                    - name: MINIO_SECRET_KEY
+                      secretName: minio-admin-user
+                      secretKey: secretKey
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
