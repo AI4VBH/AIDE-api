@@ -14,7 +14,7 @@ step "add-docker-image-pull-secret" {
                 
                 kubectl create namespace aide --dry-run=client -o yaml | kubectl apply -f -
                 
-                kubectl create secret docker-registry $(get_octopusvariable "imagePullSecretName") \
+                kubectl create secret docker-registry $(get_octopusvariable "ImagePullSecretName") \
                   --docker-server=$(get_octopusvariable "AWS_ACCOUNT").dkr.ecr.$(get_octopusvariable "AWS_REGION").amazonaws.com \
                   --docker-username=AWS \
                   --docker-password=$(aws ecr get-login-password) \
