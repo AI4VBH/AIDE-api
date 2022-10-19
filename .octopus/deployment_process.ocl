@@ -100,6 +100,11 @@ step "deploy-the-aide-api" {
                   tag: #{Octopus.Action.Package.PackageVersion}
                 imagePullSecrets:
                   - name: #{imagePullSecretName}
+                
+                ingress:
+                  host: sit-aide.answerdigital.io
+                  tlsSecretName: ingress-tls-secret
+                
                 secrets:
                   - name: elastic-secret-master
                     keyValues:
