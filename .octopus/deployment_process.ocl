@@ -29,7 +29,7 @@ step "add-docker-image-pull-secret" {
 }
 
 step "add-certificate-secret" {
-    name = "Add certificate secret"
+    name = "Add Certificate secret"
     properties = {
         Octopus.Action.TargetRoles = "kubernetes"
     }
@@ -38,7 +38,7 @@ step "add-certificate-secret" {
         action_type = "Octopus.KubernetesRunScript"
         properties = {
             Octopus.Action.Script.ScriptBody = <<-EOT
-                kubectl create namespace $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
+                kubectl create namespace $(get_octopusvariable "Namespace") --dry-run=client -o yaml | kubectl apply -f -
                 
                 cat <<EOF >> certificate.pem
                 $(get_octopusvariable "IngressCertificate.CertificatePem")
@@ -49,31 +49,10 @@ step "add-certificate-secret" {
                 $(get_octopusvariable "IngressCertificate.PrivateKeyPem")
                 EOF
                 
-                kubectl create secret tls $(get_octopusvariable "certificateSecretName") --cert certificate.pem --key key.pem -n $(get_octopusvariable "namespace") --dry-run=client -o yaml | kubectl apply -f -
+                kubectl create secret tls $(get_octopusvariable "CertificateSecretName") --cert certificate.pem --key key.pem -n $(get_octopusvariable "Namespace") --dry-run=client -o yaml | kubectl apply -f -
                 
                 rm -f certificate.pem
                 rm -f key.pem
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        worker_pool_variable = "WorkerPoolName"
-    }
-}
-
-step "add-secret" {
-    name = "Add Secret"
-    properties = {
-        Octopus.Action.TargetRoles = "kubernetes"
-    }
-
-    action {
-        action_type = "Octopus.KubernetesRunScript"
-        is_disabled = true
-        properties = {
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                kubectl -n $(get_octopusvariable "namespace") create secret generic rabbit-secret-master --from-literal=username=$(get_octopusvariable "RabbitUser") --from-literal=password=$(get_octopusvariable "RabbitPassword")  --save-config --dry-run=client -o yaml | kubectl apply -f -
-                
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -99,11 +78,11 @@ step "deploy-the-aide-api" {
                 image:
                   tag: #{Octopus.Action.Package.PackageVersion}
                 imagePullSecrets:
-                  - name: #{imagePullSecretName}
+                  - name: #{ImagePullSecretName}
                 
                 ingress:
-                  host: sit-aide.answerdigital.io
-                  tlsSecretName: ingress-tls-secret
+                  host: #{Host}
+                  tlsSecretName: #{CertificateSecretName}
                 
                 secrets:
                   - name: elastic-secret-master
@@ -116,7 +95,7 @@ step "deploy-the-aide-api" {
                 enviromentVariables:
                   ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
                   ELASTIC_INDEX: model_config  
-                  KEYCLOAK_URL: #{keycloakUrl}
+                  KEYCLOAK_URL: #{KeycloakUrl}
                   MONAI_API_HOST: workflow-manager.monai.svc.cluster.local:5000
                   MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000  
                   MINIO_HOST: minio-hl.minio.svc.cluster.local
