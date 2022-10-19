@@ -8,88 +8,52 @@ image:
 imagePullSecrets:
  - name: regcred
 
+ingress:
+  host: sit-aide.answerdigital.io
+  tlsSecretName: ingress-tls-secret
+      
+service:
+  type: ClusterIP
+  port: 5000
+
 enviromentVariables:
-  RABBITMQ_HOST: host.docker.internal
-  RABBITMQ_API_URL: http://host.docker.internal:15672/api/
-  RABBITMQ_PORT: 5672  
-  CACERTFILE: /data/certs/tls.crt
-  CERTFILE: /data/certs/client_certificate.pem
-  KEYFILE:  /data/certs/tls.key
-  STORAGE_DIR: /aide/data
-  INPUT_MOUNT: /aide/data
   ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
-  ELASTIC_INDEX: model_config
-  WORKER_CLASS: uvicorn.workers.UvicornH11Worker
-  PACS_HOST: internal-pacs.aide.svc.cluster.local
-  PACS_PORT: 4242
-  EXTERNAL_PACS_PORT: 4242
-  EXTERNAL_PACS_HOST: external-pacs-port-4242.aide.svc.cluster.local
-  EXTERNAL_PACS_AE_TITLE: ORTHANC
-  KEYCLOAK_URL: https://dev-aide.answerdigital.io:8443/auth
-  KEYCLOAK_URL_BACKEND: https://keycloak.aide.svc.cluster.local:8443/auth
-  FRONTEND_API_HOST: https://dev-aide.answerdigital.io:8000
-  WADO_URI_ROOT: https://dev-aide.answerdigital.io:8045/dicom-web
-  QIDO_ROOT: https://dev-aide.answerdigital.io:8045/dicom-web
-  WADO_ROOT: https://dev-aide.answerdigital.io:8045/dicom-web
-  CLINICAL_REVIEW_URL: http://clinical-review-port-5000.aide.svc.cluster.local:5000
-  ORTHANC_API_URL: https://dev-aide.answerdigital.io:8045
-  DATABASE_HOST: postgresql-db.aide.svc.cluster.local
-  DATABASE_NAME: nest_api  
-  DATABASE_PORT: 5432
+  ELASTIC_INDEX: model_config  
+  KEYCLOAK_URL: https://keycloak-service.keycloak.svc.cluster.local:8443
+  MONAI_API_HOST: workflow-manager.monai.svc.cluster.local:5000
+  MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000  
+  MINIO_HOST: minio-hl.minio.svc.cluster.local
+  MINIO_PORT: 9000
+  MINIO_USE_SSL: false
+  MINIO_BUCKET: 'monaideploy'
   PORT: 5000
 
-secrets:
-  - name: rabbit-secret-master
-    keyValues:
-      - key: username
-        value: user
-      - key: password
-        value: password
-  - name: elastic-secret-master
-    keyValues:
-      - key: username
-        value: user
-      - key: password
-        value: password
-  - name: database-secret-master
-    keyValues:
-      - key: user
-        value: user
-      - key: password
-        value: password
-        
 enviromentVariablesFromSecrets:
   secrets:
-    - name: RABBITMQ_USERNAME
-      secretName: rabbit-secret-master
-      secretKey: username
-    - name: RABBITMQ_PASSWORD
-      secretName: rabbit-secret-master
-      secretKey: password
     - name: ELASTIC_USERNAME
       secretName: elastic-secret-master
       secretKey: username
     - name: ELASTIC_PASSWORD
       secretName: elastic-secret-master
       secretKey: password
+    - name: DATABASE_HOST
+      secretName: postgres-pguser-aide
+      secretKey: host
+    - name: DATABASE_PORT
+      secretName: postgres-pguser-aide
+      secretKey: port
+    - name: DATABASE_NAME
+      secretName: postgres-pguser-aide
+      secretKey: dbname
     - name: DATABASE_USER
-      secretName: database-secret-master
+      secretName: postgres-pguser-aide
       secretKey: user
     - name: DATABASE_PASSWORD
-      secretName: database-secret-master
-      secretKey: password    
-      
-service:
-  type: NodePort
-  port: 5000
-  nodeport: 5000
-  
-volumes:
-  - name: cert
-    secret:
-      secretName: certificatesecret
-      optional: false
-        
-volumeMounts:
-  - name: cert
-    mountPath: "/data/certs"
+      secretName: postgres-pguser-aide
+      secretKey: password
+    - name: MINIO_ACCESS_KEY
+      secretName: minio-secret-master
+      secretKey: accessKey
+    - name: MINIO_SECRET_KEY
+      secretName: minio-secret-master
+      secretKey: secretKey
