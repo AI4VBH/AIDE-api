@@ -96,8 +96,8 @@ step "deploy-the-aide-api" {
                   ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
                   ELASTIC_INDEX: model_config  
                   KEYCLOAK_URL: #{KeycloakUrl}
-                  MONAI_API_HOST: workflow-manager.monai.svc.cluster.local:5000
-                  MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000  
+                  MONAI_API_HOST: http://workflow-manager.monai.svc.cluster.local:5000
+                  MIG_API_HOST: http://informatics-gateway.monai.scv.cluster.local:5000  
                   MINIO_HOST: minio-hl.minio.svc.cluster.local
                   MINIO_PORT: 9000
                   MINIO_USE_SSL: false
