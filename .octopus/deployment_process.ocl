@@ -107,15 +107,13 @@ step "deploy-the-aide-api" {
                         value: #{ElasticUser}
                       - key: password
                         value: #{ElasticPassword}
+                
                 enviromentVariables:
-                  RABBITMQ_API_URL: rabbitmq.rabbitmq:5672/api/
                   ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
                   ELASTIC_INDEX: model_config  
                   KEYCLOAK_URL: #{keycloakUrl}
                   MONAI_API_HOST: workflow-manager.monai.svc.cluster.local:5000
-                  MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000
-                  ORTHANC_API_URL: #{OrthancApiUrl}
-                  CLINICAL_REVIEW_URL: #{ClinicalReviewUrl}
+                  MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000  
                   MINIO_HOST: minio-hl.minio.svc.cluster.local
                   MINIO_PORT: 9000
                   MINIO_USE_SSL: false
@@ -124,12 +122,6 @@ step "deploy-the-aide-api" {
                 
                 enviromentVariablesFromSecrets:
                   secrets:
-                    - name: RABBITMQ_USERNAME
-                      secretName: #{RabbitSecretName}
-                      secretKey: username
-                    - name: RABBITMQ_PASSWORD
-                      secretName: #{RabbitSecretName}
-                      secretKey: password
                     - name: ELASTIC_USERNAME
                       secretName: elastic-secret-master
                       secretKey: username
