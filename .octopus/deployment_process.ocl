@@ -93,7 +93,9 @@ step "deploy-the-aide-api" {
                         value: #{ElasticPassword}
                 
                 enviromentVariables:
-                  ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
+                  ELASTIC_HOST: opensearch.shared.svc.cluster.local
+                  ELASTIC_PORT: 9200
+                  ELASTIC_USE_SSL: true
                   ELASTIC_INDEX: model_config  
                   KEYCLOAK_URL: #{KeycloakUrl}
                   KEYCLOAK_REALM: aide
