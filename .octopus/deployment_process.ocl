@@ -99,7 +99,7 @@ step "deploy-the-aide-api" {
                   KEYCLOAK_REALM: aide
                   KEYCLOAK_MASTER_REALM: master
                   KEYCLOAK_CLIENTID: aide-api
-                  KEYCLOAK_SECRET: aaa  
+                  KEYCLOAK_SECRET: #{KeycloakSecret}  
                   MONAI_API_HOST: http://workflow-manager.monai.svc.cluster.local:5000
                   MIG_API_HOST: http://informatics-gateway.monai.svc.cluster.local:5000  
                   MINIO_HOST: minio-hl.minio.svc.cluster.local
