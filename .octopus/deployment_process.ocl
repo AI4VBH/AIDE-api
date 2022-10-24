@@ -156,3 +156,20 @@ step "deploy-the-aide-api" {
         }
     }
 }
+
+step "add-elastic-secret" {
+    name = "Add Elastic secret"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesRunScript"
+        properties = {
+            Octopus.Action.Script.ScriptBody = "kubectl -n $(get_octopusvariable \"AideNamespace\") create secret generic $(get_octopusvariable \"RabbitSecretName\") --from-literal=username=$(get_octopusvariable \"RabbitUser\") --from-literal=password=$(get_octopusvariable \"RabbitPassword\") --save-config --dry-run=client -o yaml | kubectl apply -f -"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
