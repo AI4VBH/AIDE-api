@@ -1,5 +1,9 @@
 import { Module } from '@nestjs/common';
-import { KeycloakConnectModule } from 'nest-keycloak-connect';
+import {
+  AuthGuard,
+  KeycloakConnectModule,
+  RoleGuard,
+} from 'nest-keycloak-connect';
 import { getEnvPath } from 'shared/helper/env.helper';
 import { ConfigModule } from '@nestjs/config';
 import { KeycloakService } from 'shared/keycloak/keycloak.service';
@@ -11,6 +15,7 @@ import { HttpModule } from '@nestjs/axios';
 import { RolesModule } from 'modules/roles/roles.module';
 import { UsersModule } from './modules/users/users.module';
 import { WorkflowsModule } from './modules/workflows/workflows.module';
+import { APP_GUARD } from '@nestjs/core';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -36,14 +41,14 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
   ],
   controllers: [],
   providers: [
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AuthGuard,
-    // },
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RoleGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
+    },
   ],
 })
 export class AppModule {}

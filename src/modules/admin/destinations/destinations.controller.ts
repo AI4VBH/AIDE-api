@@ -9,11 +9,13 @@ import {
   Put,
   UseFilters,
 } from '@nestjs/common';
+import { Roles } from 'nest-keycloak-connect';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { IDestination } from './destinations.interface';
 import { DestinationsService } from './destinations.service';
 
 @Controller('destinations')
+@Roles({ roles: ['realm:admin'] })
 @UseFilters(ExternalServerExceptionFilter)
 export class DestinationsController {
   @Inject(DestinationsService)

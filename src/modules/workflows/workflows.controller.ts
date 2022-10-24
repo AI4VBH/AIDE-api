@@ -12,11 +12,13 @@ import {
   Query,
   UseFilters,
 } from '@nestjs/common';
+import { Roles } from 'nest-keycloak-connect';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { CreateEditWorkflowDto, WorkflowDto } from './dto/aide-workflow.dto';
 import { WorkflowsService } from './workflows.service';
 
 @Controller('workflows')
+@Roles({ roles: ['realm:admin'] })
 @UseFilters(ExternalServerExceptionFilter)
 export class WorkflowsController {
   @Inject(WorkflowsService)

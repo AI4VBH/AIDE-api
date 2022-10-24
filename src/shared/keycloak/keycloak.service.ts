@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import {
   KeycloakConnectOptions,
   KeycloakConnectOptionsFactory,
+  TokenValidation,
 } from 'nest-keycloak-connect';
 
 @Injectable()
@@ -16,6 +17,7 @@ export class KeycloakService implements KeycloakConnectOptionsFactory {
       realm: this.config.get<string>('KEYCLOAK_REALM'),
       clientId: this.config.get<string>('KEYCLOAK_CLIENTID'),
       secret: this.config.get<string>('KEYCLOAK_SECRET'),
+      tokenValidation: TokenValidation.OFFLINE,
     };
   }
 }

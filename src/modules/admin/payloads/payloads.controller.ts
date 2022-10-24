@@ -8,10 +8,12 @@ import {
   Query,
   UseFilters,
 } from '@nestjs/common';
+import { Roles } from 'nest-keycloak-connect';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { PayloadsService } from './payloads.service';
 
 @Controller('payloads')
+@Roles({ roles: ['realm:admin'] })
 @UseFilters(ExternalServerExceptionFilter)
 export class PayloadsController {
   @Inject(PayloadsService)

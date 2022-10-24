@@ -16,7 +16,7 @@ import { UsersService } from './users.service';
 
 @Controller('users')
 @UseFilters(KeycloakAdminExceptionFilter)
-@Roles({ roles: ['admin'] })
+@Roles({ roles: ['realm:admin'] })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
