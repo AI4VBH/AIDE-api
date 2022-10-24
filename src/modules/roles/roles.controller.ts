@@ -18,7 +18,7 @@ import { PaginatedRolesResponse, Role } from './roles.interfaces';
 
 @Controller('roles')
 @UseFilters(KeycloakAdminExceptionFilter)
-@Roles({ roles: ['realm:admin'] })
+@Roles({ roles: ['realm:admin', 'realm:user_management'] })
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 

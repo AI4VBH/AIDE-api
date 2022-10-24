@@ -100,13 +100,13 @@ export class UsersService {
 
   async addRolesToUser(
     userId: string,
-    userRoles: { id: string; name: string }[],
+    userRoles: { id: string; name: string }[] = [],
   ): Promise<void> {
     return await this.adminService.performAction((realm, client) =>
       client.users.addRealmRoleMappings({
         realm,
         id: userId,
-        roles: userRoles,
+        roles: userRoles.map((ur) => ({ id: ur.id, name: ur.name })),
       }),
     );
   }
