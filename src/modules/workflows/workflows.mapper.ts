@@ -31,5 +31,7 @@ export function mapToPagedWorkflowsItemDto(
     name: workflow.workflow.name,
     description: workflow.workflow.description,
     version: workflow.workflow.version,
+    ae_title: workflow.workflow.informatics_gateway.ae_title,
+    data_origins: workflow.workflow.informatics_gateway.data_origins,
   };
 }

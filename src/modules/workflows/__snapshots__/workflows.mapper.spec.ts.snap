@@ -10,6 +10,10 @@ exports[`mapToPagedWorkflowsDto returns expected result 1`] = `
 
 exports[`mapToPagedWorkflowsItemDto returns expected result 1`] = `
 {
+  "ae_title": "",
+  "data_origins": [
+    "",
+  ],
   "description": "Some description",
   "id": "fb94b9da-e957-4378-a626-8f0374e60cfb",
   "name": "Super Workflow",

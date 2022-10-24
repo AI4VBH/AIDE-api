@@ -43,6 +43,11 @@ describe('mapToPagedWorkflowsItemDto', () => {
         name: 'Super Workflow',
         version: '1.0.0',
         description: 'Some description',
+        informatics_gateway: {
+          ae_title: '',
+          data_origins: [''],
+          export_destinations: [''],
+        },
       },
     };
 

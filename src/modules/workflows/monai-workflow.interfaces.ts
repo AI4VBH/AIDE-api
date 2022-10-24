@@ -6,11 +6,20 @@ export interface MonaiWorkflow {
   id: string;
   workflow_id: string;
   revision: number;
-  workflow: {
-    name: string;
-    version: string;
-    description: string;
-  };
+  workflow: WorkflowRevision;
+}
+
+export interface WorkflowRevision {
+  name: string;
+  version: string;
+  description: string;
+  informatics_gateway: InformaticsGateway;
+}
+
+export interface InformaticsGateway {
+  ae_title: string;
+  data_origins: string[];
+  export_destinations: string[];
 }
 
 export interface Destination {
