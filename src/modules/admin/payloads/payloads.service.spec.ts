@@ -49,7 +49,14 @@ describe('PayloadsService', () => {
       httpService.get.mockReturnValue(makeObservableForTest(axios.get));
 
       const action = async () =>
-        await service.getPayloads({ pageNumber: 1, pageSize: 10 });
+        await service.getPayloads(
+          {
+            pageNumber: 1,
+            pageSize: 10,
+          },
+          undefined,
+          undefined,
+        );
 
       await expect(action()).rejects.toThrowError();
       expect(httpService.get).toHaveBeenCalled();
@@ -66,10 +73,37 @@ describe('PayloadsService', () => {
 
       httpService.get.mockReturnValue(makeObservableForTest(axios.get));
 
-      const response = await service.getPayloads({
-        pageNumber: 1,
-        pageSize: 10,
+      const response = await service.getPayloads(
+        {
+          pageNumber: 1,
+          pageSize: 10,
+        },
+        undefined,
+        undefined,
+      );
+
+      expect(response).toMatchSnapshot();
+    });
+
+    it('returns the expected result with patient name and id params', async () => {
+      axios.get.mockResolvedValue({
+        status: 200,
+        statusText: 'Success',
+        config: {},
+        headers: {},
+        data: mockMonaiPayloadsResponse,
       });
+
+      httpService.get.mockReturnValue(makeObservableForTest(axios.get));
+
+      const response = await service.getPayloads(
+        {
+          pageNumber: 1,
+          pageSize: 10,
+        },
+        '2',
+        'jack',
+      );
 
       expect(response).toMatchSnapshot();
     });

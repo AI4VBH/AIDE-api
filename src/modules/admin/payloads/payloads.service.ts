@@ -19,13 +19,25 @@ export class PayloadsService {
 
   async getPayloads(
     query: IGetPayloadsQueryParams,
+    patientName: string,
+    patientId: string,
   ): Promise<IPagedResponse<PayloadDTO>> {
     const queryParams = new URLSearchParams(
       query as unknown as Record<string, string>,
     );
 
+    if (patientName) {
+      queryParams.append('patientName', patientName);
+    }
+
+    if (patientId) {
+      queryParams.append('patientId', patientId);
+    }
+
+    const url = `payload?${queryParams}`;
+
     const response = await lastValueFrom(
-      this.httpService.get<IMonaiPayloadResponse>(`payload?${queryParams}`),
+      this.httpService.get<IMonaiPayloadResponse>(url),
     );
 
     if (!response.data.succeeded) {

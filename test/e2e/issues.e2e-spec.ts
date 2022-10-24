@@ -59,7 +59,7 @@ describe('/issues integration Tests', () => {
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Multiple workflow instances with 1 failed task each', async () => {
     server.use(
       rest.get(
-        `${testMonaiBasePath}/workflowinstances/failed?acknowledged=2022-01-01`,
+        `${testMonaiBasePath}/workflowinstances/failed`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.failedTasks1));
         },
@@ -93,7 +93,7 @@ describe('/issues integration Tests', () => {
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Multiple workflow instances with 1 failed task each, with time', async () => {
     server.use(
       rest.get(
-        `${testMonaiBasePath}/workflowinstances/failed?acknowledged=2022-01-01T01:01:01`,
+        `${testMonaiBasePath}/workflowinstances/failed`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.failedTasks1));
         },
@@ -127,7 +127,7 @@ describe('/issues integration Tests', () => {
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Single workflow instance with multiple failed tasks', async () => {
     server.use(
       rest.get(
-        `${testMonaiBasePath}/workflowinstances/failed?acknowledged=2022-01-01`,
+        `${testMonaiBasePath}/workflowinstances/failed`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.failedTasks2));
         },
@@ -149,7 +149,7 @@ describe('/issues integration Tests', () => {
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Single workflow instance with multiple failed tasks, with time', async () => {
     server.use(
       rest.get(
-        `${testMonaiBasePath}/workflowinstances/failed?acknowledged=2022-01-01T01:01:01`,
+        `${testMonaiBasePath}/workflowinstances/failed`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.failedTasks2));
         },
@@ -190,7 +190,7 @@ describe('/issues integration Tests', () => {
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Workflow instance exists but no matching payload', async () => {
     server.use(
       rest.get(
-        `${testMonaiBasePath}/workflowinstances/failed?acknowledged=2022-01-01`,
+        `${testMonaiBasePath}/workflowinstances/failed`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.failedTasks2));
         },
@@ -215,7 +215,7 @@ describe('/issues integration Tests', () => {
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Invalid date, workflow instance date in the future', async () => {
     server.use(
       rest.get(
-        `${testMonaiBasePath}/workflowinstances/failed?acknowledged=2023-01-01`,
+        `${testMonaiBasePath}/workflowinstances/failed`,
         (_request, response, context) => {
           return response(
             context.status(400),
@@ -234,7 +234,7 @@ describe('/issues integration Tests', () => {
   it('(GET) issues/failed?acknowledged=YYYY-MM-DD - Payload id is invalid GUID', async () => {
     server.use(
       rest.get(
-        `${testMonaiBasePath}/workflowinstances/failed?acknowledged=2022-01-01`,
+        `${testMonaiBasePath}/workflowinstances/failed`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.invalidPayloadId));
         },

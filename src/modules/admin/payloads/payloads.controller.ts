@@ -23,12 +23,21 @@ export class PayloadsController {
   getPayloads(
     @Query('pageNumber', ParseIntPipe) pageNumber = 1,
     @Query('pageSize', ParseIntPipe) pageSize = 10,
+    @Query('patientName') patientName?: string,
+    @Query('patientId') patientId?: string,
   ) {
     if (pageNumber <= 0 || pageSize <= 0) {
       throw new BadRequestException('pageNumber or pageSize is invalid');
     }
 
-    return this.payloadsService.getPayloads({ pageNumber, pageSize });
+    return this.payloadsService.getPayloads(
+      {
+        pageNumber,
+        pageSize,
+      },
+      patientName,
+      patientId,
+    );
   }
 
   @Get(':payload_id/executions')
