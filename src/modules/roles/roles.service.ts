@@ -54,6 +54,15 @@ export class RolesService {
       });
     }
 
+    let totalFilteredRoles = allRoles.length;
+    if (search) {
+      const filteredUnpagedRoles = await this.adminService.performAction(
+        (realm, client) => client.roles.find({ realm, search }),
+      );
+
+      totalFilteredRoles = filteredUnpagedRoles.length;
+    }
+
     const mapped = filteredRoles.map((r) => ({
       id: r.id,
       name: r.name,
@@ -62,7 +71,7 @@ export class RolesService {
 
     return {
       totalRolesCount: allRoles.length,
-      totalFilteredRolesCount: mapped.length,
+      totalFilteredRolesCount: totalFilteredRoles,
       roles: mapped,
     };
   }
