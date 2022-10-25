@@ -141,6 +141,17 @@ export class RolesService {
       );
     }
 
+    const existingRoleWithName = await this.adminService.performAction(
+      (realm, client) => client.roles.findOneByName({ realm, name }),
+    );
+
+    if (existingRoleWithName && existingRoleWithName.id !== id) {
+      throw new RoleServiceException(
+        RoleServiceExceptionCode.ROLE_DUPLICATE,
+        'Role with this name already exists',
+      );
+    }
+
     return this.adminService.performAction((realm, client) =>
       client.roles.updateById({ realm, id }, { name, description }),
     );
@@ -150,6 +161,7 @@ export class RolesService {
 export enum RoleServiceExceptionCode {
   ROLE_NOT_FOUND = 1,
   ROLE_NOT_EDITABLE = 2,
+  ROLE_DUPLICATE = 3,
 }
 
 export class RoleServiceException extends Error {

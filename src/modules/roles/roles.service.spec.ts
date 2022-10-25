@@ -302,7 +302,7 @@ describe('RolesService', () => {
       );
     });
 
-    it('throws exception when deleting non editable roles', async () => {
+    it('throws exception when updating non editable roles', async () => {
       configServiceMock.get.mockImplementation(
         (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
       );
@@ -317,6 +317,31 @@ describe('RolesService', () => {
       );
     });
 
+    it('throws exception when updating with the same name as existing', async () => {
+      configServiceMock.get.mockImplementation(
+        (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
+      );
+
+      rolesMock.findOneById.mockResolvedValue({
+        id: '9da87ef1-e7dc-42e1-b409-89a3e13735ec',
+        name: 'other-role',
+      });
+
+      rolesMock.findOneByName.mockResolvedValue({
+        id: '9a3bf152-bfc3-4590-905e-a88781185a32',
+        name: 'name',
+      });
+
+      await expect(service.updateRole('guid', 'name')).rejects.toThrow(
+        RoleServiceException,
+      );
+
+      expect(keycloakAdminServiceMock.performAction).toHaveBeenCalled();
+      expect(keycloakAdminClientMock.auth).toHaveBeenCalled();
+      expect(rolesMock.findOneById).toHaveBeenCalled();
+      expect(rolesMock.findOneByName).toHaveBeenCalled();
+    });
+
     it('calls expected methods', async () => {
       configServiceMock.get.mockImplementation(
         (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
@@ -326,6 +351,8 @@ describe('RolesService', () => {
         id: '9da87ef1-e7dc-42e1-b409-89a3e13735ec',
         name: 'other-role',
       });
+
+      rolesMock.findOneByName.mockResolvedValue(null);
 
       await service.updateRole('guid', 'name');
 

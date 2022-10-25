@@ -80,8 +80,14 @@ export class KeycloakAdminExceptionFilter implements ExceptionFilter {
         status = HttpStatus.NOT_FOUND;
         message = exception.message;
         break;
+
       case RoleServiceExceptionCode.ROLE_NOT_EDITABLE:
         status = HttpStatus.FORBIDDEN;
+        message = exception.message;
+        break;
+
+      case RoleServiceExceptionCode.ROLE_DUPLICATE:
+        status = HttpStatus.CONFLICT;
         message = exception.message;
         break;
     }
