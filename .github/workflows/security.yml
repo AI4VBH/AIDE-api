@@ -39,7 +39,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
+      - name: npm install
+        run: npm ci
+
       - name: Run npm audit
-        run: npx npm audit --audit-level high 
-        env:
-          CI: true
+        run: npm run audit
