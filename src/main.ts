@@ -23,7 +23,7 @@ async function bootstrap() {
   //     },
   //   }),
   // );
-  app.use(nocache());
+  // app.use(nocache());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   await app.listen(port, () => {
