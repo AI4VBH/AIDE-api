@@ -9,6 +9,7 @@ import {
   Redirect,
   UseFilters,
 } from '@nestjs/common';
+import { Public } from 'nest-keycloak-connect';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { ExecutionsService } from './executions.service';
 
@@ -30,6 +31,7 @@ export class ExecutionsController {
   }
 
   @Get('artifact-download')
+  @Public()
   @Redirect()
   async getArtifactDownloadUrl(@Query('key') file: string) {
     if (!file || !file.trim()) {
