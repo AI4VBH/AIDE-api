@@ -75,6 +75,43 @@ describe('/Payloads Integration Tests', () => {
     expect(response.status).toBe(200);
   });
 
+  it.each([
+    ['3f777daf-8035-445c-a351-81fde5fd7654', 'Test Patient 1'],
+    ['3f777daf-8035-445c-a351-81fde5fd7654', ''],
+    ['', 'Test Patient 1'],
+    ['', ''],
+  ])(
+    '(GET) /payload includes patient name and id',
+    async (patientId, patientName) => {
+      let urlParameterPatientName = '';
+      let urlParameterPatientId = '';
+
+      server.use(
+        rest.get(
+          `${testMonaiBasePath}/payload`,
+          (_request, response, context) => {
+            urlParameterPatientName =
+              _request.url.searchParams.get('patientName');
+            urlParameterPatientId = _request.url.searchParams.get('patientId');
+
+            return response(context.json(PayloadMocks.basicPayloads1));
+          },
+        ),
+      );
+
+      const response = await request(app.getHttpServer()).get(
+        `/payloads?pageNumber=1&pageSize=10&patientId=${patientId}&patientName=${patientName}`,
+      );
+
+      if (urlParameterPatientName == null) urlParameterPatientName = '';
+      if (urlParameterPatientId == null) urlParameterPatientId = '';
+
+      expect(urlParameterPatientName).toBe(patientName);
+      expect(urlParameterPatientId).toBe(patientId);
+      expect(response.status).toBe(200);
+    },
+  );
+
   it('(GET) /payloads without returned data', async () => {
     server.use(
       rest.get(`${testMonaiBasePath}/payload`, (request, response, context) => {
