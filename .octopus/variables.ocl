@@ -2,42 +2,12 @@ variable "StorageClaimName" {
     value "aide-frontend-pvc" {}
 }
 
-variable "Host" {
-    value "dev-aide.answerdigital.io" {
-        environment = ["dev"]
-    }
-
-    value "sit-aide.answerdigital.io" {
-        environment = ["sit"]
-    }
-
-    value "uat-aide.answerdigital.io" {
-        environment = ["uat"]
-    }
-}
-
 variable "CertificateSecretName" {
     value "ingress-tls-secret" {}
 }
 
 variable "ImagePullSecretName" {
     value "regcred" {}
-}
-
-variable "KeycloakUrl" {
-    value "https://sit-aide.answerdigital.io:8443" {
-        environment = ["sit"]
-    }
-
-    value "https://dev-aide.answerdigital.io:8443" {
-        description = ""
-        environment = ["dev"]
-    }
-
-    value "https://uat-aide.answerdigital.io:8443" {
-        description = ""
-        environment = ["uat"]
-    }
 }
 
 variable "Namespace" {
