@@ -41,17 +41,3 @@ variable "MinIOPort" {
         environment = ["uat"]
     }
 }
-
-variable "MinIOHost" {
-    value "sit-aide.answerdigital.io" {
-        environment = ["sit"]
-    }
-
-    value "dev-aide.answerdigital.io" {
-        environment = ["dev"]
-    }
-
-    value "uat-aide.answerdigital.io" {
-        environment = ["uat"]
-    }
-}
