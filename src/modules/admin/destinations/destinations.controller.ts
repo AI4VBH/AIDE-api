@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -20,6 +21,11 @@ import { DestinationsService } from './destinations.service';
 export class DestinationsController {
   @Inject(DestinationsService)
   private readonly service: DestinationsService;
+
+  @Delete()
+  deleteDestination(@Param('name') name: string) {
+    return this.service.deleteDestination(name)
+  }
 
   @Get()
   getDestinations() {

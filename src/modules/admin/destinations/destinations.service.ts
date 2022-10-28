@@ -12,6 +12,18 @@ export class DestinationsService {
   @Inject(ConfigService)
   private readonly configService: ConfigService;
 
+  async deleteDestination(name: string) {
+    const baseURL = this.configService.get<string>('MIG_API_HOST');
+    
+    const response = await lastValueFrom(
+      this.httpService.delete<IDestination>(`/config/destination/${name}`, {
+        baseURL,
+      }),
+    );
+
+    return response.data
+  }
+
   async getDestinations(): Promise<IDestination[]> {
     const baseURL = this.configService.get<string>('MIG_API_HOST');
 

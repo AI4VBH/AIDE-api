@@ -51,6 +51,15 @@ describe('DestinationsController', () => {
     });
   });
 
+  describe('deleteDestination', () => {
+    it('returns expected result', async () => {
+      const expectedResponse = { aeTitle: 'aeTitle', port: 1234, hostIp: 'hostIp', name: 'lillie' }
+      destinationsService.deleteDestination.mockResolvedValue(expectedResponse);
+      const response = await controller.deleteDestination('lillie');
+      expect(response).toStrictEqual(expectedResponse)
+    });
+  });
+
   describe('registerDestinations', () => {
     it.each([
       { aeTitle: 'aeTitle', port: 1234, hostIp: 'hostIp', name: '' },
