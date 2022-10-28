@@ -1,3 +1,6 @@
+import RoleRepresentation, {
+  RoleMappingPayload,
+} from '@keycloak/keycloak-admin-client/lib/defs/roleRepresentation';
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
 import { Inject, Injectable } from '@nestjs/common';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
@@ -111,6 +114,28 @@ export class UsersService {
     );
   }
 
+  async listUserRoles(userId: string): Promise<RoleRepresentation[]> {
+    return await this.adminService.performAction((realm, client) =>
+      client.users.listRealmRoleMappings({
+        realm,
+        id: userId,
+      }),
+    );
+  }
+
+  async deleteRolesFromUser(
+    userId: string,
+    userRoles: RoleRepresentation[] = [],
+  ): Promise<void> {
+    return await this.adminService.performAction((realm, client) =>
+      client.users.delRealmRoleMappings({
+        realm,
+        id: userId,
+        roles: userRoles as RoleMappingPayload[],
+      }),
+    );
+  }
+
   async createUser(user: User): Promise<User> {
     const newUser = await this.adminService.performAction((realm, client) =>
       client.users.create({
@@ -129,6 +154,7 @@ export class UsersService {
   }
 
   async updateUser(userId: string, user: User): Promise<User> {
+    const existingUserRoles = await this.listUserRoles(userId);
     await this.adminService.performAction((realm, client) =>
       client.users.update(
         {
@@ -144,6 +170,7 @@ export class UsersService {
         },
       ),
     );
+    await this.deleteRolesFromUser(userId, existingUserRoles);
     await this.addRolesToUser(userId, user.realmRoles);
 
     return await this.getUser(userId);

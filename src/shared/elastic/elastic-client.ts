@@ -1,4 +1,4 @@
-import { Inject, Injectable, UseFilters } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Client, ClientOptions } from '@opensearch-project/opensearch';
 import { parseBoolean } from 'shared/util/parseBoolean';

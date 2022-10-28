@@ -162,6 +162,7 @@ describe('UsersService', () => {
   describe('updateUser', () => {
     it('should call client with update user command', async () => {
       usersMock.update.mockResolvedValue();
+      usersMock.delRealmRoleMappings.mockResolvedValue();
       usersMock.addRealmRoleMappings.mockResolvedValue();
       usersMock.listRealmRoleMappings.mockResolvedValue([
         {
@@ -195,6 +196,7 @@ describe('UsersService', () => {
       const user: User = await service.updateUser(userId, userBody as User);
 
       expect(usersMock.findOne).toHaveBeenCalled();
+      expect(usersMock.delRealmRoleMappings).toHaveBeenCalled();
       expect(usersMock.addRealmRoleMappings).toHaveBeenCalled();
       expect(usersMock.update).toHaveBeenCalled();
       expect(usersMock.listRealmRoleMappings).toHaveBeenCalled();
