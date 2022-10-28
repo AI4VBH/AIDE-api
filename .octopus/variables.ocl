@@ -43,3 +43,45 @@ variable "KeycloakUrl" {
 variable "Namespace" {
     value "aide" {}
 }
+
+variable "MinIOBucket" {
+    value "monaideploy" {
+        environment = ["dev"]
+    }
+
+    value "monaideploy" {
+        environment = ["sit"]
+    }
+
+    value "monaideploy" {
+        environment = ["uat"]
+    }
+}
+
+variable "MinIOPort" {
+    value "30091" {
+        environment = ["dev"]
+    }
+
+    value "30091" {
+        environment = ["sit"]
+    }
+
+    value "30091" {
+        environment = ["uat"]
+    }
+}
+
+variable "MinIOHost" {
+    value "sit-aide.answerdigital.io" {
+        environment = ["sit"]
+    }
+
+    value "dev-aide.answerdigital.io" {
+        environment = ["dev"]
+    }
+
+    value "uat-aide.answerdigital.io" {
+        environment = ["uat"]
+    }
+}
