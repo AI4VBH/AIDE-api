@@ -121,10 +121,10 @@ step "deploy-the-aide-api" {
                   KEYCLOAK_SECRET: #{KeycloakSecret}  
                   MONAI_API_HOST: http://workflow-manager.monai.svc.cluster.local:5000
                   MIG_API_HOST: http://informatics-gateway.monai.svc.cluster.local:5000  
-                  MINIO_HOST: minio-hl.minio.svc.cluster.local
-                  MINIO_PORT: 9000
-                  MINIO_USE_SSL: false
-                  MINIO_BUCKET: 'monaideploy'
+                  MINIO_HOST: #{MinIOHost}
+                  MINIO_PORT: #{MinIOPort}
+                  MINIO_USE_SSL: true
+                  MINIO_BUCKET: #{MinIOBucket}
                   PORT: 5000
                   KEYCLOAK_STATIC_ROLES: '["admin", "user_manager", "clinician"]'
                 
