@@ -98,7 +98,7 @@ step "deploy-the-aide-api" {
                   - name: #{ImagePullSecretName}
                 
                 ingress:
-                  host: #{Host}
+                  host: #{Hostname}
                   tlsSecretName: #{CertificateSecretName}
                 
                 secrets:
@@ -114,7 +114,7 @@ step "deploy-the-aide-api" {
                   ELASTIC_PORT: 9200
                   ELASTIC_USE_SSL: true
                   ELASTIC_INDEX: model_config  
-                  KEYCLOAK_URL: #{KeycloakUrl}
+                  KEYCLOAK_URL: #{RealmUrl}:8443/
                   KEYCLOAK_REALM: aide
                   KEYCLOAK_MASTER_REALM: master
                   KEYCLOAK_CLIENTID: aide-api
