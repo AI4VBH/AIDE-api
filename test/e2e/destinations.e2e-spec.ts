@@ -12,7 +12,7 @@ import DestinationsMock from '../test_data/mocks/destinations/destinations-index
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
-const testMigBasePath = 'https://localhost:1010';
+const testMigBasePath = 'https://localhost:7338';
 
 describe('/destinations Integration Tests', () => {
   let app: INestApplication;
@@ -111,6 +111,21 @@ describe('/destinations Integration Tests', () => {
       .send(DestinationsMock.destinationsObject1);
     expect(response.body).toMatchSnapshot();
     expect(response.statusCode).toBe(201);
+  });
+
+  it('(DELETE) /destinations/ with url param', async () => {
+    server.use(
+      rest.delete(`${testMigBasePath}/config/destination/Lillie`, (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json(DestinationsMock.destinationsObject1),
+        );
+      }),
+    );
+    const response = await request(app.getHttpServer())
+      .delete('/destinations/Lillie');
+    expect(response.body).toMatchSnapshot();
+    expect(response.statusCode).toBe(200);
   });
 
   it.each([

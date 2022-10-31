@@ -22,7 +22,7 @@ export class DestinationsController {
   @Inject(DestinationsService)
   private readonly service: DestinationsService;
 
-  @Delete()
+  @Delete(':name')
   deleteDestination(@Param('name') name: string) {
     return this.service.deleteDestination(name)
   }

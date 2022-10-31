@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`/destinations Integration Tests (DELETE) /destinations/ with url param 1`] = `
+{
+  "aeTitle": "AE_TITLE",
+  "hostIp": "0.1.1.1",
+  "name": "SOME_NAME",
+  "port": 5000,
+}
+`;
+
 exports[`/destinations Integration Tests (GET) /destinations with destinations 1`] = `
 [
   {
