@@ -10,6 +10,7 @@ import {
 import { mapToPagedWorkflowsDto } from './workflows.mapper';
 import { WorkflowDto } from './dto/aide-workflow.dto';
 import { WorkflowServiceException } from './workflow.service.exceptions';
+import { RolesService } from 'modules/roles/roles.service';
 
 @Injectable()
 export class WorkflowsService {
@@ -18,6 +19,9 @@ export class WorkflowsService {
 
   @Inject(ConfigService)
   private readonly configService: ConfigService;
+
+  @Inject(RolesService)
+  private readonly rolesService: RolesService;
 
   async getPagedWorkflows(pageNumber: number, pageSize: number) {
     const params = new URLSearchParams({
@@ -79,10 +83,57 @@ export class WorkflowsService {
     }
   }
 
+  async verifyClinicalReviewRoles(workflow: Partial<WorkflowDto>) {
+    const clinicalReviewTasks = workflow?.tasks?.filter(
+      (t) => t.type.toLowerCase() == 'aide_clinical_review',
+    );
+
+    if (!clinicalReviewTasks) {
+      return true;
+    }
+
+    let errorMessage = 'The following tasks have invalid review roles:';
+    let failed = false;
+
+    for (const reviewTask of clinicalReviewTasks) {
+      const roles = reviewTask?.args['reviewer_roles'];
+
+      if (!roles) {
+        continue;
+      }
+
+      if (!(await this.verifyRoles(roles))) {
+        failed = true;
+        errorMessage += ` ${reviewTask.id}`;
+      }
+    }
+
+    if (failed) {
+      throw new WorkflowServiceException(errorMessage);
+    }
+  }
+
+  async verifyRoles(roles: string[]) {
+    if (!roles || roles.length < 1) {
+      return true;
+    }
+    const rolesList = await this.rolesService.getAllRoles();
+
+    const roleNameList = rolesList?.map((r) => r.name.toLowerCase());
+
+    if (roles?.every((r) => roleNameList?.includes(r.toLowerCase()))) {
+      return true;
+    }
+
+    return false;
+  }
+
   async createWorkflow(workflow: Partial<WorkflowDto>) {
     const aeTitle = workflow?.informatics_gateway?.ae_title as string;
     const destinations = workflow?.informatics_gateway
       ?.export_destinations as string[];
+
+    await this.verifyClinicalReviewRoles(workflow);
 
     await this.registerAeTitleAndVerifyDestinations(aeTitle, destinations);
 
@@ -97,6 +148,8 @@ export class WorkflowsService {
     const aeTitle = workflow?.informatics_gateway?.ae_title as string;
     const destinations = workflow?.informatics_gateway
       ?.export_destinations as string[];
+
+    await this.verifyClinicalReviewRoles(workflow);
 
     await this.registerAeTitleAndVerifyDestinations(aeTitle, destinations);
 

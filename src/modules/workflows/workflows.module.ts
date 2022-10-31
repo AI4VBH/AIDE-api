@@ -1,6 +1,8 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+import { RolesService } from 'modules/roles/roles.service';
 import { HttpConfigService } from 'shared/http/http.service';
+import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { WorkflowsController } from './workflows.controller';
 import { WorkflowsService } from './workflows.service';
 
@@ -11,6 +13,6 @@ import { WorkflowsService } from './workflows.service';
     }),
   ],
   controllers: [WorkflowsController],
-  providers: [WorkflowsService],
+  providers: [WorkflowsService, RolesService, KeycloakAdminService],
 })
 export class WorkflowsModule {}

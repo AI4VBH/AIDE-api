@@ -10,6 +10,8 @@ import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
 import WorkflowMocks from '../test_data/mocks/workflows/workflows-index';
 import { MonaiWorkflow } from 'modules/workflows/monai-workflow.interfaces';
+import { RolesService } from 'modules/roles/roles.service';
+import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
@@ -50,7 +52,7 @@ describe('/Workflows Integration Tests', () => {
         }),
       ],
       controllers: [WorkflowsController],
-      providers: [WorkflowsService],
+      providers: [WorkflowsService, RolesService, KeycloakAdminService],
     }).compile();
 
     app = moduleFixture.createNestApplication();

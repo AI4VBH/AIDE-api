@@ -19,6 +19,20 @@ import { APP_GUARD } from '@nestjs/core';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
+const authenticationGuards =
+  process.env.DISABLE_AUTH === 'true'
+    ? []
+    : [
+        {
+          provide: APP_GUARD,
+          useClass: AuthGuard,
+        },
+        {
+          provide: APP_GUARD,
+          useClass: RoleGuard,
+        },
+      ];
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -40,15 +54,6 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     WorkflowsModule,
   ],
   controllers: [],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RoleGuard,
-    },
-  ],
+  providers: [...authenticationGuards],
 })
 export class AppModule {}
