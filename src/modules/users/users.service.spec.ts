@@ -77,7 +77,14 @@ describe('UsersService', () => {
         },
       ]);
 
-      const userPage: UserPage = await service.getUsers(0, 1, '', '', false);
+      const userPage: UserPage = await service.getUsers(
+        0,
+        1,
+        '',
+        '',
+        '',
+        false,
+      );
 
       expect(usersMock.find).toHaveBeenCalled();
       expect(usersMock.count).toHaveBeenCalled();

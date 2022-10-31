@@ -5,6 +5,7 @@ import * as userMock from './__mocks__/user.json';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
+import { BadRequestException } from '@nestjs/common';
 
 describe('UsersController', () => {
   let kcAdminService: DeepMocked<KeycloakAdminService>;
@@ -35,6 +36,20 @@ describe('UsersController', () => {
   });
 
   describe('getUsers', () => {
+    it.each([
+      [-1, 5],
+      [0, -1],
+      [-1, -1],
+    ])(
+      'throws exception if first/max are negative. first: %s, max: %s',
+      async (first, max) => {
+        const action = async () =>
+          await controller.getUsers(first, max, '', '', '', false);
+
+        await expect(action).rejects.toThrow(BadRequestException);
+      },
+    );
+
     it('should return paginated list of users', async () => {
       service.getUsers.mockResolvedValue({
         totalUserCount: 5,
@@ -42,7 +57,7 @@ describe('UsersController', () => {
         users: [userMock],
       });
 
-      const response = await controller.getUsers(0, 1, '', '', false);
+      const response = await controller.getUsers(0, 1, '', '', '', false);
 
       expect(response).toEqual({
         totalUserCount: 5,
@@ -59,7 +74,7 @@ describe('UsersController', () => {
       users: [userMock],
     });
 
-    const response = await controller.getUsers(0, 1, 'user', '', false);
+    const response = await controller.getUsers(0, 1, '', 'user', '', false);
 
     expect(response).toEqual({
       totalUserCount: 5,

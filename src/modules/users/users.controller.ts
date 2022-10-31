@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -24,11 +25,25 @@ export class UsersController {
   getUsers(
     @Query('first') first = 0,
     @Query('max') max = 5,
+    @Query('role') role: string,
     @Query('search') search: string,
     @Query('sortBy') sortBy: string,
     @Query('sortDesc') sortDesc: boolean,
   ): Promise<UserPage> {
-    return this.usersService.getUsers(first, max, search, sortBy, sortDesc);
+    if (first < 0 || max < 0) {
+      throw new BadRequestException(
+        'first or max should not be negative values.',
+      );
+    }
+
+    return this.usersService.getUsers(
+      first,
+      max,
+      role,
+      search,
+      sortBy,
+      sortDesc,
+    );
   }
 
   @Get(':id')

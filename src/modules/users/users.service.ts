@@ -14,53 +14,23 @@ export class UsersService {
   async getUsers(
     first: number,
     max: number,
+    role?: string,
     search?: string,
     sortBy?: string,
     sortDesc?: boolean,
   ): Promise<UserPage> {
-    const userPage: UserPage = {
-      totalUserCount: 0,
-      totalFilteredUserCount: 0,
-      users: [],
-    };
-
-    userPage.totalUserCount = await this.getUserCount();
-
-    if (search) {
-      userPage.totalFilteredUserCount = await this.getUserCount(search);
-    } else {
-      userPage.totalFilteredUserCount = userPage.totalUserCount;
-    }
-
-    let users = await this.adminService.performAction((realm, client) =>
-      client.users.find({
-        realm,
-        search,
+    if (role) {
+      return await this.getPagedUsersInRole(
         first,
         max,
-      }),
-    );
-
-    if (sortBy) {
-      users = users.sort((a, b) => {
-        const sortA = a[sortBy];
-        const sortB = b[sortBy];
-
-        if (sortDesc) {
-          return sortA === sortB ? 0 : sortA < sortB ? 1 : -1;
-        }
-
-        return sortA === sortB ? 0 : sortA > sortB ? 1 : -1;
-      });
+        role,
+        search,
+        sortBy,
+        sortDesc,
+      );
     }
 
-    for (const user of users) {
-      const userRoles = await this.getUserRoles(user.id);
-
-      userPage.users.push(User.formatUserDetails(user, userRoles));
-    }
-
-    return userPage;
+    return await this.getPagedUsers(first, max, search, sortBy, sortDesc);
   }
 
   async getUserCount(search?: string): Promise<number> {
@@ -180,6 +150,114 @@ export class UsersService {
     return await this.adminService.performAction((realm, client) =>
       client.users.del({ realm, id: userId }),
     );
+  }
+
+  private async getPagedUsersInRole(
+    first: number,
+    max: number,
+    roleName: string,
+    search?: string,
+    sortBy?: string,
+    sortDesc?: boolean,
+  ): Promise<UserPage> {
+    let users = await this.adminService.performAction((realm, client) =>
+      client.roles.findUsersWithRole({ realm, name: roleName }),
+    );
+
+    const totalUserCount = await this.getUserCount();
+    let totalFilteredUserCount = users.length;
+
+    if (sortBy) {
+      users = users.sort((a, b) => {
+        const sortA = a[sortBy];
+        const sortB = b[sortBy];
+
+        if (sortDesc) {
+          return sortA === sortB ? 0 : sortA < sortB ? 1 : -1;
+        }
+
+        return sortA === sortB ? 0 : sortA > sortB ? 1 : -1;
+      });
+    }
+
+    if (search) {
+      const searchText = search.toLocaleLowerCase();
+
+      users = users.filter(
+        (u) =>
+          u.email.toLocaleLowerCase().includes(searchText) ||
+          u.firstName.toLocaleLowerCase().includes(searchText) ||
+          u.lastName.toLocaleLowerCase().includes(searchText),
+      );
+
+      totalFilteredUserCount = users.length;
+    }
+
+    const paged = users.slice(first, first + max);
+    const userDto: User[] = [];
+
+    for (const user of paged) {
+      const userRoles = await this.getUserRoles(user.id);
+
+      userDto.push(User.formatUserDetails(user, userRoles));
+    }
+
+    return {
+      totalUserCount,
+      totalFilteredUserCount,
+      users: userDto,
+    };
+  }
+
+  private async getPagedUsers(
+    first: number,
+    max: number,
+    search?: string,
+    sortBy?: string,
+    sortDesc?: boolean,
+  ): Promise<UserPage> {
+    const totalUserCount = await this.getUserCount();
+    let totalFilteredUserCount = totalUserCount;
+
+    if (search) {
+      totalFilteredUserCount = await this.getUserCount(search);
+    }
+
+    let users = await this.adminService.performAction((realm, client) =>
+      client.users.find({
+        realm,
+        search,
+        first,
+        max,
+      }),
+    );
+
+    if (sortBy) {
+      users = users.sort((a, b) => {
+        const sortA = a[sortBy];
+        const sortB = b[sortBy];
+
+        if (sortDesc) {
+          return sortA === sortB ? 0 : sortA < sortB ? 1 : -1;
+        }
+
+        return sortA === sortB ? 0 : sortA > sortB ? 1 : -1;
+      });
+    }
+
+    const userDto: User[] = [];
+
+    for (const user of users) {
+      const userRoles = await this.getUserRoles(user.id);
+
+      userDto.push(User.formatUserDetails(user, userRoles));
+    }
+
+    return {
+      totalUserCount,
+      totalFilteredUserCount,
+      users: userDto,
+    };
   }
 }
 
