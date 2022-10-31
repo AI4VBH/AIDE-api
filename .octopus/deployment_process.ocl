@@ -102,14 +102,6 @@ step "deploy-the-aide-api" {
                   host: #{Hostname}
                   tlsSecretName: #{CertificateSecretName}
                 
-                secrets:
-                  - name: elastic-secret-master
-                    keyValues:
-                      - key: username
-                        value: #{ElasticUser}
-                      - key: password
-                        value: #{ElasticPassword}
-                
                 enviromentVariables:
                   ELASTIC_HOST: opensearch.shared.svc.cluster.local
                   ELASTIC_PORT: 9200
