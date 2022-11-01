@@ -145,7 +145,7 @@ step "deploy-the-aide-api" {
                   MINIO_USE_SSL: true
                   MINIO_BUCKET: #{MinIOBucket}
                   PORT: 5000
-                  KEYCLOAK_STATIC_ROLES: '["admin", "user_manager", "clinician"]'
+                  KEYCLOAK_STATIC_ROLES: '["admin", "user_management", "clinician"]'
                 
                 enviromentVariablesFromSecrets:
                   secrets:
