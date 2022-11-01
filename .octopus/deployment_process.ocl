@@ -78,6 +78,33 @@ step "add-elastic-secret" {
     }
 }
 
+step "add-the-certificate-ca-configmap" {
+    name = "Add the Certificate CA Configmap"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesRunScript"
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                mkdir ca-bundle
+                
+                cat <<EOF >> ca-bundle/ca-certificates.pem
+                $(get_octopusvariable "IngressCertificate.ChainPem")
+                EOF
+                
+                kubectl create configmap ca-bundle --from-file=ca-bundle -n $(get_octopusvariable "Namespace")
+                
+                rm -rf ca-bundle
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
+
 step "deploy-the-aide-api" {
     name = "Deploy the AIDE API"
     properties = {
