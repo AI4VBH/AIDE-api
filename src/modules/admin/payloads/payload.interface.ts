@@ -39,6 +39,7 @@ export interface IMonaiPayloadPatient {
 export interface WorkflowInstanceDto {
   id: string;
   ae_title: string;
+  workflow_name: string;
   workflow_id: string;
   start_time: string;
   payload_id: string;

@@ -26,6 +26,7 @@ export function mapWorkflowInstancesToExecutions(
       id: instance.id,
       ae_title: instance.ae_title,
       workflow_id: instance.workflow_id,
+      workflow_name: instance.workflow_name,
       payload_id: instance.payload_id,
       start_time: instance.start_time,
       status: instance.status,

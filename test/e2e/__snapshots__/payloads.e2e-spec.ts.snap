@@ -177,6 +177,7 @@ exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with 
       },
     ],
     "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+    "workflow_name": "workflow-name-1",
   },
 ]
 `;
@@ -211,6 +212,7 @@ exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with 
       },
     ],
     "workflow_id": "0c262733-05a1-4811-9d9a-b5cadb5a475a",
+    "workflow_name": "workflow-name-2",
   },
 ]
 `;
@@ -235,6 +237,7 @@ exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with 
       },
     ],
     "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+    "workflow_name": "workflow-name-3",
   },
 ]
 `;
@@ -259,6 +262,7 @@ exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with 
       },
     ],
     "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+    "workflow_name": "workflow-name-4a",
   },
   {
     "ae_title": "MonaiSCU",
@@ -278,6 +282,7 @@ exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with 
       },
     ],
     "workflow_id": "739e4f70-a6c0-4e98-8e47-469f7b8b9606",
+    "workflow_name": "workflow-name-4b",
   },
 ]
 `;
@@ -340,6 +345,7 @@ exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with 
       },
     ],
     "workflow_id": "0c262733-05a1-4811-9d9a-b5cadb5a475a",
+    "workflow_name": "workflow-name-5",
   },
 ]
 `;

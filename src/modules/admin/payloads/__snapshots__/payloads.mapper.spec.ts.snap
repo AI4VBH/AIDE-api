@@ -74,6 +74,7 @@ exports[`workflowInstancesToExecutionsMapper returns expected result 1`] = `
       },
     ],
     "workflow_id": "fca60a4d-2932-4196-9206-cf123c82332b",
+    "workflow_name": "some-workflow-name",
   },
 ]
 `;

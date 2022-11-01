@@ -24,6 +24,7 @@ describe('workflowInstancesToExecutionsMapper', () => {
         ae_title: 'some-title',
         payload_id: '041293d0-ab97-4ea1-b967-42ec62f26608',
         workflow_id: 'fca60a4d-2932-4196-9206-cf123c82332b',
+        workflow_name: 'some-workflow-name',
         start_time: '2022-09-22T12:45:13.102Z',
         status: 'Succeeded',
         tasks: [
