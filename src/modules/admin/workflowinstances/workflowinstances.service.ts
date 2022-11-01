@@ -1,6 +1,5 @@
 import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
-import { AxiosError, AxiosResponse } from 'axios';
 import { lastValueFrom } from 'rxjs';
 import { MonaiWorkflowInstance } from './workflowinstances.interface';
 
@@ -22,13 +21,9 @@ export class WorkflowInstancesService {
     return response.data;
   }
 
-  async getAcknowledgedTaskErrors(
-    sinceDate: string,
-  ): Promise<MonaiWorkflowInstance[]> {
+  async getAcknowledgedTaskErrors(): Promise<MonaiWorkflowInstance[]> {
     const response = await lastValueFrom(
-      this.httpService.get<MonaiWorkflowInstance[]>(
-        `workflowinstances/failed?acknowledged=${sinceDate}`,
-      ),
+      this.httpService.get<MonaiWorkflowInstance[]>('workflowinstances/failed'),
     );
 
     return response.data;

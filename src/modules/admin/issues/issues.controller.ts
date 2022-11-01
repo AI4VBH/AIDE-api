@@ -22,14 +22,8 @@ export class IssuesController {
   private readonly issuesService: IssuesService;
 
   @Get('failed')
-  async getAcknowledgedTaskErrors(@Query('acknowledged') acknowledged: string) {
-    if (!acknowledged || !acknowledged.trim()) {
-      throw new BadRequestException('acknowledged query value is missing');
-    }
-
-    const response = await this.wfiService.getAcknowledgedTaskErrors(
-      acknowledged,
-    );
+  async getAcknowledgedTaskErrors() {
+    const response = await this.wfiService.getAcknowledgedTaskErrors();
 
     return this.issuesService.getIssues(response);
   }

@@ -110,19 +110,8 @@ describe('IssuesController', () => {
         givenWorkflowInstances,
       );
 
-      const dateTimeNow = new Date().toISOString().split('T')[0];
-      const response = await controller.getAcknowledgedTaskErrors(dateTimeNow);
+      const response = await controller.getAcknowledgedTaskErrors();
       expect(response).toStrictEqual([expectedIssuesDto]);
     });
-
-    it.each(['', ' ', null, undefined])(
-      'throws exception when acknowledged is %s',
-      async (acknowledged: string) => {
-        const action = async () =>
-          await controller.getAcknowledgedTaskErrors(acknowledged);
-
-        await expect(action).rejects.toThrow(BadRequestException);
-      },
-    );
   });
 });

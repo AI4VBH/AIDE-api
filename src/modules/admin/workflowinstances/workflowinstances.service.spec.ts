@@ -115,9 +115,7 @@ describe('PayloadsService', () => {
       });
       httpService.get.mockReturnValue(makeObservableForTest(axios.get));
 
-      const dateTimeNow = new Date().toISOString().split('T')[0];
-
-      const response = await service.getAcknowledgedTaskErrors(dateTimeNow);
+      const response = await service.getAcknowledgedTaskErrors();
 
       expect(response).toMatchSnapshot();
     });
