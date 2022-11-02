@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WorkflowsService getClinicalReviews returns expected result 1`] = `
+{
+  "data": [],
+  "firstPage": "/page-1",
+  "lastPage": "/page-1",
+  "nextPage": null,
+  "pageNumber": 1,
+  "pageSize": 10,
+  "previousPage": null,
+  "totalPages": 1,
+  "totalRecords": 0,
+}
+`;
