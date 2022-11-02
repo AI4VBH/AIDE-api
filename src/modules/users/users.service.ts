@@ -168,9 +168,9 @@ export class UsersService {
     let totalFilteredUserCount = users.length;
 
     if (sortBy) {
-      users = users.sort((a, b) => {
-        const sortA = a[sortBy];
-        const sortB = b[sortBy];
+      users.sort((a, b) => {
+        const sortA = a[sortBy].toLocaleLowerCase();
+        const sortB = b[sortBy].toLocaleLowerCase();
 
         if (sortDesc) {
           return sortA === sortB ? 0 : sortA < sortB ? 1 : -1;
@@ -223,7 +223,7 @@ export class UsersService {
       totalFilteredUserCount = await this.getUserCount(search);
     }
 
-    let users = await this.adminService.performAction((realm, client) =>
+    const users = await this.adminService.performAction((realm, client) =>
       client.users.find({
         realm,
         search,
@@ -233,9 +233,9 @@ export class UsersService {
     );
 
     if (sortBy) {
-      users = users.sort((a, b) => {
-        const sortA = a[sortBy];
-        const sortB = b[sortBy];
+      users.sort((a, b) => {
+        const sortA = a[sortBy].toLocaleLowerCase();
+        const sortB = b[sortBy].toLocaleLowerCase();
 
         if (sortDesc) {
           return sortA === sortB ? 0 : sortA < sortB ? 1 : -1;
