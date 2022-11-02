@@ -2,6 +2,7 @@ import RoleRepresentation, {
   RoleMappingPayload,
 } from '@keycloak/keycloak-admin-client/lib/defs/roleRepresentation';
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
+import { Users } from '@keycloak/keycloak-admin-client/lib/resources/users';
 import { Inject, Injectable } from '@nestjs/common';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { User, UserPage, UserRole } from './user.dto';
@@ -31,9 +32,13 @@ export class UsersService {
   }
 
   async getUserRoles(userId: string): Promise<UserRole[]> {
-    const userRoleObjects = await this.adminService.performAction(
+    let userRoleObjects = await this.adminService.performAction(
       (realm, client) =>
         client.users.listRealmRoleMappings({ realm, id: userId }),
+    );
+
+    userRoleObjects = userRoleObjects.filter(
+      (role) => role.name !== 'default-roles-aide',
     );
 
     return userRoleObjects.map((role) => ({

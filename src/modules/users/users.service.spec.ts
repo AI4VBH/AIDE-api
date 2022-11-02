@@ -247,6 +247,34 @@ describe('UsersService', () => {
     });
   });
 
+  describe('getFilteredUserRoles', () => {
+    it('should call client with get user roles command but the default-roles-aid filtered out', async () => {
+      usersMock.listRealmRoleMappings.mockResolvedValue([
+        {
+          id: '9600228a-98fc-47e0-a674-054ba13e4bae',
+          name: 'admin',
+        },
+        {
+          id: '5feb95d0-b672-4f8c-a7bc-51f2742c0037',
+          name: 'default-roles-aide',
+        },
+      ]);
+      usersMock.findOne.mockResolvedValue(userRepresentationMock);
+      const userId = '6f917038-147e-4e0b-8a1a-255c42906ae7';
+      const userMockExpectedRoles = [
+        {
+          id: '9600228a-98fc-47e0-a674-054ba13e4bae',
+          name: 'admin',
+        },
+      ];
+
+      const userRoles = await service.getUserRoles(userId);
+
+      expect(usersMock.listRealmRoleMappings).toHaveBeenCalled();
+      expect(userRoles).toEqual(userMockExpectedRoles);
+    });
+  });
+
   describe('getUserCount', () => {
     it('should call client with get user count command', async () => {
       usersMock.count.mockResolvedValue(1);
