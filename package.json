@@ -14,7 +14,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "audit": "better-npm-audit audit -l moderate",
+    "audit": "better-npm-audit audit -l moderate -p",
     "test:unit": "jest --config ./src/jest-unit.json",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
