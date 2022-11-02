@@ -65,19 +65,19 @@ describe('/issues integration Tests', () => {
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
+        `${testMonaiBasePath}/payload/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.payload1));
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/a0e7b480-1bd8-41f9-a6cf-1ab7952aab32`,
+        `${testMonaiBasePath}/payload/a0e7b480-1bd8-41f9-a6cf-1ab7952aab32`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.payload2));
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/3147c4b5-6652-4d25-82f8-f9ed58b74e43`,
+        `${testMonaiBasePath}/payload/3147c4b5-6652-4d25-82f8-f9ed58b74e43`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.payload3));
         },
@@ -99,19 +99,19 @@ describe('/issues integration Tests', () => {
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
+        `${testMonaiBasePath}/payload/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.payload1));
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/a0e7b480-1bd8-41f9-a6cf-1ab7952aab32`,
+        `${testMonaiBasePath}/payload/a0e7b480-1bd8-41f9-a6cf-1ab7952aab32`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.payload2));
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/3147c4b5-6652-4d25-82f8-f9ed58b74e43`,
+        `${testMonaiBasePath}/payload/3147c4b5-6652-4d25-82f8-f9ed58b74e43`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.payload3));
         },
@@ -133,7 +133,7 @@ describe('/issues integration Tests', () => {
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
+        `${testMonaiBasePath}/payload/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.payload1));
         },
@@ -155,7 +155,7 @@ describe('/issues integration Tests', () => {
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
+        `${testMonaiBasePath}/payload/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
         (_request, response, context) => {
           return response(context.json(IssuesMocks.payload1));
         },
@@ -196,7 +196,7 @@ describe('/issues integration Tests', () => {
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
+        `${testMonaiBasePath}/payload/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
         (_request, response, context) => {
           return response(
             context.status(404),
@@ -240,7 +240,7 @@ describe('/issues integration Tests', () => {
         },
       ),
       rest.get(
-        `${testMonaiBasePath}/payloads/invalid-guid`,
+        `${testMonaiBasePath}/payload/invalid-guid`,
         (_request, response, context) => {
           return response(
             context.status(400),
@@ -279,7 +279,7 @@ describe('/issues integration Tests', () => {
   );
 
   it.each([408, 500, 501, 502, 503, 504])(
-    '(GET) issues/failed?acknowledged=YYYY-MM-DD - correct status when MONAI gives general error for /payloads/:UUID with code %s',
+    '(GET) issues/failed?acknowledged=YYYY-MM-DD - correct status when MONAI gives general error for /payload/:UUID with code %s',
     async (code) => {
       server.use(
         rest.get(
@@ -289,7 +289,7 @@ describe('/issues integration Tests', () => {
           },
         ),
         rest.get(
-          `${testMonaiBasePath}/payloads/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
+          `${testMonaiBasePath}/payload/fea1bc88-73e3-436a-aa6e-83364ff8d7d1`,
           (_request, response, context) => {
             return response(context.status(code));
           },

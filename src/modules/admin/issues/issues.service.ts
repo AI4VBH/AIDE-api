@@ -23,7 +23,7 @@ export class IssuesService {
     for (const payloadId of payloadIds) {
       promises.push(
         lastValueFrom(
-          this.httpService.get<IMonaiPayload>(`payloads/${payloadId}`),
+          this.httpService.get<IMonaiPayload>(`payload/${payloadId}`),
         ),
       );
     }

@@ -22,7 +22,7 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const logger = new Logger('ExceptionFilter');
 
-    logger.error(exception);
+    logger.error(exception, JSON.stringify(exception, null, 2));
 
     if (exception instanceof HttpException) {
       const status = exception.getStatus();
