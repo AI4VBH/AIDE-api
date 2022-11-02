@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Inject,
+  Logger,
   Param,
   ParseUUIDPipe,
   Query,
@@ -34,11 +35,15 @@ export class ExecutionsController {
   @Public()
   @Redirect()
   async getArtifactDownloadUrl(@Query('key') file: string) {
+    const logger = new Logger('ArtifactDownload');
+
     if (!file || !file.trim()) {
       throw new BadRequestException('key query value is missing');
     }
 
+    logger.log(`Generating pre-signed url for key: '${file}'`);
     const url = await this.executionsService.getArtifactUrl(file);
+    logger.log(`Pre-signed URL generated: ${url}`);
 
     return { url };
   }

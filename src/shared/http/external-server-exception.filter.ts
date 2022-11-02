@@ -4,6 +4,7 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AxiosError } from 'axios';
@@ -19,6 +20,9 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+    const logger = new Logger('ExceptionFilter');
+
+    logger.error(exception);
 
     if (exception instanceof HttpException) {
       const status = exception.getStatus();
