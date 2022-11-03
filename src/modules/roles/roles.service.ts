@@ -33,7 +33,7 @@ export class RolesService {
   ) {
     const staticRoles = this.config.get<string[]>('KEYCLOAK_STATIC_ROLES');
 
-    const allRoles = await this.adminService.performAction((realm, client) =>
+    let allRoles = await this.adminService.performAction((realm, client) =>
       client.roles.find({ realm }),
     );
 
@@ -54,10 +54,20 @@ export class RolesService {
       });
     }
 
+    filteredRoles = filteredRoles.filter(
+      (role) => role.name !== 'default-roles-aide',
+    );
+
+    allRoles = allRoles.filter((role) => role.name !== 'default-roles-aide');
+
     let totalFilteredRoles = allRoles.length;
     if (search) {
-      const filteredUnpagedRoles = await this.adminService.performAction(
+      let filteredUnpagedRoles = await this.adminService.performAction(
         (realm, client) => client.roles.find({ realm, search }),
+      );
+
+      filteredUnpagedRoles = filteredUnpagedRoles.filter(
+        (role) => role.name !== 'default-roles-aide',
       );
 
       totalFilteredRoles = filteredUnpagedRoles.length;
