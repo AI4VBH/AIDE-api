@@ -15,9 +15,16 @@ export class MinioClient extends Client {
     });
 
     this.bucketName = config.get<string>('MINIO_BUCKET');
+
+    const scheme = parseBoolean(config.get('MINIO_USE_SSL')) ? 'https' : 'http';
+
+    this.baseUrl = `${scheme}://${config.get<string>('MINIO_HOST')}:${parseInt(
+      config.get('MINIO_PORT'),
+    )}`;
   }
 
   private readonly bucketName: string;
+  public readonly baseUrl: string;
 
   async getPresignedObjectUrl(objectName: string): Promise<string> {
     return await this.presignedGetObject(this.bucketName, objectName, 60 * 60);

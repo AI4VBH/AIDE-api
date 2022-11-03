@@ -1,5 +1,6 @@
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { BadRequestException } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ExecutionsController } from './executions.controller';
 import { ExecutionsService } from './executions.service';
@@ -12,6 +13,12 @@ describe('ExecutionsController', () => {
     executionsService = createMock<ExecutionsService>();
 
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          isGlobal: true,
+          load: [() => ({})],
+        }),
+      ],
       controllers: [ExecutionsController],
       providers: [{ provide: ExecutionsService, useValue: executionsService }],
     }).compile();

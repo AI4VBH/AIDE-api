@@ -41,6 +41,7 @@ describe('/executions Integration Tests', () => {
               MINIO_HOST: 'localhost',
               MINIO_PORT: 9000,
               MINIO_USE_SSL: false,
+              MINIO_EXTERNAL_URL: 'http://some-external-minio.site/document',
               MINIO_ACCESS_KEY: 'access-key',
               MINIO_SECRET_KEY: 'secret-key',
               MINIO_BUCKET: 'bucket-name',
@@ -186,7 +187,9 @@ describe('/executions Integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/executions/artifact-download?key=minio-object-key',
     );
-    expect(response.body).toMatchSnapshot();
+    expect(response.headers.location).toContain(
+      'http://some-external-minio.site/document',
+    );
     expect(response.status).toBe(302);
   });
 

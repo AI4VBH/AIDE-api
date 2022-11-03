@@ -10,6 +10,7 @@ import {
   Redirect,
   UseFilters,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Public } from 'nest-keycloak-connect';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { ExecutionsService } from './executions.service';
@@ -19,6 +20,9 @@ import { ExecutionsService } from './executions.service';
 export class ExecutionsController {
   @Inject(ExecutionsService)
   private readonly executionsService: ExecutionsService;
+
+  @Inject(ConfigService)
+  private readonly config: ConfigService;
 
   @Get(':workflow_instance_id/tasks/:execution_id/artifacts')
   async getWorkflowInstanceArtifacts(
@@ -41,11 +45,14 @@ export class ExecutionsController {
       throw new BadRequestException('key query value is missing');
     }
 
+    const internalMinIo = this.executionsService.minioBaseUrl;
+    const externalMinIo = this.config.get<string>('MINIO_EXTERNAL_URL');
+
     logger.log(`Generating pre-signed url for key: '${file}'`);
     const url = await this.executionsService.getArtifactUrl(file);
     logger.log(`Pre-signed URL generated: ${url}`);
 
-    return { url };
+    return { url: url.replace(internalMinIo, externalMinIo) };
   }
 
   @Get(':workflow_instance_id/tasks/:execution_id/metadata')

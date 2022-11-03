@@ -86,5 +86,3 @@ exports[`/executions Integration Tests (GET) /executions/:workflow_inst_id/tasks
   "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
 }
 `;
-
-exports[`/executions Integration Tests (GET) /executions/artifact-download?key=minio-object-key minio with download link 1`] = `{}`;

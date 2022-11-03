@@ -16,6 +16,10 @@ export class ExecutionsService {
   @Inject(MinioClient)
   private readonly minioClient: MinioClient;
 
+  public get minioBaseUrl(): string {
+    return this.minioClient.baseUrl;
+  }
+
   async getWorkflowInstanceArtifacts(
     workflowInstanceId: string,
     executionId: string,
@@ -45,7 +49,6 @@ export class ExecutionsService {
   async getArtifactUrl(file: string) {
     try {
       const url = await this.minioClient.getPresignedObjectUrl(file);
-
       return url;
     } catch (exception) {
       throw new MinoiClientException(exception.message);
