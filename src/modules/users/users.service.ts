@@ -185,8 +185,6 @@ export class UsersService {
       });
     }
 
-    // users = users.realmRoles.filter
-
     if (search) {
       const searchText = search.toLocaleLowerCase();
 
