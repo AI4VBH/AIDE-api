@@ -16,21 +16,12 @@ export class UsersService {
     max: number,
     role?: string,
     search?: string,
-    sortBy?: string,
-    sortDesc?: boolean,
   ): Promise<UserPage> {
     if (role) {
-      return await this.getPagedUsersInRole(
-        first,
-        max,
-        role,
-        search,
-        sortBy,
-        sortDesc,
-      );
+      return await this.getPagedUsersInRole(first, max, role, search);
     }
 
-    return await this.getPagedUsers(first, max, search, sortBy, sortDesc);
+    return await this.getPagedUsers(first, max, search);
   }
 
   async getUserCount(search?: string): Promise<number> {
