@@ -71,9 +71,7 @@ export class WorkflowsService {
         }),
       );
 
-      const existingDestinations = getDestination.data.map(
-        (item) => item.aeTitle,
-      );
+      const existingDestinations = getDestination.data.map((item) => item.name);
 
       if (!destinations.every((v) => existingDestinations.includes(v))) {
         throw new WorkflowServiceException(
