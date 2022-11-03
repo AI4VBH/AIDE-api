@@ -57,3 +57,13 @@ enviromentVariablesFromSecrets:
     - name: MINIO_SECRET_KEY
       secretName: minio-secret-master
       secretKey: secretKey
+
+secrets:
+  - name: elastic-secret-master
+    namespace: aide
+    type: Opaque
+    values:
+      password: password
+      username: root
+
+  
