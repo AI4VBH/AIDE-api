@@ -151,10 +151,10 @@ step "deploy-the-aide-api" {
                 enviromentVariablesFromSecrets:
                   secrets:
                     - name: ELASTIC_USERNAME
-                      secretName: elastic-secret-master
+                      secretName: #{ElasticSecretName}
                       secretKey: username
                     - name: ELASTIC_PASSWORD
-                      secretName: elastic-secret-master
+                      secretName: #{ElasticSecretName}
                       secretKey: password
                     - name: DATABASE_HOST
                       secretName: postgres-pguser-aide
@@ -177,6 +177,14 @@ step "deploy-the-aide-api" {
                     - name: MINIO_SECRET_KEY
                       secretName: minio-admin-user
                       secretKey: password
+                      
+                secrets:
+                  - name: #{ElasticSecretName}
+                    namespace: aide
+                    type: Opaque
+                    values:
+                      password: #{ElasticPassword}
+                      username: #{ElasticUser}
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
