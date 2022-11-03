@@ -22,24 +22,16 @@ export class ElasticClient extends Client {
         username: config.get<string>('ELASTIC_USERNAME'),
         password: config.get<string>('ELASTIC_PASSWORD'),
       },
+      ssl: {
+        rejectUnauthorized: false,
+        requestCert: false,
+      },
     } as ClientOptions);
     this.searchIndex = config.get<string>('ELASTIC_INDEX');
   }
 
-  public searchWorkflowInstance(id: string) {
-    return { query: { match: { 'Properties.workflowInstanceId': id } } };
-  }
-
-  public searchCorrilation(id: string) {
-    return { query: { match: { 'Properties.correlationId': id } } };
-  }
-
   public searchExecution(id: string) {
-    return { query: { match: { 'Properties.executionId': id } } };
-  }
-
-  public searchTask(id: string) {
-    return { query: { match: { 'Properties.taskId': id } } };
+    return { query: { match: { 'task.ExecutionId': id } } };
   }
 
   public async getLogs(id: string) {
@@ -49,7 +41,13 @@ export class ElasticClient extends Client {
         body: this.searchExecution(id),
       });
     } catch (error) {
-      return { ...error.meta };
+      throw new ElasticClientException(error);
     }
+  }
+}
+
+export class ElasticClientException extends Error {
+  constructor(message: string) {
+    super(message);
   }
 }

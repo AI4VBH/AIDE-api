@@ -114,8 +114,10 @@ describe('/Logs Integration Tests', () => {
     const response = await request(app.getHttpServer()).get(
       '/logs/6d4a5567-d87a-4784-8078-954ec2d9bd68',
     );
-    expect(response.body).toMatchObject([]);
-    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toMatch(
+      'An issue occurred with the Elastic service',
+    );
+    expect(response.statusCode).toBe(500);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(
@@ -125,15 +127,17 @@ describe('/Logs Integration Tests', () => {
         rest.post(
           `${mockHttp}/${mockElasticIndex}*/_search`,
           (request, response, context) => {
-            return response(context.status(code));
+            return response(context.status(code), context.json({}));
           },
         ),
       );
       const response = await request(app.getHttpServer()).get(
         '/logs/0b0c725b-5700-49e2-b733-81759801c935',
       );
-      expect(response.body).toMatchObject([]);
-      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toMatch(
+        'An issue occurred with the Elastic service',
+      );
+      expect(response.statusCode).toBe(500);
     },
   );
 });

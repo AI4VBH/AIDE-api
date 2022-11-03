@@ -2,7 +2,6 @@ import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ElasticClient } from 'shared/elastic/elastic-client';
 import { LogsService } from './logs.service';
-import { IElasticLogObject } from './models/logs.interfaces';
 
 describe('LogsService', () => {
   let service: LogsService;
@@ -28,527 +27,112 @@ describe('LogsService', () => {
 
   describe('get logs by task', () => {
     it('returns expected result', async () => {
-      (elasticClient.search as any).mockResolvedValue(elasticResponseObj);
+      const response = { statusCode: 200, body: elasticResponseObj } as any;
+      elasticClient.getLogs.mockResolvedValue(response);
 
-      const result = await service.getLogByTask('argo-task-1');
+      const result = await service.getLogByTask(
+        '59b14f66-4a5f-41a1-8e9f-acd706413857',
+      );
 
       expect(elasticClient.getLogs).toHaveBeenCalled();
-
       expect(result).toMatchSnapshot();
     });
   });
 
-  const elasticResponseObj: IElasticLogObject = {
-    took: 112,
+  const elasticResponseObj = {
+    took: 186,
     timed_out: false,
     _shards: {
-      total: 235,
-      successful: 235,
+      total: 19,
+      successful: 19,
       skipped: 0,
       failed: 0,
     },
     hits: {
       total: {
-        value: 21,
+        value: 1,
         relation: 'eq',
       },
-      max_score: 0.094831765,
+      max_score: 2.1381779,
       hits: [
         {
-          _index: 'logstash-2022.09.26',
+          _index: 'logstash-2022.11.02',
           _type: '_doc',
-          _id: 'FFRheoMBaINYSMWtqMnV',
-          _score: 0.094831765,
+          _id: 'T9QPOIQBDU19xybcC605',
+          _score: 2.1381779,
           _source: {
+            LoggerName:
+              'Monai.Deploy.WorkflowManager.WorkfowExecuter.Services.WorkflowExecuterService',
+            '@timestamp': '2022-11-02T11:17:00.555Z',
+            ServiceVersion: '0.0.0-development',
+            messageDescription: 'TaskUpdateEvent',
+            CorrelationId: '2ef8f893-0872-439a-8c2a-6da4f425f3f8',
+            workflowInstanceId: '2cc76cd7-681a-44fa-a3f9-62509c1216b0',
+            task: {
+              Timeout: '2022-11-02T12:16:54.566Z',
+              ExecutionId: '59b14f66-4a5f-41a1-8e9f-acd706413857',
+              TaskId: 'mean-pixel-calc',
+              ResultMetadata: {},
+              TimeoutInterval: 60.0,
+              Reason: 'PluginError',
+              InputArtifacts: {},
+              TaskStartTime: '2022-11-02T11:16:54.566Z',
+              OutputArtifacts: {},
+              Status: 'Dispatched',
+              InputParameters: {},
+              OutputDirectory:
+                '13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/workflows/2cc76cd7-681a-44fa-a3f9-62509c1216b0/59b14f66-4a5f-41a1-8e9f-acd706413857',
+              TaskPluginArguments: {},
+              TaskType: 'argo',
+              WorkflowInstanceId: '2cc76cd7-681a-44fa-a3f9-62509c1216b0',
+              PreviousTaskId: '',
+              ExecutionStats: {},
+            },
+            correlationId: '2ef8f893-0872-439a-8c2a-6da4f425f3f8',
+            Message:
+              'TaskFailed, Task {"execution_id":"59b14f66-4a5f-41a1-8e9f-acd706413857","workflow_instance_id":"2cc76cd7-681a-44fa-a3f9-62509c1216b0","task_type":"argo","task_start_time":"2022-11-02T11:16:54.566Z","task_end_time":null,"execution_stats":{},"task_plugin_arguments":{"namespace":"argo","workflow_template_name":"argo-workflow-1","server_url":"http://argo-argo-workflows-server.argo:2746","allow_insecure":"true"},"task_id":"mean-pixel-calc","previous_task_id":"","status":1,"reason":4,"input_artifacts":{"input-dicom":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/dcm"},"output_artifacts":{},"output_directory":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/workflows/2cc76cd7-681a-44fa-a3f9-62509c1216b0/59b14f66-4a5f-41a1-8e9f-acd706413857","result":{},"input_parameters":{},"next_timeout":"2022-11-02T12:16:54.566Z","timeout_interval":60.0,"acknowledged_task_errors":null}, workflowInstance {"id":"2cc76cd7-681a-44fa-a3f9-62509c1216b0","ae_title":"MONAI","workflow_name":"argo_export","workflow_id":"aeb8b4bd-e629-46fa-b1aa-71e51b00f815","payload_id":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8","start_time":"2022-11-02T11:16:54.526Z","status":0,"bucket_id":"monaideploy","input_metadata":{},"tasks":[{"execution_id":"59b14f66-4a5f-41a1-8e9f-acd706413857","workflow_instance_id":"2cc76cd7-681a-44fa-a3f9-62509c1216b0","task_type":"argo","task_start_time":"2022-11-02T11:16:54.566Z","task_end_time":null,"execution_stats":{},"task_plugin_arguments":{"namespace":"argo","workflow_template_name":"argo-workflow-1","server_url":"http://argo-argo-workflows-server.argo:2746","allow_insecure":"true"},"task_id":"mean-pixel-calc","previous_task_id":"","status":1,"reason":4,"input_artifacts":{"input-dicom":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/dcm"},"output_artifacts":{},"output_directory":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/workflows/2cc76cd7-681a-44fa-a3f9-62509c1216b0/59b14f66-4a5f-41a1-8e9f-acd706413857","result":{},"input_parameters":{},"next_timeout":"2022-11-02T12:16:54.566Z","timeout_interval":60.0,"acknowledged_task_errors":null}],"acknowledged_workflow_errors":null}, patientDetails {"patient_id":"11788773431343","patient_name":"Fall 7","patient_sex":"O","patient_dob":"1900-01-01T00:00:00Z","patient_age":null,"patient_hospital_id":null}, correlationId 2ef8f893-0872-439a-8c2a-6da4f425f3f8, taskStatus Failed',
+            patientDetails: {
+              PatientSex: 'O',
+              PatientDob: '1900-01-01T00:00:00Z',
+              PatientName: 'Fall 7',
+              PatientId: '11788773431343',
+            },
+            taskId: 'mean-pixel-calc',
+            MachineName: 'workflow-manager-79f48cdbdd-qhvqp',
+            type: 'nlog',
+            EventId: 200015,
+            taskStatus: 'Failed',
+            source: '4c9072a1-35f5-4d85-847d-dafca22244a8',
+            path: '%{path.Value}',
+            ServiceName: 'Monai.Deploy.WorkflowManager',
+            ApplicationId: '4c9072a1-35f5-4d85-847d-dafca22244a8',
+            Level: 'INFO',
             headers: {
-              request_method: 'POST',
-              http_version: 'HTTP/1.1',
-              content_length: '1645',
-              http_accept: null,
+              content_length: '4448',
+              connection: 'Keep-Alive',
               request_path: '/',
-              http_user_agent: null,
-              http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
-            },
-            MessageTemplate: 'Task dispatch event saved {executionId}.',
-            RenderedMessage:
-              'Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".',
-            '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:23.6849023Z'),
-            Properties: {
-              dllversion: '0.0.0.0',
-              EventId: {
-                Id: 1001,
-                Name: 'TaskDispatchEventSaved',
-              },
-              enviroment: 'Dev',
-              dllName: 'Monai.Deploy.WorkflowManager.TaskManager',
-              serviceName: 'MTM',
-              Scope: [
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-              ],
-              taskId: 'argo-task-1',
-              executionId: '04a0cded-6aad-408c-b45d-1852ad54fae3',
-              SourceContext:
-                'Monai.Deploy.WorkflowManager.TaskManager.Services.TaskDispatchEventService',
-              workflowInstanceId: 'a5a00865-a331-481c-9a82-c0c2eee281d6',
-              messageId: 'c9687c4a-2043-4cd9-9b33-dd49be2908cb',
-              messageType: 'TaskDispatchEvent',
-              MachineName: 'mtm-monai-6d7cbf64b7-xdslj',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:23.684Z'),
-            Level: 'Information',
-          },
-        },
-        {
-          _index: 'logstash-2022.09.26',
-          _type: '_doc',
-          _id: 'HlRheoMBaINYSMWtrMnu',
-          _score: 0.094831765,
-          _source: {
-            headers: {
-              request_method: 'POST',
               http_version: 'HTTP/1.1',
-              content_length: '4146',
               http_accept: null,
-              request_path: '/',
-              http_user_agent: null,
               http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
-            },
-            MessageTemplate:
-              'Publishing message to {endpoint}/{virtualHost}. Exchange={exchange}, Routing Key={topic}.',
-            RenderedMessage:
-              'Publishing message to "rabbitmq.monai"/"monaideploy". Exchange="monaideploy", Routing Key="md.tasks.dispatch".',
-            '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:22.9668840Z'),
-            Properties: {
-              dllversion: '0.0.0.0',
-              endpoint: 'rabbitmq.monai',
-              enviroment: 'Dev',
-              EventId: {
-                Id: 10000,
-                Name: 'PublshingRabbitMQ',
-              },
-              dllName: 'Monai.Deploy.WorkflowManager',
-              virtualHost: 'monaideploy',
-              serviceName: 'MWM',
-              Scope: [
-                'Message ID=0277e763-316c-4104-aeda-3620e7a642c7. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-                'Correlation ID=e4b06f00-5ce3-4477-86cb-4f3bf20680c2, Payload ID=00000000-1000-0000-0000-000000000000',
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-              ],
-              taskId: 'argo-task-1',
-              SourceContext:
-                'Monai.Deploy.Messaging.RabbitMQ.RabbitMQMessagePublisherService',
-              topic: 'md.tasks.dispatch',
-              exchange: 'monaideploy',
-              MachineName: 'mwm-monai-5786f45d65-9885h',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-              workflowId: '10e8bdb1-e75c-443d-98a6-5477e6384675',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:22.966Z'),
-            Level: 'Information',
-          },
-        },
-        {
-          _index: 'logstash-2022.09.26',
-          _type: '_doc',
-          _id: 'OVRheoMBaINYSMWtwMla',
-          _score: 0.094831765,
-          _source: {
-            headers: {
+              http_user_agent: null,
               request_method: 'POST',
-              http_version: 'HTTP/1.1',
-              content_length: '38148',
-              http_accept: null,
-              request_path: '/',
-              http_user_agent: null,
-              http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
             },
-            MessageTemplate: 'Generating Argo workflow template.',
-            RenderedMessage: 'Generating Argo workflow template.',
+            MessageId: '1a0af912-5b9b-4d07-a572-442ef33361f7',
+            workflowInstance: {
+              InputMetaData: {},
+              WorkflowId: 'aeb8b4bd-e629-46fa-b1aa-71e51b00f815',
+              BucketId: 'monaideploy',
+              Status: 'Created',
+              PayloadId: '13b4217a-a747-42e8-b84f-8dbc1a8bd7c8',
+              Tasks: [],
+              WorkflowName: 'argo_export',
+              Id: '2cc76cd7-681a-44fa-a3f9-62509c1216b0',
+              StartTime: '2022-11-02T11:16:54.526Z',
+              AeTitle: 'MONAI',
+            },
             '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:28.2563475Z'),
-            Properties: {
-              dllversion: '0.0.0.0',
-              EventId: {
-                Id: 1003,
-                Name: 'GeneratingArgoWorkflow',
-              },
-              enviroment: 'Dev',
-              dllName: 'Monai.Deploy.WorkflowManager.TaskManager',
-              serviceName: 'MTM',
-              Scope: [
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-              ],
-              taskId: 'argo-task-1',
-              SourceContext:
-                'Monai.Deploy.WorkflowManager.TaskManager.Argo.ArgoPlugin',
-              workflowInstanceId: 'a5a00865-a331-481c-9a82-c0c2eee281d6',
-              messageId: 'c9687c4a-2043-4cd9-9b33-dd49be2908cb',
-              messageType: 'TaskDispatchEvent',
-              MachineName: 'mtm-monai-6d7cbf64b7-xdslj',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-              argoNamespace: 'argo',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:28.256Z'),
-            Level: 'Debug',
-          },
-        },
-        {
-          _index: 'logstash-2022.09.26',
-          _type: '_doc',
-          _id: 'OlRheoMBaINYSMWtwMla',
-          _score: 0.094831765,
-          _source: {
-            headers: {
-              request_method: 'POST',
-              http_version: 'HTTP/1.1',
-              content_length: '38148',
-              http_accept: null,
-              request_path: '/',
-              http_user_agent: null,
-              http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
-            },
-            MessageTemplate: 'Creating Argo client with base URL: {baseUrl}.',
-            RenderedMessage:
-              'Creating Argo client with base URL: "https://argo-server.argo:2746".',
-            '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:28.2619000Z'),
-            Properties: {
-              dllversion: '0.0.0.0',
-              EventId: {
-                Id: 1006,
-                Name: 'CreatingArgoClient',
-              },
-              enviroment: 'Dev',
-              dllName: 'Monai.Deploy.WorkflowManager.TaskManager',
-              serviceName: 'MTM',
-              Scope: [
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-              ],
-              taskId: 'argo-task-1',
-              baseUrl: 'https://argo-server.argo:2746',
-              SourceContext:
-                'Monai.Deploy.WorkflowManager.TaskManager.Argo.ArgoProvider',
-              workflowInstanceId: 'a5a00865-a331-481c-9a82-c0c2eee281d6',
-              messageId: 'c9687c4a-2043-4cd9-9b33-dd49be2908cb',
-              messageType: 'TaskDispatchEvent',
-              MachineName: 'mtm-monai-6d7cbf64b7-xdslj',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-              argoNamespace: 'argo',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:28.261Z'),
-            Level: 'Debug',
-          },
-        },
-        {
-          _index: 'logstash-2022.09.26',
-          _type: '_doc',
-          _id: 'O1RheoMBaINYSMWtwMla',
-          _score: 0.094831765,
-          _source: {
-            headers: {
-              request_method: 'POST',
-              http_version: 'HTTP/1.1',
-              content_length: '38148',
-              http_accept: null,
-              request_path: '/',
-              http_user_agent: null,
-              http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
-            },
-            MessageTemplate: 'Start processing HTTP request {HttpMethod} {Uri}',
-            RenderedMessage:
-              'Start processing HTTP request "GET" https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-            '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:28.2769858Z'),
-            Properties: {
-              dllversion: '0.0.0.0',
-              EventId: {
-                Id: 100,
-                Name: 'RequestPipelineStart',
-              },
-              enviroment: 'Dev',
-              HttpMethod: 'GET',
-              dllName: 'Monai.Deploy.WorkflowManager.TaskManager',
-              serviceName: 'MTM',
-              Uri: 'https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-              Scope: [
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-                'HTTP GET https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-              ],
-              taskId: 'argo-task-1',
-              SourceContext:
-                'System.Net.Http.HttpClient.Argo-Insecure.LogicalHandler',
-              workflowInstanceId: 'a5a00865-a331-481c-9a82-c0c2eee281d6',
-              messageId: 'c9687c4a-2043-4cd9-9b33-dd49be2908cb',
-              messageType: 'TaskDispatchEvent',
-              MachineName: 'mtm-monai-6d7cbf64b7-xdslj',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-              argoNamespace: 'argo',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:28.276Z'),
-            Level: 'Information',
-          },
-        },
-        {
-          _index: 'logstash-2022.09.26',
-          _type: '_doc',
-          _id: 'PFRheoMBaINYSMWtwMla',
-          _score: 0.094831765,
-          _source: {
-            headers: {
-              request_method: 'POST',
-              http_version: 'HTTP/1.1',
-              content_length: '38148',
-              http_accept: null,
-              request_path: '/',
-              http_user_agent: null,
-              http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
-            },
-            MessageTemplate: 'Sending HTTP request {HttpMethod} {Uri}',
-            RenderedMessage:
-              'Sending HTTP request "GET" https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-            '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:28.2790058Z'),
-            Properties: {
-              dllversion: '0.0.0.0',
-              EventId: {
-                Id: 100,
-                Name: 'RequestStart',
-              },
-              enviroment: 'Dev',
-              HttpMethod: 'GET',
-              dllName: 'Monai.Deploy.WorkflowManager.TaskManager',
-              serviceName: 'MTM',
-              Uri: 'https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-              Scope: [
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-                'HTTP GET https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-              ],
-              taskId: 'argo-task-1',
-              SourceContext:
-                'System.Net.Http.HttpClient.Argo-Insecure.ClientHandler',
-              workflowInstanceId: 'a5a00865-a331-481c-9a82-c0c2eee281d6',
-              messageId: 'c9687c4a-2043-4cd9-9b33-dd49be2908cb',
-              messageType: 'TaskDispatchEvent',
-              MachineName: 'mtm-monai-6d7cbf64b7-xdslj',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-              argoNamespace: 'argo',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:28.279Z'),
-            Level: 'Information',
-          },
-        },
-        {
-          _index: 'logstash-2022.09.26',
-          _type: '_doc',
-          _id: 'PVRheoMBaINYSMWtwMla',
-          _score: 0.094831765,
-          _source: {
-            headers: {
-              request_method: 'POST',
-              http_version: 'HTTP/1.1',
-              content_length: '38148',
-              http_accept: null,
-              request_path: '/',
-              http_user_agent: null,
-              http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
-            },
-            MessageTemplate:
-              'Received HTTP response headers after {ElapsedMilliseconds}ms - {StatusCode}',
-            RenderedMessage:
-              'Received HTTP response headers after 386.078ms - 200',
-            '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:28.6713753Z'),
-            Properties: {
-              StatusCode: 200,
-              dllversion: '0.0.0.0',
-              enviroment: 'Dev',
-              EventId: {
-                Id: 101,
-                Name: 'RequestEnd',
-              },
-              HttpMethod: 'GET',
-              dllName: 'Monai.Deploy.WorkflowManager.TaskManager',
-              serviceName: 'MTM',
-              Uri: 'https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-              Scope: [
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-                'HTTP GET https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-              ],
-              taskId: 'argo-task-1',
-              ElapsedMilliseconds: 386.078,
-              SourceContext:
-                'System.Net.Http.HttpClient.Argo-Insecure.ClientHandler',
-              workflowInstanceId: 'a5a00865-a331-481c-9a82-c0c2eee281d6',
-              messageId: 'c9687c4a-2043-4cd9-9b33-dd49be2908cb',
-              messageType: 'TaskDispatchEvent',
-              MachineName: 'mtm-monai-6d7cbf64b7-xdslj',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-              argoNamespace: 'argo',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:28.671Z'),
-            Level: 'Information',
-          },
-        },
-        {
-          _index: 'logstash-2022.09.26',
-          _type: '_doc',
-          _id: 'PlRheoMBaINYSMWtwMla',
-          _score: 0.094831765,
-          _source: {
-            headers: {
-              request_method: 'POST',
-              http_version: 'HTTP/1.1',
-              content_length: '38148',
-              http_accept: null,
-              request_path: '/',
-              http_user_agent: null,
-              http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
-            },
-            MessageTemplate:
-              'End processing HTTP request after {ElapsedMilliseconds}ms - {StatusCode}',
-            RenderedMessage:
-              'End processing HTTP request after 398.1257ms - 200',
-            '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:28.6737060Z'),
-            Properties: {
-              StatusCode: 200,
-              dllversion: '0.0.0.0',
-              enviroment: 'Dev',
-              EventId: {
-                Id: 101,
-                Name: 'RequestPipelineEnd',
-              },
-              HttpMethod: 'GET',
-              dllName: 'Monai.Deploy.WorkflowManager.TaskManager',
-              serviceName: 'MTM',
-              Uri: 'https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-              Scope: [
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-                'HTTP GET https://argo-server.argo:2746/api/v1/workflow-templates/argo/simple-workflow',
-              ],
-              taskId: 'argo-task-1',
-              ElapsedMilliseconds: 398.1257,
-              SourceContext:
-                'System.Net.Http.HttpClient.Argo-Insecure.LogicalHandler',
-              workflowInstanceId: 'a5a00865-a331-481c-9a82-c0c2eee281d6',
-              messageId: 'c9687c4a-2043-4cd9-9b33-dd49be2908cb',
-              messageType: 'TaskDispatchEvent',
-              MachineName: 'mtm-monai-6d7cbf64b7-xdslj',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-              argoNamespace: 'argo',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:28.673Z'),
-            Level: 'Information',
-          },
-        },
-        {
-          _index: 'logstash-2022.09.26',
-          _type: '_doc',
-          _id: 'P1RheoMBaINYSMWtwMla',
-          _score: 0.094831765,
-          _source: {
-            headers: {
-              request_method: 'POST',
-              http_version: 'HTTP/1.1',
-              content_length: '38148',
-              http_accept: null,
-              request_path: '/',
-              http_user_agent: null,
-              http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
-            },
-            MessageTemplate:
-              'Creating Kubernetes client: host={host}, namespace={ns}.',
-            RenderedMessage:
-              'Creating Kubernetes client: host="https://10.233.0.1:443/", namespace="monai".',
-            '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:28.8045840Z'),
-            Properties: {
-              dllversion: '0.0.0.0',
-              EventId: {
-                Id: 1007,
-                Name: 'CreatingKubernetesClient',
-              },
-              enviroment: 'Dev',
-              ns: 'monai',
-              serviceName: 'MTM',
-              dllName: 'Monai.Deploy.WorkflowManager.TaskManager',
-              Scope: [
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-              ],
-              taskId: 'argo-task-1',
-              host: 'https://10.233.0.1:443/',
-              SourceContext:
-                'Monai.Deploy.WorkflowManager.TaskManager.Argo.KubernetesProvider',
-              workflowInstanceId: 'a5a00865-a331-481c-9a82-c0c2eee281d6',
-              messageId: 'c9687c4a-2043-4cd9-9b33-dd49be2908cb',
-              messageType: 'TaskDispatchEvent',
-              MachineName: 'mtm-monai-6d7cbf64b7-xdslj',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-              argoNamespace: 'argo',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:28.804Z'),
-            Level: 'Debug',
-          },
-        },
-        {
-          _index: 'logstash-2022.09.26',
-          _type: '_doc',
-          _id: 'QFRheoMBaINYSMWtwMla',
-          _score: 0.094831765,
-          _source: {
-            headers: {
-              request_method: 'POST',
-              http_version: 'HTTP/1.1',
-              content_length: '38148',
-              http_accept: null,
-              request_path: '/',
-              http_user_agent: null,
-              http_host: 'logstash.shared:5011',
-              content_type: 'application/json',
-            },
-            MessageTemplate:
-              'Generating Kubernetes secrets for accessing artifacts: {name}.',
-            RenderedMessage:
-              'Generating Kubernetes secrets for accessing artifacts: "argo-task-1".',
-            '@version': '1',
-            Timestamp: new Date('2022-09-26T15:19:28.8112027Z'),
-            Properties: {
-              dllversion: '0.0.0.0',
-              EventId: {
-                Id: 1000,
-                Name: 'GeneratingArtifactSecret',
-              },
-              enviroment: 'Dev',
-              name: 'argo-task-1',
-              dllName: 'Monai.Deploy.WorkflowManager.TaskManager',
-              serviceName: 'MTM',
-              Scope: [
-                'Message ID=c9687c4a-2043-4cd9-9b33-dd49be2908cb. Application ID=16988a78-87b5-4168-a5c3-2cfc2bab8e54.',
-              ],
-              taskId: 'argo-task-1',
-              SourceContext:
-                'Monai.Deploy.WorkflowManager.TaskManager.Argo.ArgoPlugin',
-              workflowInstanceId: 'a5a00865-a331-481c-9a82-c0c2eee281d6',
-              messageId: 'c9687c4a-2043-4cd9-9b33-dd49be2908cb',
-              messageType: 'TaskDispatchEvent',
-              MachineName: 'mtm-monai-6d7cbf64b7-xdslj',
-              correlationId: 'e4b06f00-5ce3-4477-86cb-4f3bf20680c2',
-              argoNamespace: 'argo',
-            },
-            '@timestamp': new Date('2022-09-26T15:19:28.811Z'),
-            Level: 'Debug',
+            EventName: 'TaskFailed',
+            durationSoFar: 5974.5682,
           },
         },
       ],

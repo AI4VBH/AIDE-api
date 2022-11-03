@@ -11,21 +11,18 @@ export class LogsService {
   async getLogByTask(id: string): Promise<LogsDto[]> {
     const response = await this.elasticClient.getLogs(id);
 
-    if (response.statusCode != 200 || response.body.hits.total.value == 0) {
-      return [];
-    }
-
     const body = response.body as IElasticLogObject;
 
-    const dtoArr: LogsDto[] = [];
-    for (const hit of body.hits.hits) {
-      dtoArr.push({
-        level: hit._source.Level,
-        renderedMessage: hit._source.RenderedMessage,
-        timestamp: hit._source.Timestamp,
-      });
-    }
-
-    return dtoArr;
+    return body.hits.hits.map(({ _source }) => {
+      return {
+        correlationId: _source['CorrelationId'],
+        workflowInstanceId: _source['workflowInstanceId'],
+        task: _source['task'],
+        message: _source['Message'],
+        taskStatus: _source['taskStatus'],
+        level: _source['Level'],
+        timestamp: _source['@timestamp'],
+      } as LogsDto;
+    });
   }
 }

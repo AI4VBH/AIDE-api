@@ -31,7 +31,7 @@
                         "content_type": "application/json"
                     },
                     "MessageTemplate": "Task dispatch event saved {executionId}.",
-                    "RenderedMessage": "Task dispatch event saved \"04a0cded-6aad-408c-b45d-1852ad54fae3\".",
+                    "Message": "Task dispatch event saved \"04a0cded-6aad-408c-b45d-1852ad54fae3\".",
                     "@version": "1",
                     "Timestamp": "2022-09-26T15:19:23.6849023Z",
                     "Properties": {

@@ -1,5 +1,9 @@
 export class LogsDto {
-  public renderedMessage: string;
-  public timestamp: Date;
-  public level: string;
+  message: string;
+  correlationId: string;
+  taskStatus: string;
+  workflowInstanceId: string;
+  task: unknown;
+  timestamp: Date;
+  level: string;
 }

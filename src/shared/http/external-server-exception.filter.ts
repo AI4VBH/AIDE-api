@@ -14,6 +14,7 @@ import {
   ExecutionsServiceException,
   ExecutionsServiceExceptionType,
 } from 'modules/admin/executions/executions.service.exceptions';
+import { ElasticClientException } from 'shared/elastic/elastic-client';
 
 @Catch(Error)
 export default class ExternalServerExceptionFilter implements ExceptionFilter {
@@ -74,6 +75,13 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
       return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         message: 'An issue occurred with the MINIO service',
+      });
+    }
+
+    if (exception instanceof ElasticClientException) {
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'An issue occurred with the Elastic service',
       });
     }
 
