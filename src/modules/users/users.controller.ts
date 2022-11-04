@@ -27,8 +27,6 @@ export class UsersController {
     @Query('max') max = 5,
     @Query('role') role: string,
     @Query('search') search: string,
-    @Query('sortBy') sortBy: string,
-    @Query('sortDesc') sortDesc: boolean,
   ): Promise<UserPage> {
     if (first < 0 || max < 0) {
       throw new BadRequestException(
@@ -36,14 +34,7 @@ export class UsersController {
       );
     }
 
-    return this.usersService.getUsers(
-      first,
-      max,
-      role,
-      search,
-      sortBy,
-      sortDesc,
-    );
+    return this.usersService.getUsers(first, max, role, search);
   }
 
   @Get(':id')

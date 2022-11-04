@@ -44,9 +44,9 @@ export class IssuesService {
         (p) => p.payload_id == workflowInstance.payload_id,
       );
 
-      const wfiIssues = workflowInstance.tasks.map((task) =>
-        IssueDto.from(task, relativePayload, workflowInstance),
-      );
+      const wfiIssues = workflowInstance.tasks
+        .filter((task) => task.status === 'Failed')
+        .map((task) => IssueDto.from(task, relativePayload, workflowInstance));
 
       issues.push(...wfiIssues);
     }
