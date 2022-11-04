@@ -13,9 +13,11 @@ export class RolesService {
   async getAllRoles() {
     const staticRoles = this.config.get<string[]>('KEYCLOAK_STATIC_ROLES');
 
-    const roles = await this.adminService.performAction((realm, client) =>
+    let roles = await this.adminService.performAction((realm, client) =>
       client.roles.find({ realm }),
     );
+
+    roles = roles.filter((role) => role.name !== 'default-roles-aide');
 
     return roles.map((r) => ({
       id: r.id,

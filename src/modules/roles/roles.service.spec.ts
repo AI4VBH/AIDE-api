@@ -67,6 +67,10 @@ describe('RolesService', () => {
       rolesMock.find.mockResolvedValue([
         { id: '4aa67f47-190f-4629-8f5a-e7025787cff9', name: 'admin' },
         { id: '9da87ef1-e7dc-42e1-b409-89a3e13735ec', name: 'other-role' },
+        {
+          id: '9600228a-98fc-47e0-a674-054ba13e4bae',
+          name: 'default-roles-aide',
+        },
       ]);
 
       const expected = [
