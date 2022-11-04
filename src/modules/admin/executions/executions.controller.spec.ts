@@ -2,6 +2,7 @@ import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { BadRequestException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Readable } from 'stream';
 import { ExecutionsController } from './executions.controller';
 import { ExecutionsService } from './executions.service';
 
@@ -64,13 +65,11 @@ describe('ExecutionsController', () => {
 
   describe('getArtifactDownloadUrl', () => {
     it('returns expected result', async () => {
-      executionsService.getArtifactUrl.mockResolvedValue(
-        'http://some.minio.com/file.ext',
-      );
+      executionsService.getArtifact.mockResolvedValue(new Readable({}));
 
-      const result = await controller.getArtifactDownloadUrl('file.ext');
+      await controller.getArtifactDownloadUrl('file.ext');
 
-      expect(result).toMatchSnapshot();
+      expect(executionsService.getArtifact).toHaveBeenCalled();
     });
 
     it.each(['', ' ', null, undefined])(
