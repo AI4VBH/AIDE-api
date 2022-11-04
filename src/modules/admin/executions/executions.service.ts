@@ -55,6 +55,15 @@ export class ExecutionsService {
     }
   }
 
+  async getArtifact(file: string) {
+    try {
+      return await this.minioClient.getObjectByName(file);
+    } catch (exception) {
+      console.log(exception);
+      throw new MinoiClientException(exception.message);
+    }
+  }
+
   async getWorkflowInstanceMetadata(
     workflowInstanceId: string,
     executionId: string,

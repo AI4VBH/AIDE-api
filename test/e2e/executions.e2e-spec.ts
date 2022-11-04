@@ -178,19 +178,20 @@ describe('/executions Integration Tests', () => {
     },
   );
 
-  it('(GET) /executions/artifact-download?key=minio-object-key minio with download link', async () => {
+  it.skip('(GET) /executions/artifact-download?key=minio-object-key minio with download link', async () => {
     server.use(
-      rest.get(`http://localhost:9000/bucket-name`, (_req, res, ctx) => {
-        return res(ctx.status(200), ctx.body('www.madeupurl.com'));
-      }),
+      rest.get(
+        'http://localhost:9000/bucket-name/minio-object-key',
+        (_, res, ctx) => {
+          return res(ctx.status(200), ctx.body('hello world'));
+        },
+      ),
     );
     const response = await request(app.getHttpServer()).get(
       '/executions/artifact-download?key=minio-object-key',
     );
-    expect(response.headers.location).toContain(
-      'http://some-external-minio.site/document',
-    );
-    expect(response.status).toBe(302);
+
+    expect(response.status).toBe(200);
   });
 
   it('(GET) /executions/artifact-download minio object key does not exist', async () => {
