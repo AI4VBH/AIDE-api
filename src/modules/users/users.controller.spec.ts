@@ -44,7 +44,7 @@ describe('UsersController', () => {
       'throws exception if first/max are negative. first: %s, max: %s',
       async (first, max) => {
         const action = async () =>
-          await controller.getUsers(first, max, '', '', '', false);
+          await controller.getUsers(first, max, '', '');
 
         await expect(action).rejects.toThrow(BadRequestException);
       },
@@ -57,7 +57,7 @@ describe('UsersController', () => {
         users: [userMock],
       });
 
-      const response = await controller.getUsers(0, 1, '', '', '', false);
+      const response = await controller.getUsers(0, 1, '', '');
 
       expect(response).toEqual({
         totalUserCount: 5,
@@ -74,7 +74,7 @@ describe('UsersController', () => {
       users: [userMock],
     });
 
-    const response = await controller.getUsers(0, 1, '', 'user', '', false);
+    const response = await controller.getUsers(0, 1, '', 'user');
 
     expect(response).toEqual({
       totalUserCount: 5,

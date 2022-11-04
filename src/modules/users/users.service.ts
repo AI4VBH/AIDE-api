@@ -17,21 +17,12 @@ export class UsersService {
     max: number,
     role?: string,
     search?: string,
-    sortBy?: string,
-    sortDesc?: boolean,
   ): Promise<UserPage> {
     if (role) {
-      return await this.getPagedUsersInRole(
-        first,
-        max,
-        role,
-        search,
-        sortBy,
-        sortDesc,
-      );
+      return await this.getPagedUsersInRole(first, max, role, search);
     }
 
-    return await this.getPagedUsers(first, max, search, sortBy, sortDesc);
+    return await this.getPagedUsers(first, max, search);
   }
 
   async getUserCount(search?: string): Promise<number> {
@@ -162,8 +153,6 @@ export class UsersService {
     max: number,
     roleName: string,
     search?: string,
-    sortBy?: string,
-    sortDesc?: boolean,
   ): Promise<UserPage> {
     let users = await this.adminService.performAction((realm, client) =>
       client.roles.findUsersWithRole({ realm, name: roleName }),
@@ -171,19 +160,6 @@ export class UsersService {
 
     const totalUserCount = await this.getUserCount();
     let totalFilteredUserCount = users.length;
-
-    if (sortBy) {
-      users.sort((a, b) => {
-        const sortA = a[sortBy].toLocaleLowerCase();
-        const sortB = b[sortBy].toLocaleLowerCase();
-
-        if (sortDesc) {
-          return sortA === sortB ? 0 : sortA < sortB ? 1 : -1;
-        }
-
-        return sortA === sortB ? 0 : sortA > sortB ? 1 : -1;
-      });
-    }
 
     if (search) {
       const searchText = search.toLocaleLowerCase();
@@ -218,8 +194,6 @@ export class UsersService {
     first: number,
     max: number,
     search?: string,
-    sortBy?: string,
-    sortDesc?: boolean,
   ): Promise<UserPage> {
     const totalUserCount = await this.getUserCount();
     let totalFilteredUserCount = totalUserCount;
@@ -236,19 +210,6 @@ export class UsersService {
         max,
       }),
     );
-
-    if (sortBy) {
-      users.sort((a, b) => {
-        const sortA = a[sortBy].toLocaleLowerCase();
-        const sortB = b[sortBy].toLocaleLowerCase();
-
-        if (sortDesc) {
-          return sortA === sortB ? 0 : sortA < sortB ? 1 : -1;
-        }
-
-        return sortA === sortB ? 0 : sortA > sortB ? 1 : -1;
-      });
-    }
 
     const userDto: User[] = [];
 
