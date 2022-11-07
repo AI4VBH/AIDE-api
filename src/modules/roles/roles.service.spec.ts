@@ -60,9 +60,14 @@ describe('RolesService', () => {
 
   describe('getAllRoles', () => {
     it('calls the right service method', async () => {
-      configServiceMock.get.mockImplementation(
-        (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
-      );
+      configServiceMock.get.mockImplementation((key: string) => {
+        switch (key) {
+          case 'KEYCLOAK_STATIC_ROLES':
+            return ['admin'];
+          case 'KEYCLOAK_FILTER_OUT_ROLE':
+            return 'default-roles-aide';
+        }
+      });
 
       rolesMock.find.mockResolvedValue([
         { id: '4aa67f47-190f-4629-8f5a-e7025787cff9', name: 'admin' },
@@ -100,9 +105,14 @@ describe('RolesService', () => {
 
   describe('getAllRolesFiltered', () => {
     it('calls the right service methods', async () => {
-      configServiceMock.get.mockImplementation(
-        (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
-      );
+      configServiceMock.get.mockImplementation((key: string) => {
+        switch (key) {
+          case 'KEYCLOAK_STATIC_ROLES':
+            return ['admin'];
+          case 'KEYCLOAK_FILTER_OUT_ROLE':
+            return 'default-roles-aide';
+        }
+      });
 
       rolesMock.find.mockResolvedValue([
         { id: '4aa67f47-190f-4629-8f5a-e7025787cff9', name: 'admin' },
@@ -146,9 +156,14 @@ describe('RolesService', () => {
     });
 
     it('sorting applied correctly', async () => {
-      configServiceMock.get.mockImplementation(
-        (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
-      );
+      configServiceMock.get.mockImplementation((key: string) => {
+        switch (key) {
+          case 'KEYCLOAK_STATIC_ROLES':
+            return ['admin'];
+          case 'KEYCLOAK_FILTER_OUT_ROLE':
+            return 'default-roles-aide';
+        }
+      });
 
       rolesMock.find.mockResolvedValue([
         { id: '4aa67f47-190f-4629-8f5a-e7025787cff9', name: 'admin' },
@@ -191,9 +206,14 @@ describe('RolesService', () => {
 
   describe('getRole', () => {
     it('throws exception when role is not found', async () => {
-      configServiceMock.get.mockImplementation(
-        (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
-      );
+      configServiceMock.get.mockImplementation((key: string) => {
+        switch (key) {
+          case 'KEYCLOAK_STATIC_ROLES':
+            return ['admin'];
+          case 'KEYCLOAK_FILTER_OUT_ROLE':
+            return 'default-roles-aide';
+        }
+      });
 
       rolesMock.findOneById.mockResolvedValue(null);
 

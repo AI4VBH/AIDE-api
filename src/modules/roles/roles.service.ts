@@ -17,7 +17,9 @@ export class RolesService {
       client.roles.find({ realm }),
     );
 
-    roles = roles.filter((role) => role.name !== 'default-roles-aide');
+    const roleToFilterOut = this.config.get<string>('KEYCLOAK_FILTER_OUT_ROLE');
+
+    roles = roles.filter((role) => !roleToFilterOut.includes(role.name));
 
     return roles.map((r) => ({
       id: r.id,
@@ -34,6 +36,7 @@ export class RolesService {
     sortDesc?: boolean,
   ) {
     const staticRoles = this.config.get<string[]>('KEYCLOAK_STATIC_ROLES');
+    const roleToFilterOut = this.config.get<string>('KEYCLOAK_FILTER_OUT_ROLE');
 
     let allRoles = await this.adminService.performAction((realm, client) =>
       client.roles.find({ realm }),
@@ -57,10 +60,9 @@ export class RolesService {
     }
 
     filteredRoles = filteredRoles.filter(
-      (role) => role.name !== 'default-roles-aide',
+      (role) => !roleToFilterOut.includes(role.name),
     );
-
-    allRoles = allRoles.filter((role) => role.name !== 'default-roles-aide');
+    allRoles = allRoles.filter((role) => !roleToFilterOut.includes(role.name));
 
     let totalFilteredRoles = allRoles.length;
     if (search) {
@@ -69,7 +71,7 @@ export class RolesService {
       );
 
       filteredUnpagedRoles = filteredUnpagedRoles.filter(
-        (role) => role.name !== 'default-roles-aide',
+        (role) => !roleToFilterOut.includes(role.name),
       );
 
       totalFilteredRoles = filteredUnpagedRoles.length;
