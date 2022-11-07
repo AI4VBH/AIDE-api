@@ -13,6 +13,7 @@ export class IssueDto {
   execution_time: string;
   workflow_instance_id: string;
   execution_id: string;
+  payload_id: string;
 
   public static from(
     task: MonaiWorkflowTask,
@@ -25,6 +26,7 @@ export class IssueDto {
     issue.execution_id = task.execution_id;
     issue.patient_id = relativePayload?.patient_details?.patient_id;
     issue.patient_name = relativePayload?.patient_details?.patient_name;
+    issue.payload_id = relativePayload?.payload_id;
     issue.status = task.status;
     issue.execution_time = task.task_start_time;
     issue.workflow_name = relativeWorkflowInstance.workflow_name;
