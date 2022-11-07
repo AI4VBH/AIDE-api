@@ -41,10 +41,12 @@ export class UsersService {
         client.users.listRealmRoleMappings({ realm, id: userId }),
     );
 
-    const roleToFilterOut = this.config.get<string>('KEYCLOAK_FILTER_OUT_ROLE');
+    const exclusionRoles = this.config.get<string[]>(
+      'KEYCLOAK_EXCLUSION_ROLES',
+    );
 
     userRoleObjects = userRoleObjects.filter(
-      (role) => !roleToFilterOut.includes(role.name),
+      (role) => !exclusionRoles.includes(role.name),
     );
 
     return userRoleObjects.map((role) => ({

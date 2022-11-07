@@ -64,8 +64,8 @@ describe('RolesService', () => {
         switch (key) {
           case 'KEYCLOAK_STATIC_ROLES':
             return ['admin'];
-          case 'KEYCLOAK_FILTER_OUT_ROLE':
-            return 'default-roles-aide';
+          case 'KEYCLOAK_EXCLUSION_ROLES':
+            return ['default-roles-aide'];
         }
       });
 
@@ -109,8 +109,8 @@ describe('RolesService', () => {
         switch (key) {
           case 'KEYCLOAK_STATIC_ROLES':
             return ['admin'];
-          case 'KEYCLOAK_FILTER_OUT_ROLE':
-            return 'default-roles-aide';
+          case 'KEYCLOAK_EXCLUSION_ROLES':
+            return ['default-roles-aide'];
         }
       });
 
@@ -160,8 +160,8 @@ describe('RolesService', () => {
         switch (key) {
           case 'KEYCLOAK_STATIC_ROLES':
             return ['admin'];
-          case 'KEYCLOAK_FILTER_OUT_ROLE':
-            return 'default-roles-aide';
+          case 'KEYCLOAK_EXCLUSION_ROLES':
+            return ['default-roles-aide'];
         }
       });
 
@@ -210,8 +210,8 @@ describe('RolesService', () => {
         switch (key) {
           case 'KEYCLOAK_STATIC_ROLES':
             return ['admin'];
-          case 'KEYCLOAK_FILTER_OUT_ROLE':
-            return 'default-roles-aide';
+          case 'KEYCLOAK_EXCLUSION_ROLES':
+            return ['default-roles-aide'];
         }
       });
 
