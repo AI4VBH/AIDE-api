@@ -5,6 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Readable } from 'stream';
 import { ExecutionsController } from './executions.controller';
 import { ExecutionsService } from './executions.service';
+import { Response } from 'express';
 
 describe('ExecutionsController', () => {
   let controller: ExecutionsController;
@@ -65,9 +66,11 @@ describe('ExecutionsController', () => {
 
   describe('getArtifactDownloadUrl', () => {
     it('returns expected result', async () => {
-      executionsService.getArtifact.mockResolvedValue(new Readable({}));
+      executionsService.getArtifact.mockResolvedValue(createMock<Readable>());
 
-      await controller.getArtifactDownloadUrl('file.ext');
+      const response = createMock<Response>();
+
+      await controller.getArtifactDownloadUrl('file.ext', response);
 
       expect(executionsService.getArtifact).toHaveBeenCalled();
     });
@@ -75,7 +78,10 @@ describe('ExecutionsController', () => {
     it.each(['', ' ', null, undefined])(
       'throws exception when key is %s',
       async (key: string) => {
-        const action = async () => await controller.getArtifactDownloadUrl(key);
+        const response = createMock<Response>();
+
+        const action = async () =>
+          await controller.getArtifactDownloadUrl(key, response);
 
         await expect(action).rejects.toThrow(BadRequestException);
       },

@@ -6,10 +6,9 @@ import {
   Param,
   ParseUUIDPipe,
   Query,
+  Res,
   UseFilters,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Public } from 'nest-keycloak-connect';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { ExecutionsService } from './executions.service';
 
@@ -31,13 +30,13 @@ export class ExecutionsController {
   }
 
   @Get('artifact-download')
-  @Public()
-  async getArtifactDownloadUrl(@Query('key') file: string) {
+  async getArtifactDownloadUrl(@Query('key') file: string, @Res() response) {
     if (!file || !file.trim()) {
       throw new BadRequestException('key query value is missing');
     }
 
-    return await this.executionsService.getArtifact(file);
+    const fileStream = await this.executionsService.getArtifact(file);
+    return fileStream.pipe(response);
   }
 
   @Get(':workflow_instance_id/tasks/:execution_id/metadata')
