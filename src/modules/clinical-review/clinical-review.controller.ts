@@ -1,14 +1,20 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Inject,
+  Param,
   ParseIntPipe,
+  Put,
   Query,
   UseFilters,
 } from '@nestjs/common';
-import { Roles } from 'shared/decorators/custom-decorators';
+import { Roles, UserId } from 'shared/decorators/custom-decorators';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
+import { ClinicalReviewAcknowledge } from './clinical-review.interfaces';
 import { ClinicalReviewService } from './clinical-review.service';
 
 @Controller('clinical-review')
@@ -19,7 +25,7 @@ export class ClinicalReviewController {
 
   @Get()
   getClinicalReviews(
-    @Roles('roles') roles,
+    @Roles() roles,
     @Query('pageNumber', ParseIntPipe) pageNumber = 1,
     @Query('pageSize', ParseIntPipe) pageSize = 10,
   ) {
@@ -32,5 +38,25 @@ export class ClinicalReviewController {
     }
 
     return this.service.getClinicalReviews(pageNumber, pageSize, roles);
+  }
+
+  @Put(':clinicalReviewId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  acknowledgeClinicalReview(
+    @Param('clinicalReviewId') clinicalReviewId: string,
+    @Body() clinicalReview: ClinicalReviewAcknowledge,
+    @Roles() roles,
+    @UserId() userId,
+  ) {
+    if (!roles || !userId) {
+      throw new BadRequestException('roles and userId are required');
+    }
+
+    return this.service.acknowledgeClinicalReview(
+      clinicalReview,
+      roles,
+      userId,
+      clinicalReviewId,
+    );
   }
 }

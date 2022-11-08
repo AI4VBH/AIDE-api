@@ -90,7 +90,8 @@ describe('/destinations Integration Tests', () => {
       );
       const response = await request(app.getHttpServer()).get('/destinations');
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
@@ -115,15 +116,19 @@ describe('/destinations Integration Tests', () => {
 
   it('(DELETE) /destinations/ with url param', async () => {
     server.use(
-      rest.delete(`${testMigBasePath}/config/destination/Lillie`, (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json(DestinationsMock.destinationsObject1),
-        );
-      }),
+      rest.delete(
+        `${testMigBasePath}/config/destination/Lillie`,
+        (req, res, ctx) => {
+          return res(
+            ctx.status(200),
+            ctx.json(DestinationsMock.destinationsObject1),
+          );
+        },
+      ),
     );
-    const response = await request(app.getHttpServer())
-      .delete('/destinations/Lillie');
+    const response = await request(app.getHttpServer()).delete(
+      '/destinations/Lillie',
+    );
     expect(response.body).toMatchSnapshot();
     expect(response.statusCode).toBe(200);
   });
@@ -159,7 +164,8 @@ describe('/destinations Integration Tests', () => {
         .post(`/destinations`)
         .send(DestinationsMock.destinationsObject1);
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
@@ -194,7 +200,8 @@ describe('/destinations Integration Tests', () => {
         .put('/destinations/ORTHANC')
         .send(DestinationsMock.destinationsObject1);
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
@@ -248,7 +255,8 @@ describe('/destinations Integration Tests', () => {
         .put(`/destinations/ORTHANC`)
         .send(DestinationsMock.destinationsObject1);
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
@@ -307,7 +315,8 @@ describe('/destinations Integration Tests', () => {
         `/destinations/echo/${name}`,
       );
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);

@@ -1,0 +1,11 @@
+{
+  "totalPages": 1,
+  "totalRecords": 0,
+  "pageNumber": 1,
+  "pageSize": 10,
+  "firstPage": "/page-1",
+  "lastPage": "/page-1",
+  "nextPage": null,
+  "previousPage": null,
+  "data": []
+}

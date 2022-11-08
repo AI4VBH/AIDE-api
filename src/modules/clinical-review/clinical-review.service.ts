@@ -2,7 +2,10 @@ import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
-import { PagedClinicalReviews } from './clinical-review.interfaces';
+import {
+  ClinicalReviewAcknowledge,
+  PagedClinicalReviews,
+} from './clinical-review.interfaces';
 
 @Injectable()
 export class ClinicalReviewService {
@@ -34,5 +37,31 @@ export class ClinicalReviewService {
     );
 
     return getClinicalReviews.data;
+  }
+
+  async acknowledgeClinicalReview(
+    clinicalReview: ClinicalReviewAcknowledge,
+    roles: string[],
+    userId: string,
+    clinicalReviewId: string,
+  ) {
+    clinicalReview.roles = roles;
+    clinicalReview.userId = userId;
+
+    const baseURL = this.configService.get<string>(
+      'CLINICAL_REVIEW_SERVICE_HOST',
+    );
+
+    const acknowledgeClinicalReview = await firstValueFrom(
+      this.httpService.put(
+        `/clinical-review/${clinicalReviewId}`,
+        clinicalReview,
+        {
+          baseURL,
+        },
+      ),
+    );
+
+    return acknowledgeClinicalReview.data;
   }
 }

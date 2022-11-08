@@ -140,7 +140,8 @@ describe('/Payloads Integration Tests', () => {
         '/payloads?pageNumber=1&pageSize=10',
       );
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
@@ -223,7 +224,8 @@ describe('/Payloads Integration Tests', () => {
         '/payloads/a07b72b1-8603-47b0-9a79-da0749261062/executions',
       );
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);

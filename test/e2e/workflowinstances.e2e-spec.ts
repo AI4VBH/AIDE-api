@@ -163,7 +163,8 @@ describe('/workflowinstances integration Tests', () => {
         '/workflowinstances/a67a7af7-068b-44b8-a81b-def7b3e5403b/executions/3b9d94b9-4285-45d4-bea9-491fa62b8f91/acknowledge',
       );
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);

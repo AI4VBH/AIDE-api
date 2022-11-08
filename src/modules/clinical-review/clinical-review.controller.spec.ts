@@ -2,6 +2,7 @@ import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClinicalReviewController } from './clinical-review.controller';
+import { ClinicalReviewAcknowledge } from './clinical-review.interfaces';
 import { ClinicalReviewService } from './clinical-review.service';
 
 describe('ClinicalReviewController', () => {
@@ -26,6 +27,35 @@ describe('ClinicalReviewController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('acknowledgeClinicalReview', () => {
+    it('passes the workflow to service', async () => {
+      const body: ClinicalReviewAcknowledge = {
+        acceptance: true,
+        task_id: 'taskid',
+        reason: 'all good',
+        message: 'message',
+        execution_id: 'guid',
+        roles: [],
+        userId: '',
+      };
+
+      const clinicalReviewId = 'clinical-review-id';
+      const roles = ['admin', 'clinician'];
+      const userId = 'testuser@gmail.com';
+
+      await controller.acknowledgeClinicalReview(
+        clinicalReviewId,
+        body,
+        roles,
+        userId,
+      );
+
+      expect(
+        clinicalReviewService.acknowledgeClinicalReview,
+      ).toHaveBeenCalledWith(body, roles, userId, clinicalReviewId);
+    });
   });
 
   describe('getClinicalReviews', () => {
