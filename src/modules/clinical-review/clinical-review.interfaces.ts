@@ -19,3 +19,13 @@ export interface ClinicalReview {
   patient_metadata: IMonaiPayloadPatient;
   files: [{ [name: string]: string }];
 }
+
+export interface ClinicalReviewAcknowledge {
+  acceptance: boolean;
+  task_id: string;
+  reason: string;
+  message: string;
+  execution_id: string;
+  roles: string[];
+  userId: string;
+}

@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosInstance } from 'axios';
 import { makeObservableForTest } from '../../../test/utilities/test-make-observable';
-import { PagedClinicalReviews } from './clinical-review.interfaces';
+import * as clinicalReviewInterfaces from './clinical-review.interfaces';
 import { ClinicalReviewService } from './clinical-review.service';
 
 describe('WorkflowsService', () => {
@@ -44,7 +44,7 @@ describe('WorkflowsService', () => {
 
   describe('getClinicalReviews', () => {
     it('returns expected result', async () => {
-      const monaiResult: PagedClinicalReviews = {
+      const monaiResult: clinicalReviewInterfaces.PagedClinicalReviews = {
         totalPages: 1,
         totalRecords: 0,
         pageNumber: 1,
@@ -64,6 +64,37 @@ describe('WorkflowsService', () => {
       httpService.get.mockReturnValue(makeObservableForTest(axios.get));
 
       const result = await service.getClinicalReviews(1, 10, ['admin']);
+
+      expect(result).toMatchSnapshot();
+    });
+  });
+
+  describe('acknowledgeClinicalReview', () => {
+    it('returns expected result', async () => {
+      const review: clinicalReviewInterfaces.ClinicalReviewAcknowledge = {
+        acceptance: true,
+        task_id: 'taskid',
+        reason: 'all good',
+        message: 'message',
+        execution_id: 'guid',
+        roles: [],
+        userId: '',
+      };
+
+      const clinicalReviewId = 'clinical-review-id';
+
+      axios.put.mockResolvedValue({
+        status: 201,
+      });
+
+      httpService.put.mockReturnValue(makeObservableForTest(axios.put));
+
+      const result = await service.acknowledgeClinicalReview(
+        review,
+        ['admin'],
+        'userid',
+        clinicalReviewId,
+      );
 
       expect(result).toMatchSnapshot();
     });

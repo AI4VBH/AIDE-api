@@ -271,7 +271,8 @@ describe('/issues integration Tests', () => {
         '/issues/failed?acknowledged=2022-01-01',
       );
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.status).toBe(500);
@@ -299,7 +300,8 @@ describe('/issues integration Tests', () => {
         '/issues/failed?acknowledged=2022-01-01',
       );
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.status).toBe(500);

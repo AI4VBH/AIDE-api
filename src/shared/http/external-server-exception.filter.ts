@@ -45,7 +45,8 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
       ) {
         return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'An issue occurred with the MONAI service',
+          message:
+            'An error occurred with an external service (MONAI, Clinical Review)',
         });
       }
 

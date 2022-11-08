@@ -111,7 +111,8 @@ describe('/Workflows Integration Tests', () => {
         '/workflows?pageNumber=1&pageSize=10',
       );
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
@@ -194,7 +195,8 @@ describe('/Workflows Integration Tests', () => {
         '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
       );
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
@@ -421,7 +423,8 @@ describe('/Workflows Integration Tests', () => {
         .put(`/workflows/${WorkflowMocks.singleWorkflow1.workflow_id}`)
         .send(WorkflowMocks.singleWorkflow1);
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
@@ -497,7 +500,8 @@ describe('/Workflows Integration Tests', () => {
         '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
       );
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
@@ -656,7 +660,8 @@ describe('/Workflows Integration Tests', () => {
         .post('/workflows')
         .send(WorkflowMocks.singleWorkflow1);
       expect(response.body).toMatchObject({
-        message: 'An issue occurred with the MONAI service',
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);

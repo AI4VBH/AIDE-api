@@ -1,0 +1,62 @@
+{
+  "totalPages": 1,
+  "totalRecords": 2,
+  "pageNumber": 1,
+  "pageSize": 10,
+  "firstPage": "/page-1",
+  "lastPage": "/page-1",
+  "nextPage": null,
+  "previousPage": null,
+  "data": [
+    {
+      "Clinical_review_message": {
+        "task_id": "taskid",
+        "reviewed_task_id": "reviewed_task_id",
+        "execution_id": "3473a842-8241-41f9-af0a-8b2d753a8a1a",
+        "reviewed_execution_id": "730d1ec1-9e23-4794-9185-e9fe4e09dca7",
+        "correlation_id": "5c6befb5-ae41-4778-8a93-f7e7aecbe19e",
+        "workflow_name": "workflow_name",
+        "patient_metadata": {
+          "patient_name": "steve jobs",
+          "patient_id": "1",
+          "patient_dob": "19/09/1996",
+          "patient_gender": "M"
+        },
+        "files": [
+          {
+            "name": "string",
+            "endpoint": "string - the MinIO address",
+            "bucket": "string",
+            "relative_root_path": "string -path in bucket"
+          }
+        ]
+      },
+      "reviewed": false
+    },
+    {
+      "Clinical_review_message": {
+        "task_id": "taskid2",
+        "reviewed_task_id": "reviewed_task_id2",
+        "execution_id": "3473a842-8241-41f9-af0a-8b2d753a8a1af",
+        "reviewed_execution_id": "730d1ec1-9e23-4794-9185-e9fe4e09dca7f",
+        "correlation_id": "5c6befb5-ae41-4778-8a93-f7e7aecbe19ef",
+        "workflow_name": "workflow_name2",
+        "patient_metadata": {
+          "patient_name": "steve madden",
+          "patient_id": "2",
+          "patient_dob": "19/09/1996",
+          "patient_gender": "M"
+        },
+        "files": [
+          {
+            "name": "string",
+            "endpoint": "string - the MinIO address",
+            "bucket": "string",
+            "relative_root_path": "string -path in bucket"
+          }
+        ]
+      },
+      "reviewed": false
+    }
+  ]
+}
