@@ -1,4 +1,5 @@
 {{ if .Values.image -}}
+{{ if .Capabilities.APIVersions.Has "kubefledged.io/v1alpha2" -}}
 apiVersion: kubefledged.io/v1alpha2
 kind: ImageCache
 metadata:
@@ -18,4 +19,5 @@ spec:
   imagePullSecrets:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+{{- end }}
 {{- end }}
