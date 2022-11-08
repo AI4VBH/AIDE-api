@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Client } from 'minio';
+import { Client, ItemBucketMetadata } from 'minio';
 import { parseBoolean } from 'shared/util/parseBoolean';
 import { Readable } from 'stream';
 
@@ -33,6 +33,11 @@ export class MinioClient extends Client {
 
   async getObjectByName(objectName: string): Promise<Readable> {
     return await this.getObject(this.bucketName, objectName);
+  }
+
+  async getObjectMetadata(objectName: string): Promise<ItemBucketMetadata> {
+    const { metaData } = await this.statObject(this.bucketName, objectName);
+    return metaData;
   }
 }
 

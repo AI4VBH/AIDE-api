@@ -190,6 +190,12 @@ describe('/executions Integration Tests', () => {
           return res(ctx.status(200), ctx.body('hello world'));
         },
       ),
+      rest.head(
+        'http://localhost:9000/bucket-name/minio-object-key',
+        (_, res, ctx) => {
+          return res(ctx.status(200));
+        },
+      ),
     );
     const response = await request(app.getHttpServer()).get(
       '/executions/artifact-download?key=minio-object-key',
