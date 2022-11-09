@@ -1,0 +1,23 @@
+{{ if .Values.image -}}
+{{ if .Capabilities.APIVersions.Has "kubefledged.io/v1alpha2" -}}
+apiVersion: kubefledged.io/v1alpha2
+kind: ImageCache
+metadata:
+  # Name of the image cache.
+  name: {{ include "deploy.fullname" . }}
+  # The namespace to be used for this image cache.
+  namespace: {{.Values.serviceAccount.namespace}}
+  labels:
+    app: kubefledged
+    component: imagecache
+spec:
+  # The "cacheSpec" field allows a user to define a list of images and onto which worker nodes those images should be cached (i.e. pre-pulled).
+  cacheSpec:
+  - images:
+    - "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
+{{- end }}
