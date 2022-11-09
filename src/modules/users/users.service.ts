@@ -4,6 +4,7 @@ import RoleRepresentation, {
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
 import { Users } from '@keycloak/keycloak-admin-client/lib/resources/users';
 import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { User, UserPage, UserRole } from './user.dto';
 
@@ -11,6 +12,9 @@ import { User, UserPage, UserRole } from './user.dto';
 export class UsersService {
   @Inject()
   private readonly adminService: KeycloakAdminService;
+
+  @Inject(ConfigService)
+  private readonly config: ConfigService;
 
   async getUsers(
     first: number,
@@ -37,8 +41,12 @@ export class UsersService {
         client.users.listRealmRoleMappings({ realm, id: userId }),
     );
 
+    const exclusionRoles = this.config.get<string[]>(
+      'KEYCLOAK_EXCLUSION_ROLES',
+    );
+
     userRoleObjects = userRoleObjects.filter(
-      (role) => role.name !== 'default-roles-aide',
+      (role) => !exclusionRoles.includes(role.name),
     );
 
     return userRoleObjects.map((role) => ({

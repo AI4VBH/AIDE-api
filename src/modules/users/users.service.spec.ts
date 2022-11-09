@@ -41,6 +41,15 @@ describe('UsersService', () => {
       },
     });
 
+    configServiceMock.get.mockImplementation((key: string) => {
+      switch (key) {
+        case 'KEYCLOAK_STATIC_ROLES':
+          return ['admin'];
+        case 'KEYCLOAK_EXCLUSION_ROLES':
+          return ['default-roles-aide'];
+      }
+    });
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
