@@ -60,13 +60,22 @@ describe('RolesService', () => {
 
   describe('getAllRoles', () => {
     it('calls the right service method', async () => {
-      configServiceMock.get.mockImplementation(
-        (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
-      );
+      configServiceMock.get.mockImplementation((key: string) => {
+        switch (key) {
+          case 'KEYCLOAK_STATIC_ROLES':
+            return ['admin'];
+          case 'KEYCLOAK_EXCLUSION_ROLES':
+            return ['default-roles-aide'];
+        }
+      });
 
       rolesMock.find.mockResolvedValue([
         { id: '4aa67f47-190f-4629-8f5a-e7025787cff9', name: 'admin' },
         { id: '9da87ef1-e7dc-42e1-b409-89a3e13735ec', name: 'other-role' },
+        {
+          id: '9600228a-98fc-47e0-a674-054ba13e4bae',
+          name: 'default-roles-aide',
+        },
       ]);
 
       const expected = [
@@ -96,9 +105,14 @@ describe('RolesService', () => {
 
   describe('getAllRolesFiltered', () => {
     it('calls the right service methods', async () => {
-      configServiceMock.get.mockImplementation(
-        (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
-      );
+      configServiceMock.get.mockImplementation((key: string) => {
+        switch (key) {
+          case 'KEYCLOAK_STATIC_ROLES':
+            return ['admin'];
+          case 'KEYCLOAK_EXCLUSION_ROLES':
+            return ['default-roles-aide'];
+        }
+      });
 
       rolesMock.find.mockResolvedValue([
         { id: '4aa67f47-190f-4629-8f5a-e7025787cff9', name: 'admin' },
@@ -142,9 +156,14 @@ describe('RolesService', () => {
     });
 
     it('sorting applied correctly', async () => {
-      configServiceMock.get.mockImplementation(
-        (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
-      );
+      configServiceMock.get.mockImplementation((key: string) => {
+        switch (key) {
+          case 'KEYCLOAK_STATIC_ROLES':
+            return ['admin'];
+          case 'KEYCLOAK_EXCLUSION_ROLES':
+            return ['default-roles-aide'];
+        }
+      });
 
       rolesMock.find.mockResolvedValue([
         { id: '4aa67f47-190f-4629-8f5a-e7025787cff9', name: 'admin' },
@@ -187,9 +206,14 @@ describe('RolesService', () => {
 
   describe('getRole', () => {
     it('throws exception when role is not found', async () => {
-      configServiceMock.get.mockImplementation(
-        (key: string) => key === 'KEYCLOAK_STATIC_ROLES' && ['admin'],
-      );
+      configServiceMock.get.mockImplementation((key: string) => {
+        switch (key) {
+          case 'KEYCLOAK_STATIC_ROLES':
+            return ['admin'];
+          case 'KEYCLOAK_EXCLUSION_ROLES':
+            return ['default-roles-aide'];
+        }
+      });
 
       rolesMock.findOneById.mockResolvedValue(null);
 
