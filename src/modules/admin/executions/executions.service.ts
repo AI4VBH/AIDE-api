@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { MinioClient, MinoiClientException } from 'shared/minio/minio-client';
+import internal from 'stream';
 import { MonaiWorkflowInstance } from '../workflowinstances/workflowinstances.interface';
 import {
   ExecutionsServiceException,
@@ -55,12 +56,16 @@ export class ExecutionsService {
     }
   }
 
-  async getArtifact(file: string) {
+  async getArtifact(
+    file: string,
+  ): Promise<{ contentType: string; stream: internal.Readable }> {
     try {
-      return await this.minioClient.getObjectByName(file);
+      const stream = await this.minioClient.getObjectByName(file);
+      const metadata = await this.minioClient.getObjectMetadata(file);
+
+      return { stream, contentType: metadata['content-type'] };
     } catch (exception) {
-      console.log(exception);
-      throw new MinoiClientException(exception.message);
+      throw new MinoiClientException(exception.code);
     }
   }
 

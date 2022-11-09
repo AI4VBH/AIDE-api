@@ -66,7 +66,10 @@ describe('ExecutionsController', () => {
 
   describe('getArtifactDownloadUrl', () => {
     it('returns expected result', async () => {
-      executionsService.getArtifact.mockResolvedValue(createMock<Readable>());
+      executionsService.getArtifact.mockResolvedValue({
+        contentType: 'text',
+        stream: createMock<Readable>(),
+      });
 
       const response = createMock<Response>();
 

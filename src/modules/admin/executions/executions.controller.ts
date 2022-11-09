@@ -9,6 +9,7 @@ import {
   Res,
   UseFilters,
 } from '@nestjs/common';
+import { Response } from 'express';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { ExecutionsService } from './executions.service';
 
@@ -30,13 +31,25 @@ export class ExecutionsController {
   }
 
   @Get('artifact-download')
-  async getArtifactDownloadUrl(@Query('key') file: string, @Res() response) {
+  async getArtifactDownloadUrl(
+    @Query('key') file: string,
+    @Res() response: Response,
+  ) {
     if (!file || !file.trim()) {
       throw new BadRequestException('key query value is missing');
     }
 
-    const fileStream = await this.executionsService.getArtifact(file);
-    return fileStream.pipe(response);
+    const { contentType, stream } = await this.executionsService.getArtifact(
+      file,
+    );
+
+    if (contentType) {
+      response.contentType(contentType);
+    }
+
+    const piped = stream.pipe(response);
+
+    return piped;
   }
 
   @Get(':workflow_instance_id/tasks/:execution_id/metadata')
