@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: 847264867502.dkr.ecr.eu-west-2.amazonaws.com/backend-api-nestjs
+  repository: 150476025846.dkr.ecr.eu-west-2.amazonaws.com/aide/api
   pullPolicy: IfNotPresent
   tag: latest
 
