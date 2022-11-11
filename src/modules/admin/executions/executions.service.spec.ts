@@ -132,7 +132,7 @@ describe('ExecutionsService', () => {
             output_artifacts: {
               'file.ext': 'minio-object-key/file.ext',
             },
-            execution_stats: {
+            result: {
               'stat-1': 'value',
             },
           },
@@ -163,7 +163,7 @@ describe('ExecutionsService', () => {
             execution_id: '6db02ec8-e77f-442d-b2b8-397f4935e907',
             status: 'Suceeded',
             output_artifacts: {},
-            execution_stats: {},
+            result: {},
           },
         ],
       };
@@ -192,7 +192,7 @@ describe('ExecutionsService', () => {
             execution_id: '6db02ec8-e77f-442d-b2b8-397f4935e907',
             status: 'Suceeded',
             output_artifacts: {},
-            execution_stats: {},
+            result: {},
           },
         ],
       };

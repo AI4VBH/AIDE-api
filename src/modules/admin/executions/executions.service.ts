@@ -90,6 +90,6 @@ export class ExecutionsService {
       );
     }
 
-    return task?.execution_stats ?? {};
+    return task?.result ?? {};
   }
 }

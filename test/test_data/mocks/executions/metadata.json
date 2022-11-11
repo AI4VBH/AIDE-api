@@ -15,7 +15,8 @@
       "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
       "task_type": "argo",
       "task_start_time": "2022-09-22T12:45:13.102Z",
-      "execution_stats": {
+      "execution_stats": {},
+      "result": {
         "key": {
           "name": "Some metadata",
           "score": 34
@@ -38,9 +39,6 @@
         "report-dicom": "d801bd68-381d-4ff3-95a8-85c46380e075/workflows/a67a7af7-068b-44b8-a81b-def7b3e5403b/3b9d94b9-4285-45d4-bea9-491fa62b8f91/report-dicom"
       },
       "output_directory": "d801bd68-381d-4ff3-95a8-85c46380e075/workflows/a67a7af7-068b-44b8-a81b-def7b3e5403b/3b9d94b9-4285-45d4-bea9-491fa62b8f91",
-      "result": {
-        "JobIdentity": "md-argo-workflow-1-cxs5p"
-      },
       "input_parameters": {},
       "next_timeout": "2022-09-22T12:45:13.102Z",
       "timeout_interval": 0
