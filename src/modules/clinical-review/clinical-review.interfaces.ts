@@ -29,3 +29,14 @@ export interface ClinicalReviewAcknowledge {
   roles: string[];
   userId: string;
 }
+
+export interface ClinicalReviewTaskDetails {
+  execution_id: string;
+  study: ClinicalReviewTaskSeries[];
+}
+
+export interface ClinicalReviewTaskSeries {
+  series_id: string;
+  modality: string;
+  files: string[];
+}

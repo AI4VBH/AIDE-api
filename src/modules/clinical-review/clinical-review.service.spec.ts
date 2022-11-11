@@ -99,4 +99,43 @@ describe('WorkflowsService', () => {
       expect(result).toMatchSnapshot();
     });
   });
+
+  describe('getClinicalReviewTaskDetails', () => {
+    it('returns expected result', async () => {
+      const result: clinicalReviewInterfaces.ClinicalReviewTaskDetails = {
+        execution_id: '12345',
+        study: [
+          {
+            series_id: 'series-id',
+            modality: 'CT',
+            files: ['object-keys-for-minio'],
+          },
+          {
+            series_id: 'another-series-id',
+            modality: 'DOC',
+            files: [
+              'other-object-keys-for-minio',
+              'another-object-keys-for-minio',
+            ],
+          },
+        ],
+      };
+
+      axios.get.mockResolvedValue({
+        status: 200,
+        data: result,
+      });
+
+      httpService.get.mockReturnValue(makeObservableForTest(axios.get));
+
+      const clinicalTaskReviewId = 'id-123';
+      const roles = ['realm:clinician'];
+      const taskDetailsReturned = await service.getClinicalReviewTaskDetails(
+        roles,
+        clinicalTaskReviewId,
+      );
+
+      expect(taskDetailsReturned).toMatchSnapshot();
+    });
+  });
 });

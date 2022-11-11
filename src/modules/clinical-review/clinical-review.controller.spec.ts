@@ -1,5 +1,5 @@
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClinicalReviewController } from './clinical-review.controller';
 import { ClinicalReviewAcknowledge } from './clinical-review.interfaces';
@@ -100,6 +100,25 @@ describe('ClinicalReviewController', () => {
         10,
         ['admin'],
       );
+    });
+  });
+
+  describe('getClinicalReviewTaskDetails', () => {
+    it('passes the id to service', async () => {
+      const taskId = '123';
+      const roles = ['clinician'];
+      await controller.GetClinicalReviewTaskDetails(roles, taskId);
+
+      expect(
+        clinicalReviewService.getClinicalReviewTaskDetails,
+      ).toHaveBeenCalledWith(roles, taskId);
+    });
+
+    it('throws unauthorised exception when no roles are found', async () => {
+      const action = async () =>
+        await controller.GetClinicalReviewTaskDetails(null, '123');
+
+      await expect(action).rejects.toThrowError(HttpException);
     });
   });
 });

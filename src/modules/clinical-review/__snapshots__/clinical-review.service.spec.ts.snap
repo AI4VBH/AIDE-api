@@ -2,6 +2,29 @@
 
 exports[`WorkflowsService acknowledgeClinicalReview returns expected result 1`] = `undefined`;
 
+exports[`WorkflowsService getClinicalReviewTaskDetails returns expected result 1`] = `
+{
+  "execution_id": "12345",
+  "study": [
+    {
+      "files": [
+        "object-keys-for-minio",
+      ],
+      "modality": "CT",
+      "series_id": "series-id",
+    },
+    {
+      "files": [
+        "other-object-keys-for-minio",
+        "another-object-keys-for-minio",
+      ],
+      "modality": "DOC",
+      "series_id": "another-series-id",
+    },
+  ],
+}
+`;
+
 exports[`WorkflowsService getClinicalReviews returns expected result 1`] = `
 {
   "data": [],

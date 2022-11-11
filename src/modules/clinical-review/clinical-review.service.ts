@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import {
   ClinicalReviewAcknowledge,
   PagedClinicalReviews,
+  ClinicalReviewTaskDetails,
 } from './clinical-review.interfaces';
 
 @Injectable()
@@ -63,5 +64,29 @@ export class ClinicalReviewService {
     );
 
     return acknowledgeClinicalReview.data;
+  }
+
+  async getClinicalReviewTaskDetails(
+    roles: string[],
+    clinicalReviewTaskId: string,
+  ) {
+    const params = new URLSearchParams({
+      roles: `${roles.join(',') || ''}`,
+    });
+
+    const baseURL = this.configService.get<string>(
+      'CLINICAL_REVIEW_SERVICE_HOST',
+    );
+
+    const getClinicalReviewTaskDetails = await firstValueFrom(
+      this.httpService.get<ClinicalReviewTaskDetails>(
+        `/task-details/${clinicalReviewTaskId}?${params}`,
+        {
+          baseURL,
+        },
+      ),
+    );
+
+    return getClinicalReviewTaskDetails.data;
   }
 }
