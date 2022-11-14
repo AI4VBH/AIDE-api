@@ -102,6 +102,8 @@ step "deploy-the-aide-api" {
             Octopus.Action.Helm.ReleaseName = "aide-api"
             Octopus.Action.Helm.ResetValues = "True"
             Octopus.Action.Helm.YamlValues = <<-EOT
+                replicaCount: 3
+                
                 image:
                   tag: #{Octopus.Action.Package.PackageVersion}
                 imagePullSecrets:
