@@ -269,7 +269,28 @@ describe('/Clinical-Review Integration Tests', () => {
     expect(response.status).toBe(400);
   });
 
-  it('(GET) /clinical-review-task-details with returned data', async () => {
+  it('(GET) /clinical-review-task-details with returned data (single study set)', async () => {
+    server.use(
+      rest.get(
+        `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        (request, response, context) => {
+          return response(
+            context.json(
+              ClinicalReviewMocks.clinicalReviewTaskDetailsSingleStudy,
+            ),
+          );
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer())
+      .get('/clinical-review/12345')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid);
+
+    expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
+  });
+
+  it('(GET) /clinical-review-task-details with returned data (multiple studies)', async () => {
     server.use(
       rest.get(
         `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
@@ -341,15 +362,12 @@ describe('/Clinical-Review Integration Tests', () => {
     },
   );
 
-  it('(GET) /clinical-review-task-details correct status returned when roles has not been provided', async () => {
+  it('(GET) /clinical-review-task-details returns Bad Request when roles have not been provided', async () => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/task-details/12345`,
         (request, response, context) => {
-          return response(
-            context.json(ClinicalReviewMocks.clinicalReviewTaskDetailsError),
-            context.status(401),
-          );
+          return response(context.status(400));
         },
       ),
     );
@@ -358,8 +376,7 @@ describe('/Clinical-Review Integration Tests', () => {
       '/clinical-review/12345',
     );
 
-    expect(response.body).toMatchSnapshot();
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(400);
   });
 
   it('(GET) /clinical-review-task-details correct status when Task Id is not found', async () => {

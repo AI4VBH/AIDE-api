@@ -6,6 +6,7 @@ import * as clinicalReviewsInvalidBodyError from './invalid-body-clinical-review
 import * as clinicalReviewsNotFoundError from './non-existent-clinical-review-error.json';
 import * as clinicalReviewIdInvalidError from './invalid-clinical-review-id-error.json';
 import * as clinicalReviewTaskDetails from './clinical-review-task-details.json';
+import * as clinicalReviewTaskDetailsSingleStudy from './clinical-review-task-details-single-study.json';
 import * as clinicalReviewTaskDetailsError from './invalid-clinical-review-task-details.json';
 
 export default {
@@ -18,4 +19,5 @@ export default {
   clinicalReviewIdInvalidError,
   clinicalReviewTaskDetailsError,
   clinicalReviewTaskDetails,
+  clinicalReviewTaskDetailsSingleStudy,
 };

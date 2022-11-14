@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  HttpException,
   Inject,
   Param,
   ParseIntPipe,
@@ -70,7 +69,7 @@ export class ClinicalReviewController {
     @Param('clinicalReviewTaskId') clinicalReviewTaskId: string,
   ): Promise<ClinicalReviewTaskDetails> {
     if (!roles) {
-      throw new HttpException('Unauthorised', HttpStatus.UNAUTHORIZED);
+      throw new BadRequestException('roles are required');
     }
 
     return this.service.getClinicalReviewTaskDetails(

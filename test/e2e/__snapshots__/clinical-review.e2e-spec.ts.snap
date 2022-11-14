@@ -119,13 +119,6 @@ exports[`/Clinical-Review Integration Tests (GET) /clinical-review without retur
 }
 `;
 
-exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details correct status returned when roles has not been provided 1`] = `
-{
-  "message": "Unauthorised",
-  "statusCode": 401,
-}
-`;
-
 exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details correct status when Task Id is not found 1`] = `
 {
   "detail": "SUBJECT TO CHANGE - Invalid Clinical Review Task Id",
@@ -137,7 +130,7 @@ exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details 
 }
 `;
 
-exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details with returned data 1`] = `
+exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details with returned data (multiple studies) 1`] = `
 {
   "execution_id": "3473a842-8241-41f9-af0a-8b2d753a8a1a",
   "study": [
@@ -153,6 +146,21 @@ exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details 
         "object-keys-for-minio",
       ],
       "modality": "DOC",
+      "series_id": "series-id",
+    },
+  ],
+}
+`;
+
+exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details with returned data (single study set) 1`] = `
+{
+  "execution_id": "3473a842-8241-41f9-af0a-8b2d753a8a1a",
+  "study": [
+    {
+      "files": [
+        "object-keys-for-minio",
+      ],
+      "modality": "CT",
       "series_id": "series-id",
     },
   ],
