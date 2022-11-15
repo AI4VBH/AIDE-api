@@ -14,7 +14,10 @@ import {
 } from '@nestjs/common';
 import { Roles, UserId } from 'shared/decorators/custom-decorators';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
-import { ClinicalReviewAcknowledge } from './clinical-review.interfaces';
+import {
+  ClinicalReviewAcknowledge,
+  ClinicalReviewTaskDetails,
+} from './clinical-review.interfaces';
 import { ClinicalReviewService } from './clinical-review.service';
 
 @Controller('clinical-review')
@@ -57,6 +60,21 @@ export class ClinicalReviewController {
       roles,
       userId,
       clinicalReviewId,
+    );
+  }
+
+  @Get('/:clinicalReviewTaskId')
+  GetClinicalReviewTaskDetails(
+    @Roles() roles,
+    @Param('clinicalReviewTaskId') clinicalReviewTaskId: string,
+  ): Promise<ClinicalReviewTaskDetails> {
+    if (!roles) {
+      throw new BadRequestException('roles are required');
+    }
+
+    return this.service.getClinicalReviewTaskDetails(
+      roles,
+      clinicalReviewTaskId,
     );
   }
 }

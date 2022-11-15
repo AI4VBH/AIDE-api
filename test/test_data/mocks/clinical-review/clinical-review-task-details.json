@@ -1,0 +1,19 @@
+{
+    "execution_id": "3473a842-8241-41f9-af0a-8b2d753a8a1a",
+  "study": [
+    {
+        "series_id": "series-id",
+        "modality": "CT",
+        "files": [
+            "object-keys-for-minio"
+        ]
+    },
+    {
+        "series_id": "series-id",
+        "modality": "DOC",
+        "files": [
+            "object-keys-for-minio"
+        ]
+    }
+ ]
+}

@@ -119,6 +119,54 @@ exports[`/Clinical-Review Integration Tests (GET) /clinical-review without retur
 }
 `;
 
+exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details correct status when Task Id is not found 1`] = `
+{
+  "detail": "SUBJECT TO CHANGE - Invalid Clinical Review Task Id",
+  "instance": "/task-details/41c5778c-9957-4cfd-be7a-c0bbff5c7cca",
+  "status": 404,
+  "title": "Invalid Task Id",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details with returned data (multiple studies) 1`] = `
+{
+  "execution_id": "3473a842-8241-41f9-af0a-8b2d753a8a1a",
+  "study": [
+    {
+      "files": [
+        "object-keys-for-minio",
+      ],
+      "modality": "CT",
+      "series_id": "series-id",
+    },
+    {
+      "files": [
+        "object-keys-for-minio",
+      ],
+      "modality": "DOC",
+      "series_id": "series-id",
+    },
+  ],
+}
+`;
+
+exports[`/Clinical-Review Integration Tests (GET) /clinical-review-task-details with returned data (single study set) 1`] = `
+{
+  "execution_id": "3473a842-8241-41f9-af0a-8b2d753a8a1a",
+  "study": [
+    {
+      "files": [
+        "object-keys-for-minio",
+      ],
+      "modality": "CT",
+      "series_id": "series-id",
+    },
+  ],
+}
+`;
+
 exports[`/Clinical-Review Integration Tests (PUT) /clinical-review 400 when body invalid 1`] = `
 {
   "detail": "SUBJECT TO CHANGE - Invalid Clinical Review Body",
