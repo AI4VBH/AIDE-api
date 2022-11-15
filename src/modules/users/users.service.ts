@@ -2,11 +2,16 @@ import RoleRepresentation, {
   RoleMappingPayload,
 } from '@keycloak/keycloak-admin-client/lib/defs/roleRepresentation';
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
-import { Users } from '@keycloak/keycloak-admin-client/lib/resources/users';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
-import { User, UserPage, UserRole } from './user.dto';
+import {
+  CreateUserDto,
+  EditUserDto,
+  User,
+  UserPage,
+  UserRole,
+} from './user.dto';
 
 @Injectable()
 export class UsersService {
@@ -110,7 +115,7 @@ export class UsersService {
     );
   }
 
-  async createUser(user: User): Promise<User> {
+  async createUser(user: CreateUserDto): Promise<User> {
     const newUser = await this.adminService.performAction((realm, client) =>
       client.users.create({
         realm,
@@ -127,7 +132,7 @@ export class UsersService {
     return await this.getUser(newUser.id);
   }
 
-  async updateUser(userId: string, user: User): Promise<User> {
+  async updateUser(userId: string, user: EditUserDto): Promise<User> {
     const existingUserRoles = await this.listUserRoles(userId);
     await this.adminService.performAction((realm, client) =>
       client.users.update(
