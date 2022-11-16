@@ -64,12 +64,12 @@ export class ClinicalReviewController {
   }
 
   @Get('dicom')
-  GetDicomFile(@Query('key') key: string) {
+  getDicomFile(@Query('key') key: string) {
     return this.service.getDicomFile(key);
   }
 
   @Get(':taskExecutionId')
-  GetClinicalReviewTaskDetails(
+  getClinicalReviewTaskDetails(
     @Roles() roles,
     @Param('taskExecutionId') taskExecutionId: string,
   ): Promise<ClinicalReviewTaskDetails> {
