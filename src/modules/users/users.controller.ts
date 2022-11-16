@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { Roles } from 'nest-keycloak-connect';
 import { KeycloakAdminExceptionFilter } from 'shared/keycloak/keycloak-admin-exception.filter';
-import { User, UserPage } from './user.dto';
+import { CreateUserDto, EditUserDto, User, UserPage } from './user.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -43,12 +43,15 @@ export class UsersController {
   }
 
   @Post()
-  createUser(@Body() body): Promise<User> {
+  createUser(@Body() body: CreateUserDto): Promise<User> {
     return this.usersService.createUser(body);
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() body): Promise<User> {
+  updateUser(
+    @Param('id') id: string,
+    @Body() body: EditUserDto,
+  ): Promise<User> {
     return this.usersService.updateUser(id, body);
   }
 

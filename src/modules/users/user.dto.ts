@@ -1,5 +1,15 @@
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
 
+export class CreateUserDto {
+  firstName: string;
+  lastName: string;
+  email: string;
+  realmRoles: UserRole[];
+  enabled: boolean;
+}
+
+export class EditUserDto extends CreateUserDto {}
+
 export class User {
   id: string;
   firstName: string;
