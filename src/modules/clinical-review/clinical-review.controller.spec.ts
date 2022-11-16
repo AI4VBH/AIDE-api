@@ -107,7 +107,7 @@ describe('ClinicalReviewController', () => {
     it('passes the id to service', async () => {
       const taskId = '123';
       const roles = ['clinician'];
-      await controller.GetClinicalReviewTaskDetails(roles, taskId);
+      await controller.getClinicalReviewTaskDetails(roles, taskId);
 
       expect(
         clinicalReviewService.getClinicalReviewTaskDetails,
@@ -116,7 +116,7 @@ describe('ClinicalReviewController', () => {
 
     it('throws unauthorised exception when no roles are found', async () => {
       const action = async () =>
-        await controller.GetClinicalReviewTaskDetails(null, '123');
+        await controller.getClinicalReviewTaskDetails(null, '123');
 
       await expect(action).rejects.toThrowError(HttpException);
     });
@@ -125,7 +125,7 @@ describe('ClinicalReviewController', () => {
   describe('GetDicomFile', () => {
     it('passes the key to service', async () => {
       const key = '123abc';
-      await controller.GetDicomFile(key);
+      await controller.getDicomFile(key);
 
       expect(clinicalReviewService.getDicomFile).toHaveBeenCalledWith(key);
     });
