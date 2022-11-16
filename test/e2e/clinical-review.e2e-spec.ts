@@ -3,6 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as request from 'supertest';
+import * as path from 'path';
+import * as fs from 'fs';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
@@ -419,4 +421,34 @@ describe('/Clinical-Review Integration Tests', () => {
       expect(response.status).toBe(code);
     },
   );
+
+  it('(GET) /dicom file successfully', async () => {
+    let minioKeyParams;
+    server.use(
+      rest.get(
+        `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
+        async (request, response, context) => {
+          minioKeyParams = request.url.searchParams.get('key');
+
+          const imageBuffer = fs.readFileSync(
+            path.resolve(__dirname, './test-files/CT000000.dcm'),
+          );
+
+          return response(
+            context.set('Content-Length', imageBuffer.byteLength.toString()),
+            context.set('Content-Type', 'application/dicom'),
+            context.body(imageBuffer),
+            context.status(200),
+          );
+        },
+      ),
+    );
+
+    const response = await request(app.getHttpServer())
+      .get('/clinical-review/dicom?key=12345abc')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid);
+
+    expect(response.status).toBe(200);
+    expect(minioKeyParams).toBe('12345abc');
+  });
 });

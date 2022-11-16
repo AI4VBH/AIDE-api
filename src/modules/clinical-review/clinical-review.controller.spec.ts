@@ -121,4 +121,13 @@ describe('ClinicalReviewController', () => {
       await expect(action).rejects.toThrowError(HttpException);
     });
   });
+
+  describe('GetDicomFile', () => {
+    it('passes the key to service', async () => {
+      const key = '123abc';
+      await controller.GetDicomFile(key);
+
+      expect(clinicalReviewService.getDicomFile).toHaveBeenCalledWith(key);
+    });
+  });
 });
