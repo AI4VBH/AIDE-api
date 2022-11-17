@@ -63,18 +63,20 @@ export class ClinicalReviewController {
     );
   }
 
-  @Get('/:clinicalReviewTaskId')
-  GetClinicalReviewTaskDetails(
+  @Get('dicom')
+  getDicomFile(@Query('key') key: string) {
+    return this.service.getDicomFile(key);
+  }
+
+  @Get(':taskExecutionId')
+  getClinicalReviewTaskDetails(
     @Roles() roles,
-    @Param('clinicalReviewTaskId') clinicalReviewTaskId: string,
+    @Param('taskExecutionId') taskExecutionId: string,
   ): Promise<ClinicalReviewTaskDetails> {
     if (!roles) {
       throw new BadRequestException('roles are required');
     }
 
-    return this.service.getClinicalReviewTaskDetails(
-      roles,
-      clinicalReviewTaskId,
-    );
+    return this.service.getClinicalReviewTaskDetails(roles, taskExecutionId);
   }
 }

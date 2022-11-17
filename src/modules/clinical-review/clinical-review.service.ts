@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
+import internal from 'stream';
 import {
   ClinicalReviewAcknowledge,
   PagedClinicalReviews,
@@ -88,5 +89,19 @@ export class ClinicalReviewService {
     );
 
     return getClinicalReviewTaskDetails.data;
+  }
+
+  async getDicomFile(key: string): Promise<{ stream: internal.Readable }> {
+    const baseURL = this.configService.get<string>(
+      'CLINICAL_REVIEW_SERVICE_HOST',
+    );
+
+    const getDicomFile = await firstValueFrom(
+      this.httpService.get(`/dicom?key=${key}`, {
+        baseURL,
+      }),
+    );
+
+    return getDicomFile.data;
   }
 }

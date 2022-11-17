@@ -3,6 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as request from 'supertest';
+import * as path from 'path';
+import * as fs from 'fs';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
@@ -406,7 +408,7 @@ describe('/Clinical-Review Integration Tests', () => {
       server.use(
         rest.get(
           `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
-          (request, response, context) => {
+          (_, response, context) => {
             return response(context.status(code));
           },
         ),
@@ -417,6 +419,68 @@ describe('/Clinical-Review Integration Tests', () => {
         .set('Authorization', AuthTokens.authtokenValidRolesUserid);
 
       expect(response.status).toBe(code);
+    },
+  );
+
+  it('(GET) /dicom file successfully', async () => {
+    let minioKeyParams;
+    server.use(
+      rest.get(
+        `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
+        async (request, response, context) => {
+          minioKeyParams = request.url.searchParams.get('key');
+
+          return response(context.status(200));
+        },
+      ),
+    );
+
+    const response = await request(app.getHttpServer())
+      .get('/clinical-review/dicom?key=12345abc')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid);
+
+    expect(response.status).toBe(200);
+    expect(minioKeyParams).toBe('12345abc');
+  });
+
+  it('(GET) /dicom file does not exist for the given key', async () => {
+    server.use(
+      rest.get(
+        `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
+        async (request, response, context) => {
+          return response(context.json({}), context.status(404));
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer())
+      .get('/clinical-review/dicom?key=12345abc')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({});
+  });
+
+  it.each([408, 500, 501, 502, 503, 504])(
+    '(GET) /clinical-review/dicom?key=minio-object-key correct status when MINIO gives general error with code %s',
+    async (code) => {
+      server.use(
+        rest.get(
+          `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
+          (_req, res, ctx) => {
+            return res(ctx.status(code));
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer())
+        .get('/clinical-review/dicom?key=12345abc')
+        .set('Authorization', AuthTokens.authtokenValidRolesUserid);
+
+      expect(response.body).toMatchObject({
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
+        statusCode: 500,
+      });
+      expect(response.statusCode).toBe(500);
     },
   );
 });
