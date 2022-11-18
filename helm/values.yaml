@@ -36,21 +36,6 @@ enviromentVariablesFromSecrets:
     - name: ELASTIC_PASSWORD
       secretName: elastic-secret-master
       secretKey: password
-    - name: DATABASE_HOST
-      secretName: postgres-pguser-aide
-      secretKey: host
-    - name: DATABASE_PORT
-      secretName: postgres-pguser-aide
-      secretKey: port
-    - name: DATABASE_NAME
-      secretName: postgres-pguser-aide
-      secretKey: dbname
-    - name: DATABASE_USER
-      secretName: postgres-pguser-aide
-      secretKey: user
-    - name: DATABASE_PASSWORD
-      secretName: postgres-pguser-aide
-      secretKey: password
     - name: MINIO_ACCESS_KEY
       secretName: minio-secret-master
       secretKey: accessKey
