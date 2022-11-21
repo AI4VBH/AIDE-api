@@ -30,13 +30,7 @@ export class RolesService {
     }));
   }
 
-  async getAllRolesFiltered(
-    first: number,
-    max: number,
-    search?: string,
-    sortBy?: string,
-    sortDesc?: boolean,
-  ) {
+  async getAllRolesFiltered(first: number, max: number, search?: string) {
     const staticRoles = this.config.get<string[]>('KEYCLOAK_STATIC_ROLES');
     const exclusionRoles = this.config.get<string>('KEYCLOAK_EXCLUSION_ROLES');
 
@@ -47,19 +41,6 @@ export class RolesService {
     let filteredRoles = await this.adminService.performAction((realm, client) =>
       client.roles.find({ realm, search, first, max }),
     );
-
-    if (sortBy) {
-      filteredRoles = filteredRoles.sort((a, b) => {
-        const sortA = a[sortBy];
-        const sortB = b[sortBy];
-
-        if (sortDesc) {
-          return sortA === sortB ? 0 : sortA < sortB ? 1 : -1;
-        }
-
-        return sortA === sortB ? 0 : sortA > sortB ? 1 : -1;
-      });
-    }
 
     filteredRoles = filteredRoles.filter(
       (role) => !exclusionRoles.includes(role.name),

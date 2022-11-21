@@ -32,15 +32,11 @@ export class RolesController {
     @Query('first') first = 0,
     @Query('max') max = 5,
     @Query('search') search?: string,
-    @Query('sortBy') sortBy?: string,
-    @Query('sortDesc') sortDesc?: boolean,
   ): Promise<PaginatedRolesResponse> {
     return this.rolesService.getAllRolesFiltered(
       first,
       max,
       search,
-      sortBy,
-      sortDesc,
     );
   }
 
