@@ -33,11 +33,7 @@ export class RolesController {
     @Query('max') max = 5,
     @Query('search') search?: string,
   ): Promise<PaginatedRolesResponse> {
-    return this.rolesService.getAllRolesFiltered(
-      first,
-      max,
-      search,
-    );
+    return this.rolesService.getAllRolesFiltered(first, max, search);
   }
 
   @Get(':roleId')

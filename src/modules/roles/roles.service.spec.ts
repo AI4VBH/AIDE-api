@@ -175,19 +175,19 @@ describe('RolesService', () => {
         totalFilteredRolesCount: 2,
         roles: [
           {
-            id: '9da87ef1-e7dc-42e1-b409-89a3e13735ec',
-            name: 'other-role',
-            editable: true,
-          },
-          {
             id: '4aa67f47-190f-4629-8f5a-e7025787cff9',
             name: 'admin',
             editable: false,
           },
+          {
+            id: '9da87ef1-e7dc-42e1-b409-89a3e13735ec',
+            name: 'other-role',
+            editable: true,
+          },
         ],
       };
 
-      const roles = await service.getAllRolesFiltered(0, 5, '', 'name', true);
+      const roles = await service.getAllRolesFiltered(0, 5, '');
 
       expect(keycloakAdminServiceMock.performAction).toHaveBeenCalled();
       expect(keycloakAdminClientMock.auth).toHaveBeenCalled();
