@@ -423,12 +423,13 @@ describe('/Clinical-Review Integration Tests', () => {
   );
 
   it('(GET) /dicom file successfully', async () => {
-    let minioKeyParams;
+    let minioKeyParams, minioRolesParams;
     server.use(
       rest.get(
         `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
         async (request, response, context) => {
           minioKeyParams = request.url.searchParams.get('key');
+          minioRolesParams = request.url.searchParams.get('roles');
 
           return response(context.status(200));
         },
@@ -441,6 +442,9 @@ describe('/Clinical-Review Integration Tests', () => {
 
     expect(response.status).toBe(200);
     expect(minioKeyParams).toBe('12345abc');
+    expect(minioRolesParams).toBe(
+      'default-roles-aide,offline_access,admin,uma_authorization,user_management',
+    );
   });
 
   it('(GET) /dicom file does not exist for the given key', async () => {
@@ -458,6 +462,23 @@ describe('/Clinical-Review Integration Tests', () => {
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({});
+  });
+
+  it('(GET) /clinical-review/dicom?key=minio-object-key returns Bad Request when roles have not been provided', async () => {
+    server.use(
+      rest.get(
+        `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
+        (request, response, context) => {
+          return response(context.status(400));
+        },
+      ),
+    );
+
+    const response = await request(app.getHttpServer()).get(
+      '/clinical-review/dicom?key=12345abc',
+    );
+
+    expect(response.status).toBe(400);
   });
 
   it.each([408, 500, 501, 502, 503, 504])(

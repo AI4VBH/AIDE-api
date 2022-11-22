@@ -64,8 +64,11 @@ export class ClinicalReviewController {
   }
 
   @Get('dicom')
-  getDicomFile(@Query('key') key: string) {
-    return this.service.getDicomFile(key);
+  getDicomFile(@Roles() roles, @Query('key') key: string) {
+    if (!roles) {
+      throw new BadRequestException('roles are required');
+    }
+    return this.service.getDicomFile(roles, key);
   }
 
   @Get(':taskExecutionId')
