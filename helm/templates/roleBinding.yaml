@@ -3,8 +3,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
- name: {{.Values.serviceAccount.role.name}}-binding
- namespace: {{.Values.serviceAccount.namespace}}
+  name: {{.Values.serviceAccount.role.name}}-binding
+  namespace: {{.Values.serviceAccount.namespace}}
+  labels:
+    {{- include "deploy.labels" . | nindent 4 }}
 subjects:
 - kind: ServiceAccount
   name: {{.Values.serviceAccount.name}}

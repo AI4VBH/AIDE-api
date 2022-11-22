@@ -5,6 +5,8 @@ kind: Role
 metadata:
   namespace: {{.Values.serviceAccount.namespace}}
   name: {{.Values.serviceAccount.role.name}}
+  labels:
+    {{- include "deploy.labels" . | nindent 4 }}
 rules:
 - apiGroups: [""]
   resources: 

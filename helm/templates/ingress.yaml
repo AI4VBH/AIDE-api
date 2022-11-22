@@ -4,6 +4,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    {{- include "deploy.labels" . | nindent 4 }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
   name: {{ printf "%s-%s" $fullName "ingress" | quote }}
