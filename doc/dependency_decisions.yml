@@ -1,0 +1,33 @@
+---
+- - :permit
+  - MIT
+  - :who: Joss Sparkes (RemakingEden)
+    :why: Green list
+    :versions: []
+    :when: 2022-11-11 09:27:46.774796944 Z
+- - :permit
+  - Apache 2.0
+  - :who: Joss Sparkes (RemakingEden)
+    :why: Green list
+    :versions: []
+    :when: 2022-11-11 09:28:55.270991841 Z
+- - :approve
+  - backend-api-nestjs
+  - :who: Joss Sparkes (RemakingEden)
+    :why: Created by us
+    :versions: []
+    :when: 2022-11-11 09:32:46.106002977 Z
+- - :approve
+  - dotenv
+  - :who: Jack Schofield (JackSchofield23)
+    :why: Simplified BSD (https://github.com/motdotla/dotenv/blob/master/LICENSE)
+    :versions:
+    - 16.0.3
+    :when: 2022-11-23 14:08:39.999308652 Z
+- - :approve
+  - rimraf
+  - :who: Jack Schofield (JackSchofield23)
+    :why: ISC (https://github.com/isaacs/rimraf/blob/main/LICENSE)
+    :versions:
+    - 3.0.2
+    :when: 2022-11-23 14:08:39.999308652 Z
