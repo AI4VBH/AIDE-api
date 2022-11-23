@@ -1,0 +1,43 @@
+variable "StorageClaimName" {
+    value "aide-frontend-pvc" {}
+}
+
+variable "CertificateSecretName" {
+    value "ingress-tls-secret" {}
+}
+
+variable "ImagePullSecretName" {
+    value "regcred" {}
+}
+
+variable "Namespace" {
+    value "aide" {}
+}
+
+variable "MinIOBucket" {
+    value "monaideploy" {
+        environment = ["dev"]
+    }
+
+    value "monaideploy" {
+        environment = ["sit"]
+    }
+
+    value "monaideploy" {
+        environment = ["uat"]
+    }
+}
+
+variable "MinIOPort" {
+    value "30091" {
+        environment = ["dev"]
+    }
+
+    value "30091" {
+        environment = ["sit"]
+    }
+
+    value "30091" {
+        environment = ["uat"]
+    }
+}

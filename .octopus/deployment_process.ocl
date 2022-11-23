@@ -1,0 +1,190 @@
+step "add-docker-image-pull-secret" {
+    name = "Add Docker Image Pull Secret"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesRunScript"
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                export AWS_ACCESS_KEY_ID=$(get_octopusvariable "AWS_ACCESS_KEY_ID")
+                export AWS_SECRET_ACCESS_KEY=$(get_octopusvariable "AWS_SECRET_ACCESS_KEY")
+                export AWS_DEFAULT_REGION=$(get_octopusvariable "AWS_REGION")
+                
+                kubectl create namespace aide --dry-run=client -o yaml | kubectl apply -f -
+                
+                kubectl create secret docker-registry $(get_octopusvariable "ImagePullSecretName") \
+                  --docker-server=$(get_octopusvariable "AWS_ACCOUNT").dkr.ecr.$(get_octopusvariable "AWS_REGION").amazonaws.com \
+                  --docker-username=AWS \
+                  --docker-password=$(aws ecr get-login-password) \
+                  --namespace=aide \
+                  --dry-run=client -o yaml | kubectl apply -f -
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
+
+step "add-certificate-secret" {
+    name = "Add Certificate secret"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesRunScript"
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                kubectl create namespace $(get_octopusvariable "Namespace") --dry-run=client -o yaml | kubectl apply -f -
+                
+                cat <<EOF >> certificate.pem
+                $(get_octopusvariable "IngressCertificate.CertificatePem")
+                $(get_octopusvariable "IngressCertificate.ChainPem")
+                EOF
+                
+                cat <<EOF >> key.pem
+                $(get_octopusvariable "IngressCertificate.PrivateKeyPem")
+                EOF
+                
+                kubectl create secret tls $(get_octopusvariable "CertificateSecretName") --cert certificate.pem --key key.pem -n $(get_octopusvariable "Namespace") --dry-run=client -o yaml | kubectl apply -f -
+                
+                rm -f certificate.pem
+                rm -f key.pem
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
+
+step "add-the-certificate-ca-configmap" {
+    name = "Add the Certificate CA Configmap"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesRunScript"
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                mkdir ca-bundle
+                
+                cat <<EOF >> ca-bundle/ca-certificates.pem
+                $(get_octopusvariable "IngressCertificate.ChainPem")
+                EOF
+                
+                kubectl create configmap ca-bundle --from-file=ca-bundle -n $(get_octopusvariable "Namespace") --dry-run=client -o yaml | kubectl apply -f -
+                
+                rm -rf ca-bundle
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool_variable = "WorkerPoolName"
+    }
+}
+
+step "deploy-the-aide-api" {
+    name = "Deploy the AIDE API"
+    properties = {
+        Octopus.Action.TargetRoles = "kubernetes"
+    }
+
+    action {
+        action_type = "Octopus.HelmChartUpgrade"
+        properties = {
+            Octopus.Action.Helm.ClientVersion = "V3"
+            Octopus.Action.Helm.Namespace = "aide"
+            Octopus.Action.Helm.ReleaseName = "aide-api"
+            Octopus.Action.Helm.ResetValues = "True"
+            Octopus.Action.Helm.YamlValues = <<-EOT
+                replicaCount: 3
+                
+                image:
+                  tag: #{Octopus.Action.Package.PackageVersion}
+                imagePullSecrets:
+                  - name: #{ImagePullSecretName}
+                
+                ingress:
+                  host: #{Hostname}
+                  tlsSecretName: #{CertificateSecretName}
+                
+                enviromentVariables:
+                  ELASTIC_HOST: opensearch.shared.svc.cluster.local
+                  ELASTIC_PORT: 9200
+                  ELASTIC_USE_SSL: true
+                  ELASTIC_INDEX: model_config  
+                  KEYCLOAK_URL: #{RealmUrl}:8443/
+                  KEYCLOAK_REALM: aide
+                  KEYCLOAK_MASTER_REALM: master
+                  KEYCLOAK_CLIENTID: aide-api
+                  KEYCLOAK_SECRET: #{KeycloakSecret}  
+                  MONAI_API_HOST: http://workflow-manager.monai.svc.cluster.local:5000
+                  MIG_API_HOST: http://informatics-gateway.monai.svc.cluster.local:5000  
+                  MINIO_HOST: minio-hl.minio
+                  MINIO_PORT: 9000
+                  MINIO_EXTERNAL_URL: https://#{Hostname}/document
+                  MINIO_USE_SSL: false
+                  MINIO_BUCKET: #{MinIOBucket}
+                  PORT: 5000
+                  KEYCLOAK_STATIC_ROLES: '["admin", "user_management", "clinician"]'
+                  CLINICAL_REVIEW_SERVICE_HOST: http://clinical-review-aide-clinical-review-api.aide.svc.cluster.local:5000
+                
+                enviromentVariablesFromSecrets:
+                  secrets:
+                    - name: ELASTIC_USERNAME
+                      secretName: #{ElasticSecretName}
+                      secretKey: username
+                    - name: ELASTIC_PASSWORD
+                      secretName: #{ElasticSecretName}
+                      secretKey: password
+                    - name: DATABASE_HOST
+                      secretName: postgres-pguser-aide
+                      secretKey: host
+                    - name: DATABASE_PORT
+                      secretName: postgres-pguser-aide
+                      secretKey: port
+                    - name: DATABASE_NAME
+                      secretName: postgres-pguser-aide
+                      secretKey: dbname
+                    - name: DATABASE_USER
+                      secretName: postgres-pguser-aide
+                      secretKey: user
+                    - name: DATABASE_PASSWORD
+                      secretName: postgres-pguser-aide
+                      secretKey: password
+                    - name: MINIO_ACCESS_KEY
+                      secretName: minio-admin-user
+                      secretKey: user
+                    - name: MINIO_SECRET_KEY
+                      secretName: minio-admin-user
+                      secretKey: password
+                      
+                secrets:
+                  - name: #{ElasticSecretName}
+                    namespace: aide
+                    type: Opaque
+                    values:
+                      password: #{ElasticPassword}
+                      username: #{ElasticUser}
+            EOT
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "AIDE.API"
+        }
+        worker_pool_variable = "WorkerPoolName"
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "AIDE.API"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
