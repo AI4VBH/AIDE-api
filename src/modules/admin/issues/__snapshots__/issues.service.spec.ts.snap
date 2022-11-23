@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IssuesServices get expected issues returns the expected result 1`] = `
+[
+  IssueDto {
+    "execution_id": "981eca65-294a-434a-930a-b1828b54253a",
+    "execution_time": "2022-09-23T12:50:00.305Z",
+    "patient_id": "29FA59",
+    "patient_name": "Rebecca",
+    "payload_id": "041293d0-ab97-4ea1-b967-42ec62f26608",
+    "status": "Failed",
+    "task_id": "email-task",
+    "workflow_instance_id": "c5e980ff-e278-441b-af64-8630bf57b7e3",
+    "workflow_name": "lillie",
+  },
+]
+`;

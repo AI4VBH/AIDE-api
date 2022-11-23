@@ -1,0 +1,8 @@
+[
+  {
+    "name": "SOME_NAME",
+    "port": 5000,
+    "aeTitle": "AE_TITLE",
+    "hostIp": "0.1.1.1"
+  }
+]

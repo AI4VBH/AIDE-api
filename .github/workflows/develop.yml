@@ -1,0 +1,87 @@
+name: 'develop'
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events but only for the develop branch
+  push:
+    branches: [ develop ]
+
+jobs:
+  check_build_integrity:
+    name: Check Build Integrity
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm run build
+
+  Deploy:
+    needs: [check_build_integrity]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+          aws-region: eu-west-2
+
+      - name: Login to Amazon ECR Private
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      - name: Set branch name
+        run: echo "BRANCH_NAME=$(echo $(date +%Y.%m.%d))-develop.$(echo $(date +%-H%M))" >> $GITHUB_ENV
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          pull: true
+          tags: ${{ secrets.AWS_DEV_ECR_REGISTRY }}/backend-api-nestjs:${{ env.BRANCH_NAME }}
+      
+      - name: Create artifacts folder and copy helm charts
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/artifacts/aide-api/helm"
+          cp -a $GITHUB_WORKSPACE/helm/. $GITHUB_WORKSPACE/artifacts/aide-api/helm/
+          echo BASE_PATH="$GITHUB_WORKSPACE/artifacts/aide-api" >> $GITHUB_ENV
+          echo OUT_FOLDER="$GITHUB_WORKSPACE/artifacts/" >> $GITHUB_ENV
+      
+      - name: Install Octopus CLI
+        uses: OctopusDeploy/install-octopus-cli-action@v1.2.0
+        with:
+          version: latest
+      
+      - name: Package AIDE API
+        run: |
+          octo pack --id="AIDE.API" --format="Zip" --version="${{ env.BRANCH_NAME }}" --basePath="${{ env.BASE_PATH }}" --outFolder="${{ env.OUT_FOLDER }}" --logLevel=debug
+      
+      - name: Push Package to Octopus Deploy
+        uses: OctopusDeploy/push-package-action@v2.1.0
+        env:
+          OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+          OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
+          OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE }}
+        with:
+          packages: |
+            **/artifacts/AIDE.API.${{ env.BRANCH_NAME }}.zip
+
+      - name: Create Release in Octopus Deploy
+        uses: OctopusDeploy/create-release-action@v2.0.1
+        env:
+          OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+          OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
+          OCTOPUS_SPACE: ${{ secrets.OCTOPUS_SPACE }}
+        with:
+          project: 'AIDE API'
+          git_ref: 'main'
+          channel: 'DEV'
+          release_number: "${{ env.BRANCH_NAME }}"
+          package_version: "${{ env.BRANCH_NAME }}"

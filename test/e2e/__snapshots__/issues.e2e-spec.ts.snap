@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/issues integration Tests (GET) issues/failed?acknowledged=YYYY-MM-DD - Invalid date, workflow instance date in the future 1`] = `
+{
+  "detail": "Failed to validate date, date is in the future",
+  "instance": "/workflowinstances/failed?acknowledged=2023-01-01",
+  "status": 400,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/issues integration Tests (GET) issues/failed?acknowledged=YYYY-MM-DD - Multiple workflow instances with 1 failed task each 1`] = `
+[
+  {
+    "execution_id": "1f3d4b42-8a8f-41b1-9cc7-bfb19d9716d1",
+    "execution_time": "2022-01-01T01:01:01.001Z",
+    "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c31",
+    "patient_name": "Alex Bazin payload 1",
+    "payload_id": "fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+    "status": "Failed",
+    "task_id": "test-task-id-1",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+  },
+  {
+    "execution_id": "70613bf7-d647-48e2-a59c-5edece8ddc22",
+    "execution_time": "2022-01-01T01:01:01.002Z",
+    "patient_id": "b3f774a4-358f-444e-a5d1-2d6087869e62",
+    "patient_name": "Alex Bazin payload 2",
+    "payload_id": "a0e7b480-1bd8-41f9-a6cf-1ab7952aab32",
+    "status": "Failed",
+    "task_id": "test-task-id-2",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e2",
+  },
+  {
+    "execution_id": "d849eb4b-1bd7-4cfc-a8ec-b94998422663",
+    "execution_time": "2022-01-01T01:01:01.003Z",
+    "patient_id": "fce96020-7105-4773-b4dd-6f2377984cb3",
+    "patient_name": "Alex Bazin payload 3",
+    "payload_id": "3147c4b5-6652-4d25-82f8-f9ed58b74e43",
+    "status": "Failed",
+    "task_id": "test-task-id-3",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e3",
+  },
+]
+`;
+
+exports[`/issues integration Tests (GET) issues/failed?acknowledged=YYYY-MM-DD - Multiple workflow instances with 1 failed task each, with time 1`] = `
+[
+  {
+    "execution_id": "1f3d4b42-8a8f-41b1-9cc7-bfb19d9716d1",
+    "execution_time": "2022-01-01T01:01:01.001Z",
+    "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c31",
+    "patient_name": "Alex Bazin payload 1",
+    "payload_id": "fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+    "status": "Failed",
+    "task_id": "test-task-id-1",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+  },
+  {
+    "execution_id": "70613bf7-d647-48e2-a59c-5edece8ddc22",
+    "execution_time": "2022-01-01T01:01:01.002Z",
+    "patient_id": "b3f774a4-358f-444e-a5d1-2d6087869e62",
+    "patient_name": "Alex Bazin payload 2",
+    "payload_id": "a0e7b480-1bd8-41f9-a6cf-1ab7952aab32",
+    "status": "Failed",
+    "task_id": "test-task-id-2",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e2",
+  },
+  {
+    "execution_id": "d849eb4b-1bd7-4cfc-a8ec-b94998422663",
+    "execution_time": "2022-01-01T01:01:01.003Z",
+    "patient_id": "fce96020-7105-4773-b4dd-6f2377984cb3",
+    "patient_name": "Alex Bazin payload 3",
+    "payload_id": "3147c4b5-6652-4d25-82f8-f9ed58b74e43",
+    "status": "Failed",
+    "task_id": "test-task-id-3",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e3",
+  },
+]
+`;
+
+exports[`/issues integration Tests (GET) issues/failed?acknowledged=YYYY-MM-DD - No workflow instances returned 1`] = `
+{
+  "detail": "Request failed, no workflow instances found since 2022-01-01",
+  "instance": "/workflowinstances/failed?acknowledged=2022-01-01",
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/issues integration Tests (GET) issues/failed?acknowledged=YYYY-MM-DD - Payload id is invalid GUID 1`] = `
+{
+  "detail": "Request failed, payload is not a valid GUID",
+  "instance": "/payloads/fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+  "status": 400,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/issues integration Tests (GET) issues/failed?acknowledged=YYYY-MM-DD - Single workflow instance with multiple failed tasks 1`] = `
+[
+  {
+    "execution_id": "1f3d4b42-8a8f-41b1-9cc7-bfb19d9716d1",
+    "execution_time": "2022-01-01T01:01:01.001Z",
+    "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c31",
+    "patient_name": "Alex Bazin payload 1",
+    "payload_id": "fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+    "status": "Failed",
+    "task_id": "test-task-id-1",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+  },
+  {
+    "execution_id": "70613bf7-d647-48e2-a59c-5edece8ddc22",
+    "execution_time": "2022-01-01T01:01:01.002Z",
+    "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c31",
+    "patient_name": "Alex Bazin payload 1",
+    "payload_id": "fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+    "status": "Failed",
+    "task_id": "test-task-id-2",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+  },
+  {
+    "execution_id": "d849eb4b-1bd7-4cfc-a8ec-b94998422663",
+    "execution_time": "2022-01-01T01:01:01.003Z",
+    "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c31",
+    "patient_name": "Alex Bazin payload 1",
+    "payload_id": "fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+    "status": "Failed",
+    "task_id": "test-task-id-3",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+  },
+]
+`;
+
+exports[`/issues integration Tests (GET) issues/failed?acknowledged=YYYY-MM-DD - Single workflow instance with multiple failed tasks, with time 1`] = `
+[
+  {
+    "execution_id": "1f3d4b42-8a8f-41b1-9cc7-bfb19d9716d1",
+    "execution_time": "2022-01-01T01:01:01.001Z",
+    "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c31",
+    "patient_name": "Alex Bazin payload 1",
+    "payload_id": "fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+    "status": "Failed",
+    "task_id": "test-task-id-1",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+  },
+  {
+    "execution_id": "70613bf7-d647-48e2-a59c-5edece8ddc22",
+    "execution_time": "2022-01-01T01:01:01.002Z",
+    "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c31",
+    "patient_name": "Alex Bazin payload 1",
+    "payload_id": "fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+    "status": "Failed",
+    "task_id": "test-task-id-2",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+  },
+  {
+    "execution_id": "d849eb4b-1bd7-4cfc-a8ec-b94998422663",
+    "execution_time": "2022-01-01T01:01:01.003Z",
+    "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c31",
+    "patient_name": "Alex Bazin payload 1",
+    "payload_id": "fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+    "status": "Failed",
+    "task_id": "test-task-id-3",
+    "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+  },
+]
+`;
+
+exports[`/issues integration Tests (GET) issues/failed?acknowledged=YYYY-MM-DD - Workflow instance exists but no matching payload 1`] = `
+{
+  "detail": "Request failed, no matching payload found",
+  "instance": "/payloads/fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;

@@ -1,0 +1,130 @@
+{
+    "pageNumber": 1,
+    "pageSize": 10,
+    "firstPage": "//payload?pageNumber=1&pageSize=10",
+    "lastPage": "//payload?pageNumber=1&pageSize=10",
+    "totalPages": 1,
+    "totalRecords": 5,
+    "nextPage": null,
+    "previousPage": null,
+    "data": [
+        {
+            "id": "d36003ad-365c-43c6-a0f6-297332a43052",
+            "payload_id": "5f9274b6-bbb1-4263-8745-2f29297a4d9a",
+            "workflows": [],
+            "workflow_instance_ids": [
+                "ba85e76a-f03e-4b54-b2ea-c7736afa8c13"
+            ],
+            "file_count": 7,
+            "correlation_id": "fe5d728b-42ed-4c52-bd75-be4fdcaa79f9",
+            "bucket": "monaideploy",
+            "calling_aetitle": "ORTHANC",
+            "called_aetitle": "MonaiSCU",
+            "timestamp": "2022-09-16T09:39:29.762Z",
+            "files": [],
+            "patient_details": {
+                "patient_id": "LiverUS-01",
+                "patient_name": "LiverUS-01",
+                "patient_sex": "O",
+                "patient_dob": null,
+                "patient_age": null,
+                "patient_hospital_id": null
+            }
+        },
+        {
+            "id": "45ac5f0e-cf05-4b22-8ea8-2b2e8636e373",
+            "payload_id": "3b790a6a-7876-4b01-8456-0a7f6a56bf7a",
+            "workflows": [],
+            "workflow_instance_ids": [
+                "ba85e76a-f03e-4b54-b2ea-c7736afa8c13"
+            ],
+            "file_count": 1,
+            "correlation_id": "5c4f9dd7-0928-460c-a50e-6d221f776390",
+            "bucket": "monaideploy",
+            "calling_aetitle": "ORTHANC",
+            "called_aetitle": "MonaiSCU",
+            "timestamp": "2022-09-16T09:38:02.24Z",
+            "files": [],
+            "patient_details": {
+                "patient_id": "556342B",
+                "patient_name": "Rubo DEMO",
+                "patient_sex": "M",
+                "patient_dob": "1995-10-25T00:00:00Z",
+                "patient_age": null,
+                "patient_hospital_id": null
+            }
+        },
+        {
+            "id": "fafa8871-6607-4ac9-a7b2-e5387c07e415",
+            "payload_id": "5f624ab5-88f2-4f47-b239-f05851a94c31",
+            "workflows": [],
+            "workflow_instance_ids": [
+                "ba85e76a-f03e-4b54-b2ea-c7736afa8c13"
+            ],
+            "file_count": 5,
+            "correlation_id": "5d406db8-0381-4841-8ce0-02dd993bdfb8",
+            "bucket": "monaideploy",
+            "calling_aetitle": "ORTHANC",
+            "called_aetitle": "MonaiSCU",
+            "timestamp": "2022-09-16T09:37:51.939Z",
+            "files": [],
+            "patient_details": {
+                "patient_id": "RJN7270540X",
+                "patient_name": "LIONHEART^WILLIAM",
+                "patient_sex": "M",
+                "patient_dob": "1962-07-26T00:00:00Z",
+                "patient_age": null,
+                "patient_hospital_id": "RJN"
+            }
+        },
+        {
+            "id": "69766f1f-07c5-42c6-ac98-260e10b1334e",
+            "payload_id": "bb8891d4-0c02-41fe-9ec4-21516afa06e5",
+            "workflows": [],
+            "workflow_instance_ids": [
+                "ba85e76a-f03e-4b54-b2ea-c7736afa8c13"
+            ],
+            "file_count": 12,
+            "correlation_id": "b11b0bc5-77ed-4e1c-a748-a04a37100a5d",
+            "bucket": "monaideploy",
+            "calling_aetitle": "ORTHANC",
+            "called_aetitle": "MonaiSCU",
+            "timestamp": "2022-09-08T09:13:32.779Z",
+            "files": [],
+            "patient_details": {
+                "patient_id": "TinyPatient02",
+                "patient_name": "TinyPatient",
+                "patient_sex": "O",
+                "patient_dob": null,
+                "patient_age": null,
+                "patient_hospital_id": null
+            }
+        },
+        {
+            "id": "3f777daf-8035-445c-a351-81fde5fd7654",
+            "payload_id": "8382c110-a575-4e43-8319-e97dc8237c7b",
+            "workflows": [],
+            "workflow_instance_ids": [
+                "ba85e76a-f03e-4b54-b2ea-c7736afa8c13"
+            ],
+            "file_count": 12,
+            "correlation_id": "59a501a0-a54e-4a46-8825-d9e9ea9ce025",
+            "bucket": "monaideploy",
+            "calling_aetitle": "ORTHANC",
+            "called_aetitle": "MonaiSCU",
+            "timestamp": "2022-09-08T09:10:03.334Z",
+            "files": [],
+            "patient_details": {
+                "patient_id": "TinyPatient02",
+                "patient_name": "TinyPatient",
+                "patient_sex": "O",
+                "patient_dob": null,
+                "patient_age": null,
+                "patient_hospital_id": null
+            }
+        }
+    ],
+    "succeeded": true,
+    "errors": null,
+    "message": null
+}

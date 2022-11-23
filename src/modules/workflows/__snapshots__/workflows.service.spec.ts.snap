@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WorkflowsService createWorkflow aeTitle exists returns expected result 1`] = `
+{
+  "informatics_gateway": {
+    "ae_title": "monai",
+    "export_destinations": [
+      "TESTDEST",
+      "TESTDEST2",
+    ],
+  },
+}
+`;
+
+exports[`WorkflowsService createWorkflow clinical review reviewer_roles missing in keycloak throws error 1`] = `"The following tasks have invalid review roles: clinical-review-task"`;
+
+exports[`WorkflowsService createWorkflow destination does not exist throws error 1`] = `"Not all export destinations are registered"`;
+
+exports[`WorkflowsService createWorkflow missing aeTitle throws error 1`] = `"AE Title not found, config is invalid"`;
+
+exports[`WorkflowsService createWorkflow returns expected result 1`] = `
+{
+  "informatics_gateway": {
+    "ae_title": "monai",
+    "export_destinations": [
+      "TESTDEST",
+      "TESTDEST2",
+    ],
+  },
+}
+`;
+
+exports[`WorkflowsService createWorkflow valid reviewer roles returns expected result 1`] = `
+{
+  "informatics_gateway": {
+    "ae_title": "monai",
+    "export_destinations": [
+      "TESTDEST",
+      "TESTDEST2",
+    ],
+  },
+  "tasks": [
+    {
+      "args": {
+        "reviewer_roles": [
+          "clinician",
+        ],
+      },
+      "id": "clinical-review-task",
+      "type": "aide_clinical_review",
+    },
+  ],
+}
+`;
+
+exports[`WorkflowsService editWorkflow clinical review reviewer_roles missing in keycloak throws error 1`] = `"The following tasks have invalid review roles: clinical-review-task"`;
+
+exports[`WorkflowsService editWorkflow destination does not exist throws error 1`] = `"Not all export destinations are registered"`;
+
+exports[`WorkflowsService editWorkflow missing aeTitle throws error 1`] = `"AE Title not found, config is invalid"`;
+
+exports[`WorkflowsService editWorkflow returns expected result 1`] = `
+{
+  "informatics_gateway": {
+    "ae_title": "monai",
+    "export_destinations": [
+      "TESTDEST",
+      "TESTDEST2",
+    ],
+  },
+}
+`;
+
+exports[`WorkflowsService editWorkflow valid reviewer roles returns expected result 1`] = `
+{
+  "informatics_gateway": {
+    "ae_title": "monai",
+    "export_destinations": [
+      "TESTDEST",
+      "TESTDEST2",
+    ],
+  },
+  "tasks": [
+    {
+      "args": {
+        "reviewer_roles": [
+          "clinician",
+        ],
+      },
+      "id": "clinical-review-task",
+      "type": "aide_clinical_review",
+    },
+  ],
+}
+`;
+
+exports[`WorkflowsService getPagedWorkflows returns expected result 1`] = `
+{
+  "data": [],
+  "totalPages": 1,
+  "totalRecords": 1,
+}
+`;

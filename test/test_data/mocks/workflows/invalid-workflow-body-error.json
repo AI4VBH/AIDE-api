@@ -1,0 +1,8 @@
+{
+	"type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+	"title": "Bad Request",
+	"status": 400,
+	"detail": "Failed to validate workflow: 'informaticsGateway' cannot be null (source: Artifact 1)., '' is not a valid AE Title (source: informaticsGateway)., '' is not a valid Informatics Gateway - exportDestinations (source: informaticsGateway)., Missing Workflow Version., Missing Workflow Tasks.",
+	"instance": "/workflows",
+	"traceId": "00-2d354c289398f59c2ad0247e5e8f667c-ea4c3161f31b70ea-00"
+}

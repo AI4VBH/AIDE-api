@@ -1,0 +1,14 @@
+{
+    "pageNumber": 1,
+    "pageSize": 10,
+    "firstPage": "/workflows?pageNumber=1&pageSize=10",
+    "lastPage": "/workflows?pageNumber=1&pageSize=10",
+    "totalPages": 1,
+    "totalRecords": 0,
+    "nextPage": null,
+    "previousPage": null,
+    "data": [],
+    "succeeded": true,
+    "errors": null,
+    "message": null
+}

@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Invalid execution ID 1`] = `
+{
+  "detail": "Failed to validate execution ID, not a valid GUID",
+  "instance": "/workflowinstances/invalidGUID/executions/3b9d94b9-4285-45d4-bea9-491fa62b8f91/acknowledge",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Invalid workflow instance ID 1`] = `
+{
+  "detail": "Failed to validate workflow instance ID, not a valid GUID",
+  "instance": "/workflowinstances/invalidGUID/executions/3b9d94b9-4285-45d4-bea9-491fa62b8f91/acknowledge",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Non existent execution id 1`] = `
+{
+  "detail": "Failed to validate id, execution not found",
+  "instance": "/workflowinstances/a67a7af7-068b-44b8-a81b-def7b3e5403b/executions/3b9d94b9-4285-45d4-bea9-491fa62b8g66/acknowledge",
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge - Non existent workflow instance id 1`] = `
+{
+  "detail": "Failed to validate id, workflow instance not found",
+  "instance": "/workflows/a67a7af7-068b-44b8-a81b-def7b3e5403b",
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/workflowinstances integration Tests (PUT) /workflowinstances/{workflowInstanceId}/executions/{executionId}/acknowledge with returned data 1`] = `
+{
+  "acknowledged_workflow_errors": "",
+  "ae_title": "MONAI",
+  "bucket_id": "monaideploy",
+  "id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+  "input_metadata": {},
+  "payload_id": "d801bd68-381d-4ff3-95a8-85c46380e075",
+  "start_time": "2022-09-22T12:45:13.102Z",
+  "status": "Failed",
+  "tasks": [
+    {
+      "acknowledged_task_errors": "2022-10-03T12:00:00.001Z",
+      "execution_id": "3b9d94b9-4285-45d4-bea9-491fa62b8f91",
+      "execution_stats": {},
+      "input_artifacts": {
+        "input-dicom": "d801bd68-381d-4ff3-95a8-85c46380e075/dcm",
+      },
+      "input_parameters": {},
+      "next_timeout": "2022-09-22T12:45:13.102Z",
+      "output_artifacts": {},
+      "output_directory": "d801bd68-381d-4ff3-95a8-85c46380e075/workflows/a67a7af7-068b-44b8-a81b-def7b3e5403b/3b9d94b9-4285-45d4-bea9-491fa62b8f91",
+      "previous_task_id": "",
+      "reason": "Connection time-out",
+      "result": {},
+      "status": "failed",
+      "task_id": "mean-pixel-calc",
+      "task_plugin_arguments": {},
+      "task_start_time": "2022-09-22T12:45:13.102Z",
+      "task_type": "argo",
+      "timeout_interval": 0,
+      "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+    },
+    {
+      "acknowledged_task_errors": "",
+      "execution_id": "47d73804-ea9b-4aaf-b375-bd19ae8feaae",
+      "execution_stats": {},
+      "input_artifacts": {
+        "report-dicom": "d801bd68-381d-4ff3-95a8-85c46380e075/workflows/a67a7af7-068b-44b8-a81b-def7b3e5403b/3b9d94b9-4285-45d4-bea9-491fa62b8f91/report-dicom",
+      },
+      "input_parameters": {},
+      "next_timeout": "2022-09-22T12:45:59.689Z",
+      "output_artifacts": {},
+      "output_directory": "d801bd68-381d-4ff3-95a8-85c46380e075/workflows/a67a7af7-068b-44b8-a81b-def7b3e5403b/47d73804-ea9b-4aaf-b375-bd19ae8feaae",
+      "previous_task_id": "mean-pixel-calc",
+      "reason": "Connection time-out",
+      "result": {},
+      "status": "Failed",
+      "task_id": "export-report",
+      "task_plugin_arguments": {},
+      "task_start_time": "2022-09-22T12:45:59.689Z",
+      "task_type": "export",
+      "timeout_interval": 0,
+      "workflow_instance_id": "a67a7af7-068b-44b8-a81b-def7b3e5403b",
+    },
+  ],
+  "workflow_id": "0c262733-05a1-4811-9d9a-b5cadb5a475a",
+}
+`;

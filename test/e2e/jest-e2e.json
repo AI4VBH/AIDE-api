@@ -1,0 +1,25 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "../../",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^shared/(.*)": "<rootDir>/src/shared/$1",
+    "^modules/(.*)": "<rootDir>/src/modules/$1",
+    "^common/(.*)": "<rootDir>/src/common/$1",
+    "^test/(.*)": "<rootDir>/test/$1"
+  },
+  "reporters": [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "E2E Test Report",
+      "outputPath": "e2e-test-report.html",
+      "includeFailureMsg": true,
+      "includeSuiteFailure": true,
+      "includeObsoleteSnapshots": true
+    }]
+  ]
+}

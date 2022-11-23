@@ -1,0 +1,20 @@
+[
+  {
+    "name": "SOME_NAME-2",
+    "port": 5002,
+    "aeTitle": "AE_TITLE-2",
+    "hostIp": "0.1.1.2"
+  },
+  {
+    "name": "SOME_NAME-1",
+    "port": 5001,
+    "aeTitle": "AE_TITLE-1",
+    "hostIp": "0.1.1.1"
+  },
+  {
+    "name": "SOME_NAME-3",
+    "port": 5003,
+    "aeTitle": "AE_TITLE-3",
+    "hostIp": "0.1.1.3"
+  }
+]

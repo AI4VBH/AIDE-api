@@ -1,0 +1,45 @@
+version: 0.2
+
+env:
+  secrets-manager:
+    ansiblecontrolssh: ansible-control-ssh
+    ansiblecontrolgithub: ansible-control-github
+    ansiblecontrolhost: ansible-control-host
+    ansibletoolsbucket: ansible-tools-bucket
+    ansiblerunenvironment: ansible-run-environment
+    ansibledeployextravars: ansible-deploy-backend-api-nestjs-extra-vars
+phases:
+  build:
+    commands:
+      - export tempdir=temp-$CODEBUILD_BUILD_ID-job-time-$CODEBUILD_START_TIME
+      - "export DOCKER_TOKEN=$(aws ecr --region=eu-west-2 get-authorization-token --output text --query authorizationData[].authorizationToken | base64 -d | cut -d: -f2)"
+      - apt update
+      - apt -y install openssh-server
+      - printenv ansibledeployextravars > ansible-deploy-extra-vars.yml
+      - envsubst < ansible-deploy-extra-vars.yml >> ansible-deploy-extra-vars-filled.yml
+      - mkdir -p ~/.ssh
+      - printenv ansiblecontrolssh > ~/.ssh/ansible-control-ssh
+      - chmod 400 ~/.ssh/ansible-control-ssh
+      - printenv ansiblecontrolgithub > ansible-control-github
+      - echo "IdentityFile ~/.ssh/ansible-control-ssh" >> ~/.ssh/config
+      - ssh-keyscan -H $ansiblecontrolhost >> ~/.ssh/known_hosts
+      - ssh ubuntu@$ansiblecontrolhost "mkdir $tempdir"
+      - scp ansible-deploy-extra-vars-filled.yml ubuntu@$ansiblecontrolhost:$tempdir
+      - scp ansible-control-github ubuntu@$ansiblecontrolhost:$tempdir
+      - > 
+        ssh ubuntu@$ansiblecontrolhost 
+        "cd $tempdir;
+         sudo su;
+         sudo aws s3 cp s3://ansible-tools-$ansibletoolsbucket/ansible-schedule-ubuntu.sh /home/ubuntu/$tempdir/ansible-schedule-ubuntu.sh;
+         sudo ls /home/ubuntu/$tempdir;
+         sudo mv /home/ubuntu/$tempdir/ansible-control-github /root/.ssh/ansible-control-github;
+         sudo chmod 400 ~/.ssh/ansible-control-github;
+         sudo echo "IdentityFile /root/.ssh/ansible-control-github" >> /root/.ssh/config;
+         sudo ssh-keyscan -H github.com >> ~/.ssh/known_hosts;
+         sudo apt -y install dos2unix;
+         sudo dos2unix /home/ubuntu/$tempdir/ansible-schedule-ubuntu.sh;
+         sudo chmod +x /home/ubuntu/$tempdir/ansible-schedule-ubuntu.sh;
+         sudo /home/ubuntu/$tempdir/ansible-schedule-ubuntu.sh -a create -e $ansiblerunenvironment -p aws-deploy-service.yml -v @/home/ubuntu/$tempdir/ansible-deploy-extra-vars-filled.yml"
+  post_build:
+    commands:
+      - ssh ubuntu@$ansiblecontrolhost "sudo rm -r /home/ubuntu/$tempdir" 

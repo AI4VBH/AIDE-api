@@ -1,0 +1,47 @@
+{
+    "id": "12d15d1e-294d-4de6-856c-9d6c2d786ea6",
+    "workflow_id": "d5c9161e-92c6-412a-ab54-eb4f383fce56",
+    "revision": 1,
+    "workflow": {
+        "name": ".",
+        "version": "String",
+        "description": "Quite a long description, Lorem ipsum dolor sit amet, consectetur tincidunt.",
+        "informatics_gateway": {
+            "ae_title": "MonaiSCU",
+            "data_origins": [
+                "test"
+            ],
+            "export_destinations": [
+                "ORTHANC"
+            ]
+        },
+        "tasks": [
+            {
+                "id": "export-task-connectathon",
+                "description": "Connectathon export task",
+                "type": "export",
+                "args": {
+                    "test": "test1"
+                },
+                "ref": "",
+                "task_destinations": [],
+                "export_destinations": [
+                    {
+                        "name": "ORTHANC"
+                    }
+                ],
+                "artifacts": {
+                    "input": [
+                        {
+                            "name": "study",
+                            "value": "{{ context.input.dicom }}",
+                            "mandatory": true
+                        }
+                    ],
+                    "output": []
+                },
+                "input_parameters": null
+            }
+        ]
+    }
+}

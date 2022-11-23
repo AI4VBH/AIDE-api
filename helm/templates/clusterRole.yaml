@@ -1,0 +1,14 @@
+{{ if (.Values.serviceAccount)  -}}
+{{ if  (.Values.serviceAccount.clusterrole) -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{.Values.serviceAccount.clusterrole.name}}
+rules:
+- apiGroups: [""]
+  resources: 
+    - {{ range .Values.serviceAccount.clusterrole.rules.resources }}{{- . | quote }}{{- end }}
+  verbs: {{- range .Values.serviceAccount.clusterrole.rules.verbs }}
+    - {{. | quote }}{{- end }}
+{{- end }}
+{{- end }}

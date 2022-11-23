@@ -1,0 +1,38 @@
+[
+    {
+        "id": "73909439-57da-465e-b529-2addd36cbcd9",
+        "ae_title": "MonaiSCU",
+        "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+        "workflow_name": "workflow-name-1",
+        "payload_id": "bb8891d4-0c02-41fe-9ec4-21516afa06e5",
+        "start_time": "2022-09-08T09:14:09.89Z",
+        "status": "Failed",
+        "bucket_id": "monaideploy",
+        "input_metadata": {},
+        "tasks": [
+            {
+                "execution_id": "fd89296e-29b7-4d54-be27-26e185db820c",
+                "workflow_instance_id": "73909439-57da-465e-b529-2addd36cbcd9",
+                "task_type": "export",
+                "task_start_time": "2022-09-08T09:14:09.89Z",
+                "execution_stats": {},
+                "task_plugin_arguments": {
+                    "test": "test1"
+                },
+                "task_id": "export-task-connectathon",
+                "previous_task_id": "",
+                "status": "Failed",
+                "reason": "None",
+                "input_artifacts": {
+                    "study": "bb8891d4-0c02-41fe-9ec4-21516afa06e5/dcm"
+                },
+                "output_artifacts": {},
+                "output_directory": "bb8891d4-0c02-41fe-9ec4-21516afa06e5/workflows/73909439-57da-465e-b529-2addd36cbcd9/fd89296e-29b7-4d54-be27-26e185db820c",
+                "result": {},
+                "input_parameters": {},
+                "next_timeout": "2022-09-08T09:14:09.89Z",
+                "timeout_interval": 0
+            }
+        ]
+    }
+]

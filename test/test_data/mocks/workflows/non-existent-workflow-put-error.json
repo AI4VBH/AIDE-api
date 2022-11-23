@@ -1,0 +1,8 @@
+{
+	"type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+	"title": "Not Found",
+	"status": 404,
+	"detail": "Failed to find workflow with Id: 0ea7b5b9-64ba-4841-b252-d6e312ef7e8d",
+	"instance": "/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d",
+	"traceId": "00-c676afd543788d119ab730445e8e9b38-09a0ab1059e921e8-00"
+}

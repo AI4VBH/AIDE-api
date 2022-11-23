@@ -1,0 +1,40 @@
+name: 'Build'
+
+on:
+  pull_request:
+
+env:
+  NODE_VERSION: '16.x'
+
+jobs:
+  check-build-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - run: npm ci
+      - run: sudo npx eslint './src/**/*.ts' -f json -o ./eslint.json || exit 0
+
+      - name: Archive eslint
+        uses: actions/upload-artifact@v3
+        with:
+          name: eslint
+          path: eslint.json

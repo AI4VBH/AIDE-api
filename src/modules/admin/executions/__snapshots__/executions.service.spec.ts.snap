@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExecutionsService getWorkflowInstanceArtifacts returns expected result with artifacts 1`] = `
+{
+  "file.ext": "minio-object-key/file.ext",
+}
+`;
+
+exports[`ExecutionsService getWorkflowInstanceArtifacts returns expected result with no artifacts 1`] = `{}`;
+
+exports[`ExecutionsService getWorkflowInstanceMetadata returns expected result with artifacts 1`] = `
+{
+  "stat-1": "value",
+}
+`;
+
+exports[`ExecutionsService getWorkflowInstanceMetadata returns expected result with no artifacts 1`] = `{}`;

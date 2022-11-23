@@ -1,0 +1,69 @@
+replicaCount: 1
+
+image:
+  repository: 847264867502.dkr.ecr.eu-west-2.amazonaws.com/backend-api-nestjs
+  pullPolicy: IfNotPresent
+  tag: latest
+
+imagePullSecrets:
+ - name: regcred
+
+ingress:
+  host: sit-aide.answerdigital.io
+  tlsSecretName: ingress-tls-secret
+      
+service:
+  type: ClusterIP
+  port: 5000
+
+enviromentVariables:
+  ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
+  ELASTIC_INDEX: model_config  
+  KEYCLOAK_URL: https://keycloak-service.keycloak.svc.cluster.local:8443
+  MONAI_API_HOST: workflow-manager.monai.svc.cluster.local:5000
+  MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000  
+  MINIO_HOST: minio-hl.minio.svc.cluster.local
+  MINIO_PORT: 9000
+  MINIO_USE_SSL: false
+  MINIO_BUCKET: 'monaideploy'
+  PORT: 5000
+
+enviromentVariablesFromSecrets:
+  secrets:
+    - name: ELASTIC_USERNAME
+      secretName: elastic-secret-master
+      secretKey: username
+    - name: ELASTIC_PASSWORD
+      secretName: elastic-secret-master
+      secretKey: password
+    - name: DATABASE_HOST
+      secretName: postgres-pguser-aide
+      secretKey: host
+    - name: DATABASE_PORT
+      secretName: postgres-pguser-aide
+      secretKey: port
+    - name: DATABASE_NAME
+      secretName: postgres-pguser-aide
+      secretKey: dbname
+    - name: DATABASE_USER
+      secretName: postgres-pguser-aide
+      secretKey: user
+    - name: DATABASE_PASSWORD
+      secretName: postgres-pguser-aide
+      secretKey: password
+    - name: MINIO_ACCESS_KEY
+      secretName: minio-secret-master
+      secretKey: accessKey
+    - name: MINIO_SECRET_KEY
+      secretName: minio-secret-master
+      secretKey: secretKey
+
+secrets:
+  - name: elastic-secret-master
+    namespace: aide
+    type: Opaque
+    values:
+      password: password
+      username: root
+
+  

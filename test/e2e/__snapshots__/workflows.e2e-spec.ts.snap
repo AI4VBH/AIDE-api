@@ -1,0 +1,523 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/Workflows Integration Tests (DELETE) /workflows/:id with invalid id 1`] = `
+{
+  "detail": "Failed to validate id, not a valid guid",
+  "instance": "/workflows/invalidID",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Workflows Integration Tests (DELETE) /workflows/:id with non-existent id 1`] = `
+{
+  "detail": "Failed to validate id, workflow not found",
+  "instance": "/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca",
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/Workflows Integration Tests (DELETE) /workflows/:id with returned data 1`] = `
+{
+  "id": "f58fe206-1976-45bc-9d14-b9459eee2dfe",
+  "revision": 3,
+  "workflow": {
+    "description": "This workflow is to be used for connectathon",
+    "informatics_gateway": {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "export_destinations": [
+        "ORTHANC",
+      ],
+    },
+    "name": "Export Workflow",
+    "tasks": [
+      {
+        "args": {
+          "test": "test1",
+        },
+        "artifacts": {
+          "input": [
+            {
+              "mandatory": true,
+              "name": "study",
+              "value": "{{ context.input.dicom }}",
+            },
+          ],
+          "output": [],
+        },
+        "description": "Connectathon export task",
+        "export_destinations": [
+          {
+            "name": "ORTHANC",
+          },
+        ],
+        "id": "export-task-connectathon",
+        "input_parameters": null,
+        "ref": "",
+        "task_destinations": [],
+        "type": "export",
+      },
+    ],
+    "version": "2.0.0",
+  },
+  "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows with returned data 1`] = `
+{
+  "data": [
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": "This workflow is to be used for connectathon",
+      "id": "5fc10709-98cc-4d6a-8b68-06a722fa5dd7",
+      "name": "Export Workflow",
+      "revision": 1,
+      "version": "1.0.0",
+      "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+    },
+  ],
+  "totalPages": 1,
+  "totalRecords": 1,
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows with returned data 2`] = `
+{
+  "data": [
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": ".",
+      "id": "c7418628-e06b-49c1-9001-428cd05cec4e",
+      "name": "Test workflow 1",
+      "revision": 1,
+      "version": "3",
+      "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+    },
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": "This workflow is to be used for connectathon",
+      "id": "5fc10709-98cc-4d6a-8b68-06a722fa5dd7",
+      "name": "Export Workflow",
+      "revision": 1,
+      "version": "1.0.0",
+      "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+    },
+  ],
+  "totalPages": 1,
+  "totalRecords": 2,
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows with returned data 3`] = `
+{
+  "data": [
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": ".",
+      "id": "c7418628-e06b-49c1-9001-428cd05cec4e",
+      "name": "Test workflow 1",
+      "revision": 1,
+      "version": "3",
+      "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+    },
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": "This workflow is to be used for connectathon",
+      "id": "5fc10709-98cc-4d6a-8b68-06a722fa5dd7",
+      "name": "Export Workflow",
+      "revision": 1,
+      "version": "1.0.0",
+      "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+    },
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": "This workflow is to be used for connectathon",
+      "id": "51725bf9-d7c6-49fa-bfd7-beb94a2a8733",
+      "name": "Export Workflow",
+      "revision": 2,
+      "version": "1.0.0",
+      "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+    },
+  ],
+  "totalPages": 1,
+  "totalRecords": 3,
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows with returned data 4`] = `
+{
+  "data": [
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": "This workflow is to be used for connectathon",
+      "id": "f58fe206-1976-45bc-9d14-b9459eee2dfe",
+      "name": "Export Workflow",
+      "revision": 3,
+      "version": "2.0.0",
+      "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+    },
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": ".",
+      "id": "c7418628-e06b-49c1-9001-428cd05cec4e",
+      "name": "Test workflow 1",
+      "revision": 1,
+      "version": "3",
+      "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+    },
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": "This workflow is to be used for connectathon",
+      "id": "5fc10709-98cc-4d6a-8b68-06a722fa5dd7",
+      "name": "Export Workflow",
+      "revision": 1,
+      "version": "1.0.0",
+      "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+    },
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": "This workflow is to be used for connectathon",
+      "id": "51725bf9-d7c6-49fa-bfd7-beb94a2a8733",
+      "name": "Export Workflow",
+      "revision": 2,
+      "version": "1.0.0",
+      "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+    },
+    {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "description": "Quite a long description, Lorem ipsum dolor sit amet, consectetur tincidunt.",
+      "id": "12d15d1e-294d-4de6-856c-9d6c2d786ea6",
+      "name": ".",
+      "revision": 1,
+      "version": "String",
+      "workflow_id": "d5c9161e-92c6-412a-ab54-eb4f383fce56",
+    },
+  ],
+  "totalPages": 1,
+  "totalRecords": 5,
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows without returned data 1`] = `
+{
+  "data": [],
+  "totalPages": 1,
+  "totalRecords": 0,
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows/:id with invalid id 1`] = `
+{
+  "detail": "Failed to validate id, not a valid guid",
+  "instance": "/workflows/invalidID",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows/:id with non-existent id 1`] = `
+{
+  "detail": "Failed to validate id, workflow not found",
+  "instance": "/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca",
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-1a488bac0cc6ae854a5b6ab0c237dd8f-5ab3204912c13ca3-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows/:id with returned data 1`] = `
+{
+  "id": "f58fe206-1976-45bc-9d14-b9459eee2dfe",
+  "revision": 3,
+  "workflow": {
+    "description": "This workflow is to be used for connectathon",
+    "informatics_gateway": {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "export_destinations": [
+        "ORTHANC",
+      ],
+    },
+    "name": "Export Workflow",
+    "tasks": [
+      {
+        "args": {
+          "test": "test1",
+        },
+        "artifacts": {
+          "input": [
+            {
+              "mandatory": true,
+              "name": "study",
+              "value": "{{ context.input.dicom }}",
+            },
+          ],
+          "output": [],
+        },
+        "description": "Connectathon export task",
+        "export_destinations": [
+          {
+            "name": "ORTHANC",
+          },
+        ],
+        "id": "export-task-connectathon",
+        "input_parameters": null,
+        "ref": "",
+        "task_destinations": [],
+        "type": "export",
+      },
+    ],
+    "version": "2.0.0",
+  },
+  "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows/:id with returned data 2`] = `
+{
+  "id": "5fc10709-98cc-4d6a-8b68-06a722fa5dd7",
+  "revision": 1,
+  "workflow": {
+    "description": "This workflow is to be used for connectathon",
+    "informatics_gateway": {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "export_destinations": [
+        "ORTHANC",
+      ],
+    },
+    "name": "Export Workflow",
+    "tasks": [
+      {
+        "args": {
+          "test": "test1",
+        },
+        "artifacts": {
+          "input": [
+            {
+              "mandatory": true,
+              "name": "study",
+              "value": "{{ context.input.dicom }}",
+            },
+          ],
+          "output": [],
+        },
+        "description": "Connectathon export task",
+        "export_destinations": [
+          {
+            "name": "ORTHANC",
+          },
+        ],
+        "id": "export-task-connectathon",
+        "input_parameters": null,
+        "ref": "",
+        "task_destinations": [],
+        "type": "export",
+      },
+    ],
+    "version": "1.0.0",
+  },
+  "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+}
+`;
+
+exports[`/Workflows Integration Tests (GET) /workflows/:id with returned data 3`] = `
+{
+  "id": "12d15d1e-294d-4de6-856c-9d6c2d786ea6",
+  "revision": 1,
+  "workflow": {
+    "description": "Quite a long description, Lorem ipsum dolor sit amet, consectetur tincidunt.",
+    "informatics_gateway": {
+      "ae_title": "MonaiSCU",
+      "data_origins": [
+        "test",
+      ],
+      "export_destinations": [
+        "ORTHANC",
+      ],
+    },
+    "name": ".",
+    "tasks": [
+      {
+        "args": {
+          "test": "test1",
+        },
+        "artifacts": {
+          "input": [
+            {
+              "mandatory": true,
+              "name": "study",
+              "value": "{{ context.input.dicom }}",
+            },
+          ],
+          "output": [],
+        },
+        "description": "Connectathon export task",
+        "export_destinations": [
+          {
+            "name": "ORTHANC",
+          },
+        ],
+        "id": "export-task-connectathon",
+        "input_parameters": null,
+        "ref": "",
+        "task_destinations": [],
+        "type": "export",
+      },
+    ],
+    "version": "String",
+  },
+  "workflow_id": "d5c9161e-92c6-412a-ab54-eb4f383fce56",
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows success with returned data 1`] = `
+{
+  "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows success with returned data 2`] = `
+{
+  "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or destination 1`] = `
+{
+  "detail": "'' is not a valid AE Title (source: MonaiApplicationEntity).",
+  "status": 400,
+  "title": "Validation error.",
+  "traceId": "00-3795116b33338ae69581d64083acddc1-5cfe47801bc246c4-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or destination 2`] = `
+{
+  "message": "Not all export destinations are registered",
+  "statusCode": 400,
+}
+`;
+
+exports[`/Workflows Integration Tests (POST) /workflows with invalid body 1`] = `
+{
+  "detail": "Failed to validate workflow: 'informaticsGateway' cannot be null (source: Artifact 1)., '' is not a valid AE Title (source: informaticsGateway)., '' is not a valid Informatics Gateway - exportDestinations (source: informaticsGateway)., Missing Workflow Version., Missing Workflow Tasks.",
+  "instance": "/workflows",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-2d354c289398f59c2ad0247e5e8f667c-ea4c3161f31b70ea-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id success with returned data 1`] = `
+{
+  "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id success with returned data 2`] = `
+{
+  "workflow_id": "0ea7b5b9-64ba-4841-b252-d6e312ef7e8e",
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae or destination 1`] = `
+{
+  "detail": "'' is not a valid AE Title (source: MonaiApplicationEntity).",
+  "status": 400,
+  "title": "Validation error.",
+  "traceId": "00-3795116b33338ae69581d64083acddc1-5cfe47801bc246c4-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae or destination 2`] = `
+{
+  "message": "Not all export destinations are registered",
+  "statusCode": 400,
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id with invalid body 1`] = `
+{
+  "detail": "Failed to validate workflow: 'informaticsGateway' cannot be null (source: Artifact 1)., '' is not a valid AE Title (source: informaticsGateway)., '' is not a valid Informatics Gateway - exportDestinations (source: informaticsGateway)., Missing Workflow Version., Missing Workflow Tasks.",
+  "instance": "/workflows",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-2d354c289398f59c2ad0247e5e8f667c-ea4c3161f31b70ea-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id with invalid id 1`] = `
+{
+  "detail": "Failed to validate id, not a valid guid",
+  "instance": "/workflows/invalidID",
+  "status": 400,
+  "title": "Bad Request",
+  "traceId": "00-7d36d37cd21021e68d552618bc5bfc3c-335958bf8d6d9ad0-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+}
+`;
+
+exports[`/Workflows Integration Tests (PUT) /workflows/:id with non-existent id 1`] = `
+{
+  "detail": "Failed to find workflow with Id: 0ea7b5b9-64ba-4841-b252-d6e312ef7e8d",
+  "instance": "/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d",
+  "status": 404,
+  "title": "Not Found",
+  "traceId": "00-c676afd543788d119ab730445e8e9b38-09a0ab1059e921e8-00",
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+}
+`;

@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/Logs Integration Tests (GET) /logs/:taskid with returned data 1`] = `
+[
+  {
+    "correlationId": "2ef8f893-0872-439a-8c2a-6da4f425f3f8",
+    "level": "INFO",
+    "message": "TaskFailed, Task {"execution_id":"59b14f66-4a5f-41a1-8e9f-acd706413857","workflow_instance_id":"2cc76cd7-681a-44fa-a3f9-62509c1216b0","task_type":"argo","task_start_time":"2022-11-02T11:16:54.566Z","task_end_time":null,"execution_stats":{},"task_plugin_arguments":{"namespace":"argo","workflow_template_name":"argo-workflow-1","server_url":"http://argo-argo-workflows-server.argo:2746","allow_insecure":"true"},"task_id":"mean-pixel-calc","previous_task_id":"","status":1,"reason":4,"input_artifacts":{"input-dicom":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/dcm"},"output_artifacts":{},"output_directory":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/workflows/2cc76cd7-681a-44fa-a3f9-62509c1216b0/59b14f66-4a5f-41a1-8e9f-acd706413857","result":{},"input_parameters":{},"next_timeout":"2022-11-02T12:16:54.566Z","timeout_interval":60.0,"acknowledged_task_errors":null}, workflowInstance {"id":"2cc76cd7-681a-44fa-a3f9-62509c1216b0","ae_title":"MONAI","workflow_name":"argo_export","workflow_id":"aeb8b4bd-e629-46fa-b1aa-71e51b00f815","payload_id":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8","start_time":"2022-11-02T11:16:54.526Z","status":0,"bucket_id":"monaideploy","input_metadata":{},"tasks":[{"execution_id":"59b14f66-4a5f-41a1-8e9f-acd706413857","workflow_instance_id":"2cc76cd7-681a-44fa-a3f9-62509c1216b0","task_type":"argo","task_start_time":"2022-11-02T11:16:54.566Z","task_end_time":null,"execution_stats":{},"task_plugin_arguments":{"namespace":"argo","workflow_template_name":"argo-workflow-1","server_url":"http://argo-argo-workflows-server.argo:2746","allow_insecure":"true"},"task_id":"mean-pixel-calc","previous_task_id":"","status":1,"reason":4,"input_artifacts":{"input-dicom":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/dcm"},"output_artifacts":{},"output_directory":"13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/workflows/2cc76cd7-681a-44fa-a3f9-62509c1216b0/59b14f66-4a5f-41a1-8e9f-acd706413857","result":{},"input_parameters":{},"next_timeout":"2022-11-02T12:16:54.566Z","timeout_interval":60.0,"acknowledged_task_errors":null}],"acknowledged_workflow_errors":null}, patientDetails {"patient_id":"11788773431343","patient_name":"Fall 7","patient_sex":"O","patient_dob":"1900-01-01T00:00:00Z","patient_age":null,"patient_hospital_id":null}, correlationId 2ef8f893-0872-439a-8c2a-6da4f425f3f8, taskStatus Failed",
+    "task": {
+      "ExecutionId": "59b14f66-4a5f-41a1-8e9f-acd706413857",
+      "ExecutionStats": {},
+      "InputArtifacts": {},
+      "InputParameters": {},
+      "OutputArtifacts": {},
+      "OutputDirectory": "13b4217a-a747-42e8-b84f-8dbc1a8bd7c8/workflows/2cc76cd7-681a-44fa-a3f9-62509c1216b0/59b14f66-4a5f-41a1-8e9f-acd706413857",
+      "PreviousTaskId": "",
+      "Reason": "PluginError",
+      "ResultMetadata": {},
+      "Status": "Dispatched",
+      "TaskId": "mean-pixel-calc",
+      "TaskPluginArguments": {},
+      "TaskStartTime": "2022-11-02T11:16:54.566Z",
+      "TaskType": "argo",
+      "Timeout": "2022-11-02T12:16:54.566Z",
+      "TimeoutInterval": 60,
+      "WorkflowInstanceId": "2cc76cd7-681a-44fa-a3f9-62509c1216b0",
+    },
+    "taskStatus": "Failed",
+    "timestamp": "2022-11-02T11:17:00.555Z",
+    "workflowInstanceId": "2cc76cd7-681a-44fa-a3f9-62509c1216b0",
+  },
+]
+`;
+
+exports[`/Logs Integration Tests (GET) /logs/:taskid with returned data 2`] = `
+[
+  {
+    "level": "Information",
+    "message": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:19:23.684Z",
+  },
+]
+`;
+
+exports[`/Logs Integration Tests (GET) /logs/:taskid with returned data 3`] = `
+[
+  {
+    "level": "Trace",
+    "message": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:19:23.684Z",
+  },
+  {
+    "level": "Debug",
+    "message": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:19:23.684Z",
+  },
+  {
+    "level": "Information",
+    "message": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T15:19:23.684Z",
+  },
+  {
+    "level": "Warn",
+    "message": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2022-09-26T01:19:23.684Z",
+  },
+  {
+    "level": "Error",
+    "message": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "2100-09-26T15:19:23.684Z",
+  },
+  {
+    "level": "Fatal",
+    "message": "Task dispatch event saved "04a0cded-6aad-408c-b45d-1852ad54fae3".",
+    "timestamp": "1900-09-26T15:19:23.684Z",
+  },
+]
+`;

@@ -1,0 +1,107 @@
+[
+    {
+        "id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+        "ae_title": "MonaiSCU",
+        "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+        "payload_id": "fea1bc88-73e3-436a-aa6e-83364ff8d7d1",
+        "start_time": "2022-09-16T09:37:59.634Z",
+        "status": "Failed",
+        "bucket_id": "monaideploy",
+        "input_metadata": {},
+        "tasks": [
+            {
+                "execution_id": "1f3d4b42-8a8f-41b1-9cc7-bfb19d9716d1",
+                "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e1",
+                "task_type": "export",
+                "task_start_time": "2022-01-01T01:01:01.001Z",
+                "execution_stats": {},
+                "task_plugin_arguments": {
+                    "test": "test1"
+                },
+                "task_id": "test-task-id-1",
+                "previous_task_id": "",
+                "status": "Failed",
+                "reason": "None",
+                "input_artifacts": {
+                    "study": "5f624ab5-88f2-4f47-b239-f05851a94c31/dcm"
+                },
+                "output_artifacts": {},
+                "output_directory": "5f624ab5-88f2-4f47-b239-f05851a94c31/workflows/e26bec36-9a22-4be2-8402-379cb96c22e5/1f3d4b42-8a8f-41b1-9cc7-bfb19d9716de",
+                "result": {},
+                "input_parameters": {},
+                "next_timeout": "2022-09-16T09:37:59.634Z",
+                "timeout_interval": 0
+            }
+        ]
+    },
+    {
+        "id": "e26bec36-9a22-4be2-8402-379cb96c22e2",
+        "ae_title": "MonaiSCU",
+        "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+        "payload_id": "a0e7b480-1bd8-41f9-a6cf-1ab7952aab32",
+        "start_time": "2022-09-16T09:37:59.634Z",
+        "status": "Failed",
+        "bucket_id": "monaideploy",
+        "input_metadata": {},
+        "tasks": [
+            {
+                "execution_id": "70613bf7-d647-48e2-a59c-5edece8ddc22",
+                "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e2",
+                "task_type": "export",
+                "task_start_time": "2022-01-01T01:01:01.002Z",
+                "execution_stats": {},
+                "task_plugin_arguments": {
+                    "test": "test1"
+                },
+                "task_id": "test-task-id-2",
+                "previous_task_id": "",
+                "status": "Failed",
+                "reason": "None",
+                "input_artifacts": {
+                    "study": "5f624ab5-88f2-4f47-b239-f05851a94c31/dcm"
+                },
+                "output_artifacts": {},
+                "output_directory": "5f624ab5-88f2-4f47-b239-f05851a94c31/workflows/e26bec36-9a22-4be2-8402-379cb96c22e5/1f3d4b42-8a8f-41b1-9cc7-bfb19d9716de",
+                "result": {},
+                "input_parameters": {},
+                "next_timeout": "2022-09-16T09:37:59.634Z",
+                "timeout_interval": 0
+            }
+        ]
+    },
+    {
+        "id": "e26bec36-9a22-4be2-8402-379cb96c22e3",
+        "ae_title": "MonaiSCU",
+        "workflow_id": "ba85e76a-f03e-4b54-b2ea-c7736afa8c13",
+        "payload_id": "3147c4b5-6652-4d25-82f8-f9ed58b74e43",
+        "start_time": "2022-09-16T09:37:59.634Z",
+        "status": "Failed",
+        "bucket_id": "monaideploy",
+        "input_metadata": {},
+        "tasks": [
+            {
+                "execution_id": "d849eb4b-1bd7-4cfc-a8ec-b94998422663",
+                "workflow_instance_id": "e26bec36-9a22-4be2-8402-379cb96c22e3",
+                "task_type": "export",
+                "task_start_time": "2022-01-01T01:01:01.003Z",
+                "execution_stats": {},
+                "task_plugin_arguments": {
+                    "test": "test1"
+                },
+                "task_id": "test-task-id-3",
+                "previous_task_id": "",
+                "status": "Failed",
+                "reason": "None",
+                "input_artifacts": {
+                    "study": "5f624ab5-88f2-4f47-b239-f05851a94c31/dcm"
+                },
+                "output_artifacts": {},
+                "output_directory": "5f624ab5-88f2-4f47-b239-f05851a94c31/workflows/e26bec36-9a22-4be2-8402-379cb96c22e5/1f3d4b42-8a8f-41b1-9cc7-bfb19d9716de",
+                "result": {},
+                "input_parameters": {},
+                "next_timeout": "2022-09-16T09:37:59.634Z",
+                "timeout_interval": 0
+            }
+        ]
+    }
+]

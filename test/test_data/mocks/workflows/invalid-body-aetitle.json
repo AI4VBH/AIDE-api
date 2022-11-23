@@ -1,0 +1,7 @@
+{
+    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+    "title": "Validation error.",
+    "status": 400,
+    "detail": "'' is not a valid AE Title (source: MonaiApplicationEntity).",
+    "traceId": "00-3795116b33338ae69581d64083acddc1-5cfe47801bc246c4-00"
+}
