@@ -125,9 +125,13 @@ describe('ClinicalReviewController', () => {
   describe('GetDicomFile', () => {
     it('passes the key to service', async () => {
       const key = '123abc';
-      await controller.getDicomFile(key);
+      const roles = ['clinician'];
+      await controller.getDicomFile(roles, key);
 
-      expect(clinicalReviewService.getDicomFile).toHaveBeenCalledWith(key);
+      expect(clinicalReviewService.getDicomFile).toHaveBeenCalledWith(
+        roles,
+        key,
+      );
     });
   });
 });

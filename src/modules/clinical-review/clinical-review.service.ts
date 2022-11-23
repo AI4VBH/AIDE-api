@@ -91,13 +91,20 @@ export class ClinicalReviewService {
     return getClinicalReviewTaskDetails.data;
   }
 
-  async getDicomFile(key: string): Promise<{ stream: internal.Readable }> {
+  async getDicomFile(
+    roles: string[],
+    key: string,
+  ): Promise<{ stream: internal.Readable }> {
+    const params = new URLSearchParams({
+      roles: `${roles.join(',') || ''}`,
+      key: `${key}`,
+    });
     const baseURL = this.configService.get<string>(
       'CLINICAL_REVIEW_SERVICE_HOST',
     );
 
     const getDicomFile = await firstValueFrom(
-      this.httpService.get(`/dicom?key=${key}`, {
+      this.httpService.get(`/dicom?${params}`, {
         baseURL,
       }),
     );
