@@ -1,6 +1,8 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { Request } from 'express';
+import { JwtBody } from './jwt-token.interface';
 
-export function decodeToken(request: any) {
+export function decodeToken(request: Request): JwtBody | null {
   const auth = request.headers['authorization'];
 
   if (!auth) {

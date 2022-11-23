@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import {
   AuthGuard,
   KeycloakConnectModule,
@@ -16,6 +16,7 @@ import { RolesModule } from 'modules/roles/roles.module';
 import { UsersModule } from './modules/users/users.module';
 import { WorkflowsModule } from './modules/workflows/workflows.module';
 import { APP_GUARD } from '@nestjs/core';
+import { CustomLogger } from 'shared/logger/custom-logger.service';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -56,4 +57,8 @@ const authenticationGuards =
   controllers: [],
   providers: [...authenticationGuards],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CustomLogger).forRoutes('*');
+  }
+}
