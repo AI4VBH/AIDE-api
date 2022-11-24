@@ -33,10 +33,8 @@ describe('ClinicalReviewController', () => {
     it('passes the workflow to service', async () => {
       const body: ClinicalReviewAcknowledge = {
         acceptance: true,
-        task_id: 'taskid',
         reason: 'all good',
         message: 'message',
-        execution_id: 'guid',
         roles: [],
         userId: '',
       };
