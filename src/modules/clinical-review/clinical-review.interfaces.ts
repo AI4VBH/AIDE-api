@@ -22,10 +22,8 @@ export interface ClinicalReview {
 
 export interface ClinicalReviewAcknowledge {
   acceptance: boolean;
-  task_id: string;
   reason: string;
   message: string;
-  execution_id: string;
   roles: string[];
   userId: string;
 }
