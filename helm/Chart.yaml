@@ -15,7 +15,7 @@
 apiVersion: v2
 name: aide-backend
 description: The AIDE Application API
-home: https://github.com/AnswerConsulting/aide-frontend
+home: https://github.com/AI4VBH/AIDE-api
 
 # A chart can be either an 'application' or a 'library' chart.
 #
