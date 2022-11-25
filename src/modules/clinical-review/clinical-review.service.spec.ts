@@ -63,7 +63,14 @@ describe('WorkflowsService', () => {
 
       httpService.get.mockReturnValue(makeObservableForTest(axios.get));
 
-      const result = await service.getClinicalReviews(1, 10, ['admin']);
+      const result = await service.getClinicalReviews({
+        pageNumber: 1,
+        pageSize: 10,
+        roles: ['admin'],
+        applicationName: '',
+        patientId: '',
+        patientName: '',
+      });
 
       expect(result).toMatchSnapshot();
     });

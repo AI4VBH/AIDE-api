@@ -60,11 +60,14 @@ describe('ClinicalReviewController', () => {
     it('passes the default pageNumber and pageSize to service', async () => {
       await controller.getClinicalReviews(['admin']);
 
-      expect(clinicalReviewService.getClinicalReviews).toHaveBeenCalledWith(
-        1,
-        10,
-        ['admin'],
-      );
+      expect(clinicalReviewService.getClinicalReviews).toHaveBeenCalledWith({
+        pageNumber: 1,
+        pageSize: 10,
+        roles: ['admin'],
+        applicationName: '',
+        patientId: '',
+        patientName: '',
+      });
     });
 
     it.each([
@@ -93,11 +96,14 @@ describe('ClinicalReviewController', () => {
     it('passes the pageNumber and pageSize to service', async () => {
       await controller.getClinicalReviews(['admin'], 2, 10);
 
-      expect(clinicalReviewService.getClinicalReviews).toHaveBeenCalledWith(
-        2,
-        10,
-        ['admin'],
-      );
+      expect(clinicalReviewService.getClinicalReviews).toHaveBeenCalledWith({
+        pageNumber: 2,
+        pageSize: 10,
+        roles: ['admin'],
+        applicationName: '',
+        patientId: '',
+        patientName: '',
+      });
     });
   });
 

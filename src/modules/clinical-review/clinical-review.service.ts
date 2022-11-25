@@ -8,6 +8,7 @@ import {
   PagedClinicalReviews,
   ClinicalReviewTaskDetails,
 } from './clinical-review.interfaces';
+import { IClinicalReviewRequest } from './IClinicalReviewRequest';
 
 @Injectable()
 export class ClinicalReviewService {
@@ -17,15 +18,21 @@ export class ClinicalReviewService {
   @Inject(ConfigService)
   private readonly configService: ConfigService;
 
-  async getClinicalReviews(
-    pageNumber: number,
-    pageSize: number,
-    roles: string[],
-  ) {
+  async getClinicalReviews({
+    pageNumber,
+    pageSize,
+    roles,
+    patientId,
+    patientName,
+    applicationName,
+  }: IClinicalReviewRequest) {
     const params = new URLSearchParams({
       pageSize: `${pageSize || ''}`,
       pageNumber: `${pageNumber || ''}`,
       roles: `${roles.join(',') || ''}`,
+      patientId,
+      patientName,
+      applicationName,
     });
 
     const baseURL = this.configService.get<string>(

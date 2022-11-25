@@ -17,8 +17,10 @@ import ExternalServerExceptionFilter from 'shared/http/external-server-exception
 import {
   ClinicalReviewAcknowledge,
   ClinicalReviewTaskDetails,
+  PagedClinicalReviews,
 } from './clinical-review.interfaces';
 import { ClinicalReviewService } from './clinical-review.service';
+import { IClinicalReviewRequest } from './IClinicalReviewRequest';
 
 @Controller('clinical-review')
 @UseFilters(ExternalServerExceptionFilter)
@@ -28,19 +30,31 @@ export class ClinicalReviewController {
 
   @Get()
   getClinicalReviews(
-    @Roles() roles,
+    @Roles() roles: string[],
     @Query('pageNumber', ParseIntPipe) pageNumber = 1,
     @Query('pageSize', ParseIntPipe) pageSize = 10,
-  ) {
-    if (pageNumber <= 0 || pageSize <= 0) {
+    @Query('patientId') patientId = '',
+    @Query('patientName') patientName = '',
+    @Query('applicationName') applicationName = '',
+  ): Promise<PagedClinicalReviews> {
+    const req: IClinicalReviewRequest = {
+      pageNumber,
+      pageSize,
+      applicationName,
+      patientId,
+      patientName,
+      roles,
+    };
+
+    if (req.pageNumber <= 0 || req.pageSize <= 0) {
       throw new BadRequestException('pageNumber or pageSize is invalid');
     }
 
-    if (!roles) {
+    if (!req.roles) {
       throw new BadRequestException('roles are required');
     }
 
-    return this.service.getClinicalReviews(pageNumber, pageSize, roles);
+    return this.service.getClinicalReviews(req);
   }
 
   @Put(':clinicalReviewId')
