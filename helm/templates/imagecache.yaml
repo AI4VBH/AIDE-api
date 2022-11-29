@@ -20,7 +20,7 @@ metadata:
   # Name of the image cache.
   name: {{ include "deploy.fullname" . }}
   # The namespace to be used for this image cache.
-  namespace: {{.Values.serviceAccount.namespace}}
+  namespace: flip
   labels:
     app: kubefledged
     component: imagecache
