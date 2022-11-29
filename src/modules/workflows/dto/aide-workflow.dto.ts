@@ -26,5 +26,6 @@ export interface WorkflowDto extends Object {
 }
 
 export interface CreateEditWorkflowDto {
+  original_workflow_name: string;
   workflow: Partial<WorkflowDto>;
 }
