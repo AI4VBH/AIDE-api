@@ -25,7 +25,11 @@ export interface WorkflowDto extends Object {
   informatics_gateway: Partial<InformaticsGateway>;
 }
 
-export interface CreateEditWorkflowDto {
+export interface CreateWorkflowDto {
+  workflow: Partial<WorkflowDto>;
+}
+
+export interface EditWorkflowDto {
   original_workflow_name: string;
   workflow: Partial<WorkflowDto>;
 }

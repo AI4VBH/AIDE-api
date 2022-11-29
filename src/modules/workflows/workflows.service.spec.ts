@@ -351,6 +351,7 @@ describe('WorkflowsService', () => {
       const result = await service.editWorkflow(
         '45425-435345-435345-5345',
         workflow,
+        'workflow',
       );
 
       expect(result).toMatchSnapshot();
@@ -420,6 +421,7 @@ describe('WorkflowsService', () => {
       const result = await service.editWorkflow(
         '45425-435345-435345-5345',
         workflow,
+        'workflow',
       );
 
       expect(result).toMatchSnapshot();
@@ -433,7 +435,7 @@ describe('WorkflowsService', () => {
       };
 
       await expect(
-        service.editWorkflow('45425-435345-435345-5345', workflow),
+        service.editWorkflow('45425-435345-435345-5345', workflow, 'workflow'),
       ).rejects.toThrowErrorMatchingSnapshot();
     });
 
@@ -460,7 +462,7 @@ describe('WorkflowsService', () => {
       ]);
 
       await expect(
-        service.editWorkflow('45425-435345-435345-5345', workflow),
+        service.editWorkflow('45425-435345-435345-5345', workflow, 'workflow'),
       ).rejects.toThrowErrorMatchingSnapshot();
     });
 
@@ -494,7 +496,7 @@ describe('WorkflowsService', () => {
       httpService.get.mockReturnValue(makeObservableForTest(axios.get));
 
       await expect(
-        service.editWorkflow('45425-435345-435345-5345', workflow),
+        service.editWorkflow('45425-435345-435345-5345', workflow, 'workflow'),
       ).rejects.toThrowErrorMatchingSnapshot();
     });
   });
