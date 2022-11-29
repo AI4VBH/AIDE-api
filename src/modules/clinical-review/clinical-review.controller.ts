@@ -1,3 +1,19 @@
+/*
+ * Copyright 2022 Crown Copyright
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 import {
   BadRequestException,
   Body,
@@ -17,8 +33,10 @@ import ExternalServerExceptionFilter from 'shared/http/external-server-exception
 import {
   ClinicalReviewAcknowledge,
   ClinicalReviewTaskDetails,
+  PagedClinicalReviews,
 } from './clinical-review.interfaces';
 import { ClinicalReviewService } from './clinical-review.service';
+import { IClinicalReviewRequest } from './IClinicalReviewRequest';
 
 @Controller('clinical-review')
 @UseFilters(ExternalServerExceptionFilter)
@@ -28,19 +46,31 @@ export class ClinicalReviewController {
 
   @Get()
   getClinicalReviews(
-    @Roles() roles,
+    @Roles() roles: string[],
     @Query('pageNumber', ParseIntPipe) pageNumber = 1,
     @Query('pageSize', ParseIntPipe) pageSize = 10,
-  ) {
-    if (pageNumber <= 0 || pageSize <= 0) {
+    @Query('patientId') patientId = '',
+    @Query('patientName') patientName = '',
+    @Query('applicationName') applicationName = '',
+  ): Promise<PagedClinicalReviews> {
+    const req: IClinicalReviewRequest = {
+      pageNumber,
+      pageSize,
+      applicationName,
+      patientId,
+      patientName,
+      roles,
+    };
+
+    if (req.pageNumber <= 0 || req.pageSize <= 0) {
       throw new BadRequestException('pageNumber or pageSize is invalid');
     }
 
-    if (!roles) {
+    if (!req.roles) {
       throw new BadRequestException('roles are required');
     }
 
-    return this.service.getClinicalReviews(pageNumber, pageSize, roles);
+    return this.service.getClinicalReviews(req);
   }
 
   @Put(':clinicalReviewId')

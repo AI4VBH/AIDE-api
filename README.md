@@ -1,61 +1,97 @@
-<a name="readme-top"></a>
+<!--
+  ~ Copyright 2022 Crown Copyright
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
 
-<p align="center">AIDE Backend API</p>
+<a name="readme-top"></a>
 
 <div align="center">
 
-[![Build](https://github.com/AnswerConsulting/aide-backend-api-nestjs/actions/workflows/build.yml/badge.svg)](https://github.com/AnswerConsulting/aide-backend-api-nestjs/actions/workflows/build.yml)
-[![Test](https://github.com/AnswerConsulting/aide-backend-api-nestjs/actions/workflows/test.yml/badge.svg)](https://github.com/AnswerConsulting/aide-backend-api-nestjs/actions/workflows/test.yml)
-[![Security Scanning](https://github.com/AnswerConsulting/aide-backend-api-nestjs/actions/workflows/security.yml/badge.svg)](https://github.com/AnswerConsulting/aide-backend-api-nestjs/actions/workflows/security.yml)
+[![Build](https://github.com/AI4VBH/AIDE-api/actions/workflows/build.yml/badge.svg)](https://github.com/AI4VBH/AIDE-api/actions/workflows/build.yml)
+[![Test](https://github.com/AI4VBH/AIDE-api/actions/workflows/test.yml/badge.svg)](https://github.com/AI4VBH/AIDE-api/actions/workflows/test.yml)
+[![Security Scanning](https://github.com/AI4VBH/AIDE-api/actions/workflows/security.yml/badge.svg)](https://github.com/AI4VBH/AIDE-api/actions/workflows/security.yml)
 
 </div>
 
-<!-- DESCRIPTION -->
-## Description
+<br />
+<div align="center">
+  <a href="https://github.com/AI4VBH/AIDE-api">
+    <img src="aide-logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-The backend API for AIDE.
+<h3 align="center">AIDE API</h3>
+
+  <p align="center">
+    The AIDE API is responsible for acting as an intermediary between the <a href="https://github.com/AI4VBH/AIDE-front-end" target="_blank">AIDE Front-End</a> and downstream services including the <a href="https://monai.io/deploy.html" target="_blank">MONAI Deploy</a> components; <a href="https://github.com/Project-MONAI/monai-deploy-informatics-gateway" target="_blank">Informatics Gateway</a> and <a href="https://github.com/Project-MONAI/monai-deploy-workflow-manager" target="_blank">Workflow Manager</a>.
+    <br />
+    <br />
+    <a href="https://github.com/AI4VBH/AIDE-api/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/AI4VBH/AIDE-api/issues">Request Feature</a>
+  </p>
+</div>
 
 <!-- INSTALLATION -->
-## Installation
+## Getting started
 
-- Install [Node & NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+Start by cloning or creating a fork of this repository. See GitHub's documentation for help with this: https://docs.github.com/en/get-started/quickstart/fork-a-repo
+
+Secondly ensure that you download and install [Node & NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+
+Once you have installed Node and NPM, you can verify that it is correctly installed and referenced in your PATH system variables by executing the following and receiving similar output:
+
+```bash
+$ node -v
+v16.14.0
+$ npm -v
+8.3.1
+```
+
+Following installation of Node and NPM, you should be able to run the following command to install the referenced project dependencies from the `src` folder within the repository:
 
 ```bash
 $ npm install
 ```
 
-<!-- USAGE -->
-## Usage
+Following installation of the project dependencies, to begin working on the application, you can execute the following commands to start the API on your local machine.
 
 ```bash
-# development
+# Run the application in development mode
 $ npm run start
 
-# watch mode
+# Run the application in development mode, with file watch mode, where changes will cause the application to reload whilst running.
 $ npm run start:dev
 
-# production mode
+# Run the application in production mode
 $ npm run start:prod
 ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
 
 <!-- TEST -->
 ## Test
 
-Unit tests
+To verify that your changes haven't affected existing functionality, you can run the unit tests and end-to-end tests, which will be required to pass for any subsequent contribution to the code base:
 
 ```bash
+# Run the unit tests
 npm run test:unit
-```
-
-E2E tests
-
-```bash
+# Run the end-to-end tests
 npm run test:e2e
 ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -71,9 +107,9 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
 
 <!-- LICENSE -->
 ## License
 
-AIDE is [APACHE 2.0 licensed](LICENSE).
+AIDE is Apache 2.0 licensed. Please review the [LICENCE](LICENCE) for details on how the code can be used.
