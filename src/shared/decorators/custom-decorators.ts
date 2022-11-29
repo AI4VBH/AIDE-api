@@ -30,11 +30,16 @@ export function decodeToken(request: Request): JwtBody | null {
   if (!tokenString) {
     return null;
   }
-  const base64Payload = tokenString.split('.')[1];
-  const payloadBuffer = Buffer.from(base64Payload, 'base64');
-  const updatedJwtPayload = JSON.parse(payloadBuffer.toString());
 
-  return updatedJwtPayload;
+  const base64Payload = tokenString.split('.')[1];
+
+  if (base64Payload) {
+    const payloadBuffer = Buffer.from(base64Payload, 'base64');
+    const updatedJwtPayload = JSON.parse(payloadBuffer.toString());
+
+    return updatedJwtPayload;
+  }
+  return;
 }
 
 export const Roles = createParamDecorator(

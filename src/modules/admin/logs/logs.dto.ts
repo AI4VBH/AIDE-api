@@ -19,7 +19,7 @@ export class LogsDto {
   correlationId: string;
   taskStatus: string;
   workflowInstanceId: string;
-  task: unknown;
+  taskId: string;
   timestamp: Date;
   level: string;
 }

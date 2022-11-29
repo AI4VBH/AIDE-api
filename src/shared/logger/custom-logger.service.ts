@@ -17,6 +17,7 @@
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { decodeToken } from 'shared/decorators/custom-decorators';
+import * as util from 'util';
 
 @Injectable()
 export class CustomLogger implements NestMiddleware {
@@ -40,15 +41,8 @@ export class CustomLogger implements NestMiddleware {
           ?.toString()
           .includes('application/json')
       ) {
-        this.logger.log(`
-          status: ${response.statusCode}
-          method: ${request.method}
-          url: ${request.url}
-          request-body: ${request.body}
-          data: ${exitData.toString().substring(0, 1000)}
-          username: ${username}
-          session-id: ${correlationId}
-        `);
+        // eslint-disable-next-line prettier/prettier
+        this.logger.log(`status: ${response.statusCode}\nmethod: ${request.method}\nurl: ${request.url}\nrequest-body: ${util.format(request.body)}\ndata: ${exitData.toString().substring(0, 1000)}\nusername: ${username}\nsession-id: ${correlationId}`);
       }
       response.send = send;
       return response.send(exitData);

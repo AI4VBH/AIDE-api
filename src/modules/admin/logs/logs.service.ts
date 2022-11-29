@@ -33,8 +33,8 @@ export class LogsService {
       return {
         correlationId: _source['CorrelationId'],
         workflowInstanceId: _source['workflowInstanceId'],
-        task: _source['task'],
         message: _source['Message'],
+        taskId: _source['taskId'],
         taskStatus: _source['taskStatus'],
         level: _source['Level'],
         timestamp: _source['@timestamp'],
