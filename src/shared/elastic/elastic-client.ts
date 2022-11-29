@@ -47,7 +47,7 @@ export class ElasticClient extends Client {
   }
 
   public searchExecution(id: string) {
-    return { query: { match: { 'task.ExecutionId': id } } };
+    return { query: { match: { executionId: id } }, size: 10000 };
   }
 
   public async getLogs(id: string) {

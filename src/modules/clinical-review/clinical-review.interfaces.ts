@@ -18,7 +18,7 @@ import { DateTime } from '@elastic/elasticsearch/lib/api/types';
 import { IMonaiPayloadPatient } from 'modules/admin/payloads/payload.interface';
 import { IPagedResponse } from 'shared/helper/paging/paging.interface';
 
-export type PagedClinicalReviews = IPagedResponse<ClinicalReivewRecord>;
+export type PagedClinicalReviews = IPagedResponse<ClinicalReviewRecord>;
 
 export interface PagedClinicalReviewDto {
   totalPages: number;
@@ -26,11 +26,11 @@ export interface PagedClinicalReviewDto {
   data: ClinicalReview[];
 }
 
-export interface ClinicalReivewRecord {
+export interface ClinicalReviewRecord {
   execution_id: string;
   clinical_review_message: ClinicalReview | never;
-  ready: string;
-  reviewed: string;
+  ready: boolean;
+  reviewed: boolean;
   received: DateTime;
 }
 
