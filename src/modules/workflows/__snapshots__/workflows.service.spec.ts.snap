@@ -42,9 +42,7 @@ exports[`WorkflowsService createWorkflow valid reviewer roles returns expected r
   "tasks": [
     {
       "args": {
-        "reviewer_roles": [
-          "clinician",
-        ],
+        "reviewer_roles": "clinician, admin",
       },
       "id": "clinical-review-task",
       "type": "aide_clinical_review",
@@ -83,9 +81,7 @@ exports[`WorkflowsService editWorkflow valid reviewer roles returns expected res
   "tasks": [
     {
       "args": {
-        "reviewer_roles": [
-          "clinician",
-        ],
+        "reviewer_roles": "clinician",
       },
       "id": "clinical-review-task",
       "type": "aide_clinical_review",
