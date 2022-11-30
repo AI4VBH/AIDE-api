@@ -28,10 +28,18 @@ export interface PagedClinicalReviewDto {
 
 export interface ClinicalReviewRecord {
   execution_id: string;
-  clinical_review_message: ClinicalReview | never;
+  clinical_review_message: ClinicalReviewTaskDetails;
   ready: boolean;
-  reviewed: boolean;
-  received: DateTime;
+
+  /**
+   * ISO Date Time of when the task was reviewed.
+   */
+  reviewed?: string;
+
+  /**
+   * ISO Date Time of when the task was received.
+   */
+  received: string;
 }
 
 export interface ClinicalReview {
