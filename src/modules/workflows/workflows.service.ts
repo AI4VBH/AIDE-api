@@ -111,7 +111,7 @@ export class WorkflowsService {
 
     for (const reviewTask of clinicalReviewTasks) {
       const commaSeparatedRoles = reviewTask?.args['reviewer_roles'];
-      const roles: string[] = commaSeparatedRoles.split(',');
+      const roles: string[] = commaSeparatedRoles?.split(',') ?? [];
 
       if (!roles) {
         continue;
