@@ -136,7 +136,7 @@ export class WorkflowsService {
 
     const roleNameList = rolesList?.map((r) => r.name.toLowerCase());
 
-    if (roles?.every((r) => roleNameList?.includes(r.toLowerCase()))) {
+    if (roles?.every((r) => roleNameList?.includes(r.trim().toLowerCase()))) {
       return true;
     }
 
