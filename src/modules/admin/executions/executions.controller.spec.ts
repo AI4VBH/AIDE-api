@@ -82,16 +82,22 @@ describe('ExecutionsController', () => {
 
   describe('getArtifactDownloadUrl', () => {
     it('returns expected result', async () => {
-      executionsService.getArtifact.mockResolvedValue({
-        contentType: 'text',
-        stream: createMock<Readable>(),
-      });
+      executionsService.getArtifacts.mockResolvedValue([
+        {
+          name: 'file-1.dcm.json',
+          stream: createMock<Readable>(),
+        },
+        {
+          name: 'file-1.dcm',
+          stream: createMock<Readable>(),
+        },
+      ]);
 
       const response = createMock<Response>();
 
       await controller.getArtifactDownloadUrl('file.ext', response);
 
-      expect(executionsService.getArtifact).toHaveBeenCalled();
+      expect(executionsService.getArtifacts).toHaveBeenCalled();
     });
 
     it.each(['', ' ', null, undefined])(
