@@ -72,14 +72,23 @@ export class ExecutionsService {
     }
   }
 
-  async getArtifact(
+  async getArtifacts(
     file: string,
-  ): Promise<{ contentType: string; stream: internal.Readable }> {
+  ): Promise<{ name: string; stream: internal.Readable }[]> {
     try {
-      const stream = await this.minioClient.getObjectByName(file);
-      const metadata = await this.minioClient.getObjectMetadata(file);
+      const filesList = await this.minioClient.getObjectDetailsInPath(file);
+      const fileStreams: { name: string; stream: internal.Readable }[] = [];
 
-      return { stream, contentType: metadata['content-type'] };
+      for (const fileName of filesList) {
+        const file = await this.minioClient.getObjectByName(fileName);
+
+        fileStreams.push({
+          name: fileName,
+          stream: file,
+        });
+      }
+
+      return fileStreams;
     } catch (exception) {
       throw new MinoiClientException(exception.code);
     }

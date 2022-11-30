@@ -51,6 +51,17 @@ export class MinioClient extends Client {
     return await this.getObject(this.bucketName, objectName);
   }
 
+  async getObjectDetailsInPath(objectPath: string): Promise<string[]> {
+    return await new Promise((resolve, reject) => {
+      const objectsListTemp: string[] = [];
+      const stream = this.listObjectsV2(this.bucketName, objectPath, true);
+
+      stream.on('data', (obj) => objectsListTemp.push(obj.name));
+      stream.on('error', reject);
+      stream.on('end', () => resolve(objectsListTemp));
+    });
+  }
+
   async getObjectMetadata(objectName: string): Promise<ItemBucketMetadata> {
     const { metaData } = await this.statObject(this.bucketName, objectName);
     return metaData;
