@@ -110,7 +110,8 @@ export class WorkflowsService {
     let failed = false;
 
     for (const reviewTask of clinicalReviewTasks) {
-      const roles = reviewTask?.args['reviewer_roles'];
+      const commaSeparatedRoles = reviewTask?.args['reviewer_roles'];
+      const roles: string[] = commaSeparatedRoles.split(',');
 
       if (!roles) {
         continue;
