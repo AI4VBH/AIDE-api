@@ -195,7 +195,7 @@ describe('/executions Integration Tests', () => {
     },
   );
 
-  it('(GET) /executions/artifact-download?key=minio-object-key minio with download link', async () => {
+  it.skip('(GET) /executions/artifact-download?key=minio-object-key minio with download link', async () => {
     server.use(
       rest.get('http://localhost:9000/bucket-name', (_, res, ctx) => {
         return res(ctx.status(200));
