@@ -148,7 +148,7 @@ describe('WorkflowsService', () => {
           {
             id: 'clinical-review-task',
             type: 'aide_clinical_review',
-            args: { reviewer_roles: ['clinician'] },
+            args: { reviewer_roles: 'clinician, admin' },
           },
         ],
       };
@@ -269,7 +269,7 @@ describe('WorkflowsService', () => {
           {
             id: 'clinical-review-task',
             type: 'aide_clinical_review',
-            args: { reviewer_roles: ['clinician'] },
+            args: { reviewer_roles: 'clinician' },
           },
         ],
       };
@@ -382,7 +382,7 @@ describe('WorkflowsService', () => {
           {
             id: 'clinical-review-task',
             type: 'aide_clinical_review',
-            args: { reviewer_roles: ['clinician'] },
+            args: { reviewer_roles: 'clinician' },
           },
         ],
       };
@@ -462,7 +462,7 @@ describe('WorkflowsService', () => {
           {
             id: 'clinical-review-task',
             type: 'aide_clinical_review',
-            args: { reviewer_roles: ['clinician'] },
+            args: { reviewer_roles: 'clinician' },
           },
         ],
       };

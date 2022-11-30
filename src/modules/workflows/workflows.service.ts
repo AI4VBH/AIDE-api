@@ -110,7 +110,8 @@ export class WorkflowsService {
     let failed = false;
 
     for (const reviewTask of clinicalReviewTasks) {
-      const roles = reviewTask?.args['reviewer_roles'];
+      const commaSeparatedRoles = reviewTask?.args['reviewer_roles'];
+      const roles: string[] = commaSeparatedRoles?.split(',') ?? [];
 
       if (!roles) {
         continue;
@@ -135,7 +136,7 @@ export class WorkflowsService {
 
     const roleNameList = rolesList?.map((r) => r.name.toLowerCase());
 
-    if (roles?.every((r) => roleNameList?.includes(r.toLowerCase()))) {
+    if (roles?.every((r) => roleNameList?.includes(r.trim().toLowerCase()))) {
       return true;
     }
 
