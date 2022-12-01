@@ -17,6 +17,7 @@
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import KeycloakAdminClient from '@keycloak/keycloak-admin-client';
 import { Roles } from '@keycloak/keycloak-admin-client/lib/resources/roles';
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
@@ -63,6 +64,10 @@ describe('RolesService', () => {
         {
           provide: KeycloakAdminService,
           useValue: keycloakAdminServiceMock,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

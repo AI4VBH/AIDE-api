@@ -15,6 +15,7 @@
  */
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
+import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { WorkflowInstanceController } from './workflowinstances.controller';
 import { MonaiWorkflowInstance } from './workflowinstances.interface';
@@ -33,6 +34,10 @@ describe('WorkflowInstanceController', () => {
         {
           provide: WorkflowInstancesService,
           useValue: service,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

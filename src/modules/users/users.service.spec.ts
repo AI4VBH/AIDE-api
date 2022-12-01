@@ -24,6 +24,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { User, UserPage } from './user.dto';
 import { UsersService } from './users.service';
+import { Logger } from '@nestjs/common';
 
 type PerformActionParam = (
   realm: string,
@@ -76,6 +77,10 @@ describe('UsersService', () => {
         {
           provide: ConfigService,
           useValue: configServiceMock,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();
