@@ -117,7 +117,7 @@ step "deploy-the-aide-api" {
                   ELASTIC_HOST: opensearch.shared.svc.cluster.local
                   ELASTIC_PORT: 9200
                   ELASTIC_USE_SSL: true
-                  ELASTIC_INDEX: model_config  
+                  ELASTIC_INDEX: logstash*  
                   KEYCLOAK_URL: #{RealmUrl}:8443/
                   KEYCLOAK_REALM: aide
                   KEYCLOAK_MASTER_REALM: master
