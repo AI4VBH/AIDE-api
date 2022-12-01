@@ -66,7 +66,7 @@ export class ExecutionsController {
       return response.status(500).json({ error });
     });
 
-    archive.on('end', () => {
+    response.on('finish', () => {
       response.end();
     });
 
