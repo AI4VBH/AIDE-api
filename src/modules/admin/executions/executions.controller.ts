@@ -66,6 +66,11 @@ export class ExecutionsController {
       return response.status(500).json({ error });
     });
 
+    response.on('finish', () => {
+      response.end();
+    });
+
+    response.contentType('application/zip');
     response.attachment(`${file}.zip`);
     archive.pipe(response);
 
