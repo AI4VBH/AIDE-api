@@ -32,7 +32,7 @@ service:
 
 enviromentVariables:
   ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
-  ELASTIC_INDEX: model_config  
+  ELASTIC_INDEX: logstash*  
   KEYCLOAK_URL: https://keycloak-service.keycloak.svc.cluster.local:8443
   MONAI_API_HOST: workflow-manager.monai.svc.cluster.local:5000
   MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000  
