@@ -25,11 +25,10 @@ import {
   Res,
   UseFilters,
 } from '@nestjs/common';
+import * as archiver from 'archiver';
 import { Response } from 'express';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { ExecutionsService } from './executions.service';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const archiver = require('archiver');
 
 @Controller('executions')
 @UseFilters(ExternalServerExceptionFilter)
