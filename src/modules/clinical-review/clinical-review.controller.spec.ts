@@ -125,6 +125,26 @@ describe('ClinicalReviewController', () => {
         patientName: '',
       });
     });
+
+    it('passes the patientId, patientName and applicationName to service', async () => {
+      await controller.getClinicalReviews(
+        ['admin'],
+        2,
+        10,
+        '123',
+        'John Doe',
+        'aide',
+      );
+
+      expect(clinicalReviewService.getClinicalReviews).toHaveBeenCalledWith({
+        pageNumber: 2,
+        pageSize: 10,
+        roles: ['admin'],
+        applicationName: 'aide',
+        patientId: '123',
+        patientName: 'John Doe',
+      });
+    });
   });
 
   describe('getClinicalReviewTaskDetails', () => {

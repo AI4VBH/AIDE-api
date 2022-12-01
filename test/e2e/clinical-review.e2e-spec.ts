@@ -19,8 +19,6 @@ import { INestApplication, Logger } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as request from 'supertest';
-import * as path from 'path';
-import * as fs from 'fs';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
@@ -125,15 +123,39 @@ describe('/Clinical-Review Integration Tests', () => {
     expect(rolesParams).toBe(roles);
   });
 
-  it('(GET) /clinical-review passes pagination correctly', async () => {
-    let pageSizeParam;
-    let pageNumberParam;
+  it('(GET) /clinical-review returns Bad Request when roles have not been provided', async () => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1`,
+        (request, response, context) => {
+          return response(context.status(400));
+        },
+      ),
+    );
+
+    const response = await request(app.getHttpServer()).get(
+      '/clinical-review?pageSize=10&pageNumber=1',
+    );
+
+    expect(response.status).toBe(400);
+  });
+
+  it('(GET) /clinical-review passes input correctly including optional parameters', async () => {
+    let pageSizeParam;
+    let pageNumberParam;
+    let patientIdParam;
+    let patientNameParam;
+    let applicationNameParam;
+    server.use(
+      rest.get(
+        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&patientId=123&patientName=JohnDoe&applicationName=aide&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
         (request, response, context) => {
           pageSizeParam = request.url.searchParams.get('pageSize');
           pageNumberParam = request.url.searchParams.get('pageNumber');
+          patientIdParam = request.url.searchParams.get('patientId');
+          patientNameParam = request.url.searchParams.get('patientName');
+          applicationNameParam =
+            request.url.searchParams.get('applicationName');
           return response(
             context.json(ClinicalReviewMocks.clinicalReviewsList1),
           );
@@ -141,11 +163,74 @@ describe('/Clinical-Review Integration Tests', () => {
       ),
     );
     await request(app.getHttpServer())
-      .get('/clinical-review?pageNumber=1&pageSize=10')
+      .get(
+        '/clinical-review?pageSize=10&pageNumber=1&patientId=123&patientName=JohnDoe&applicationName=aide',
+      )
       .set('Authorization', AuthTokens.authtokenValidRolesUserid);
     expect(pageSizeParam).toBe('10');
     expect(pageNumberParam).toBe('1');
+    expect(patientIdParam).toBe('123');
+    expect(patientNameParam).toBe('JohnDoe');
+    expect(applicationNameParam).toBe('aide');
   });
+
+  it('(GET) /clinical-review passes input correctly excluding optional parameters', async () => {
+    let pageSizeParam;
+    let pageNumberParam;
+    let patientIdParam;
+    let patientNameParam;
+    let applicationNameParam;
+    server.use(
+      rest.get(
+        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        (request, response, context) => {
+          pageSizeParam = request.url.searchParams.get('pageSize');
+          pageNumberParam = request.url.searchParams.get('pageNumber');
+          patientIdParam = request.url.searchParams.get('patientId');
+          patientNameParam = request.url.searchParams.get('patientName');
+          applicationNameParam =
+            request.url.searchParams.get('applicationName');
+          return response(
+            context.json(ClinicalReviewMocks.clinicalReviewsList1),
+          );
+        },
+      ),
+    );
+    await request(app.getHttpServer())
+      .get('/clinical-review?pageSize=10&pageNumber=1')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid);
+    expect(pageSizeParam).toBe('10');
+    expect(pageNumberParam).toBe('1');
+    expect(patientIdParam).toBe('');
+    expect(patientNameParam).toBe('');
+    expect(applicationNameParam).toBe('');
+  });
+
+  it.each([
+    [0, 10],
+    [-1, 10],
+    [10, 0],
+    [10, -1],
+  ])(
+    '(GET) /clinical-review returns 400 when Page size/number is 0 or less',
+    async (pageSize, pageNumber) => {
+      server.use(
+        rest.get(
+          `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=${pageSize}&pageNumber=${pageNumber}&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+          (request, response, context) => {
+            return response(
+              context.json(ClinicalReviewMocks.clinicalReviewsList1),
+            );
+          },
+        ),
+      );
+
+      const response = await request(app.getHttpServer())
+        .get(`/clinical-review?pageNumber=${pageSize}&pageSize=${pageNumber}`)
+        .set('Authorization', AuthTokens.authtokenValidRolesUserid);
+      expect(response.status).toBe(400);
+    },
+  );
 
   it('(GET) /clinical-review without returned data', async () => {
     server.use(
@@ -164,6 +249,26 @@ describe('/Clinical-Review Integration Tests', () => {
     expect(response.body).toMatchSnapshot();
     expect(response.status).toBe(200);
   });
+
+  it.each([401, 403])(
+    '(GET) /clinical-review correct status when unauthorised is being returned',
+    async (code) => {
+      server.use(
+        rest.get(
+          `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+          (_, response, context) => {
+            return response(context.status(code));
+          },
+        ),
+      );
+
+      const response = await request(app.getHttpServer())
+        .get('/clinical-review?pageNumber=1&pageSize=10')
+        .set('Authorization', AuthTokens.authtokenValidRolesUserid);
+
+      expect(response.status).toBe(code);
+    },
+  );
 
   it.each([408, 500, 501, 502, 503, 504])(
     '(GET) /clinical-review correct status when Clinical Review Service gives general error with code %s',

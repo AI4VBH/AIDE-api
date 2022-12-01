@@ -14,7 +14,6 @@
  *  limitations under the License.
  */
 
-import { DateTime } from '@elastic/elasticsearch/lib/api/types';
 import { IMonaiPayloadPatient } from 'modules/admin/payloads/payload.interface';
 import { IPagedResponse } from 'shared/helper/paging/paging.interface';
 
