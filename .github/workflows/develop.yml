@@ -69,7 +69,7 @@ jobs:
           echo OUT_FOLDER="$GITHUB_WORKSPACE/artifacts/" >> $GITHUB_ENV
       
       - name: Install Octopus CLI
-        uses: OctopusDeploy/install-octopus-cli-action@v1.2.0
+        uses: OctopusDeploy/install-octopus-cli-action@v1.2.1
         with:
           version: latest
       
