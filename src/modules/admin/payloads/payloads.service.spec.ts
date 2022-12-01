@@ -25,6 +25,7 @@ import {
   MonaiWorkflowInstance,
   MonaiWorkflowTask,
 } from '../workflowinstances/workflowinstances.interface';
+import { Logger } from '@nestjs/common';
 
 describe('PayloadsService', () => {
   let axios: DeepMocked<AxiosInstance>;
@@ -43,6 +44,10 @@ describe('PayloadsService', () => {
         {
           provide: HttpService,
           useValue: httpService,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

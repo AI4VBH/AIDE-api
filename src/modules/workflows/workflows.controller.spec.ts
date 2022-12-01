@@ -15,7 +15,7 @@
  */
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateEditWorkflowDto } from './dto/aide-workflow.dto';
 import { WorkflowsController } from './workflows.controller';
@@ -34,6 +34,10 @@ describe('WorkflowsController', () => {
         {
           provide: WorkflowsService,
           useValue: workflowsService,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

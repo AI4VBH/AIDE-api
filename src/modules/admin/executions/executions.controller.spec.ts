@@ -15,7 +15,7 @@
  */
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Logger } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Readable } from 'stream';
@@ -38,7 +38,13 @@ describe('ExecutionsController', () => {
         }),
       ],
       controllers: [ExecutionsController],
-      providers: [{ provide: ExecutionsService, useValue: executionsService }],
+      providers: [
+        { provide: ExecutionsService, useValue: executionsService },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
+      ],
     }).compile();
 
     controller = module.get<ExecutionsController>(ExecutionsController);

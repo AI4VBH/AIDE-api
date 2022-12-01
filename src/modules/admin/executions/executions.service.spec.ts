@@ -16,6 +16,7 @@
 
 import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { HttpService } from '@nestjs/axios';
+import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosInstance } from 'axios';
 import { MinioClient } from 'shared/minio/minio-client';
@@ -41,6 +42,10 @@ describe('ExecutionsService', () => {
         ExecutionsService,
         { provide: MinioClient, useValue: minioClient },
         { provide: HttpService, useValue: httpService },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
       ],
     }).compile();
 

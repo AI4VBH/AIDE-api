@@ -15,7 +15,7 @@
  */
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { IMonaiPayload } from '../payloads/payload.interface';
 import { MonaiWorkflowInstance } from '../workflowinstances/workflowinstances.interface';
@@ -43,6 +43,10 @@ describe('IssuesController', () => {
         {
           provide: IssuesService,
           useValue: service,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

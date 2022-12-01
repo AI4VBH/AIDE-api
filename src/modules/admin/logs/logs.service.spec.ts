@@ -15,6 +15,7 @@
  */
 
 import { DeepMocked, createMock } from '@golevelup/ts-jest';
+import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ElasticClient } from 'shared/elastic/elastic-client';
 import { LogsService } from './logs.service';
@@ -31,6 +32,10 @@ describe('LogsService', () => {
       providers: [
         LogsService,
         { provide: ElasticClient, useValue: elasticClient },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
       ],
     }).compile();
 

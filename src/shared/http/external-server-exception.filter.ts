@@ -20,6 +20,7 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Inject,
   Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -34,12 +35,18 @@ import { ElasticClientException } from 'shared/elastic/elastic-client';
 
 @Catch(Error)
 export default class ExternalServerExceptionFilter implements ExceptionFilter {
+  @Inject(Logger)
+  private readonly logger: Logger;
+
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const logger = new Logger('ExceptionFilter');
 
-    logger.error(exception, JSON.stringify(exception, null, 2));
+    this.logger.error(
+      exception,
+      JSON.stringify(exception, null, 2),
+      ExternalServerExceptionFilter.name,
+    );
 
     if (exception instanceof HttpException) {
       const status = exception.getStatus();

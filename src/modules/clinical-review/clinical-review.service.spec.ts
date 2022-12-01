@@ -16,6 +16,7 @@
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { HttpService } from '@nestjs/axios';
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosInstance } from 'axios';
@@ -47,6 +48,10 @@ describe('WorkflowsService', () => {
         {
           provide: ConfigService,
           useValue: configService,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

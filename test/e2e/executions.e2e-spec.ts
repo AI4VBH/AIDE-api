@@ -15,7 +15,7 @@
  */
 
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as request from 'supertest';
@@ -26,6 +26,7 @@ import ExecutionsMock from 'test/test_data/mocks/executions/executions-index';
 import { MinioClient } from 'shared/minio/minio-client';
 import { ExecutionsController } from 'modules/admin/executions/executions.controller';
 import { ExecutionsService } from 'modules/admin/executions/executions.service';
+import { createMock } from '@golevelup/ts-jest';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
@@ -69,7 +70,14 @@ describe('/executions Integration Tests', () => {
         }),
       ],
       controllers: [ExecutionsController],
-      providers: [ExecutionsService, MinioClient],
+      providers: [
+        ExecutionsService,
+        MinioClient,
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
+      ],
     }).compile();
     app = moduleFixture.createNestApplication();
     await app.init();

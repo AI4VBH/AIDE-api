@@ -21,7 +21,7 @@ import * as userMock from './__mocks__/user.json';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Logger } from '@nestjs/common';
 
 describe('UsersController', () => {
   let kcAdminService: DeepMocked<KeycloakAdminService>;
@@ -37,6 +37,10 @@ describe('UsersController', () => {
         { provide: UsersService, useValue: service },
         { provide: ConfigService, useValue: configService },
         { provide: KeycloakAdminService, useValue: kcAdminService },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
       ],
     }).compile();
 
