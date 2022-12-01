@@ -19,7 +19,6 @@ import {
   Catch,
   ArgumentsHost,
   HttpStatus,
-  Inject,
   Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -40,18 +39,15 @@ type ResponseException = {
 
 @Catch(Error)
 export class KeycloakAdminExceptionFilter implements ExceptionFilter {
-  @Inject(Logger)
-  private readonly logger: Logger;
+  private readonly logger: Logger = new Logger(
+    KeycloakAdminExceptionFilter.name,
+  );
 
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
-    this.logger.error(
-      exception,
-      JSON.stringify(exception, null, 2),
-      KeycloakAdminExceptionFilter.name,
-    );
+    this.logger.error(exception, JSON.stringify(exception, null, 2));
 
     if (exception instanceof RoleServiceException) {
       this.handleRoleException(exception, response);
