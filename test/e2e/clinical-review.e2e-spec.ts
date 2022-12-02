@@ -84,7 +84,7 @@ describe('/Clinical-Review Integration Tests', () => {
   ])('(GET) /clinical-review with returned data', async (clinicalreview) => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/clinical-review`,
         (request, response, context) => {
           return response(context.json(clinicalreview));
         },
@@ -108,7 +108,7 @@ describe('/Clinical-Review Integration Tests', () => {
     let rolesParams;
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/clinical-review`,
         (request, response, context) => {
           rolesParams = request.url.searchParams.get('roles');
           return response(
@@ -126,7 +126,7 @@ describe('/Clinical-Review Integration Tests', () => {
   it('(GET) /clinical-review returns Bad Request when roles have not been provided', async () => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1`,
+        `${testClinicalReviewServiceBasePath}/clinical-review`,
         (request, response, context) => {
           return response(context.status(400));
         },
@@ -148,7 +148,7 @@ describe('/Clinical-Review Integration Tests', () => {
     let applicationNameParam;
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&patientId=123&patientName=JohnDoe&applicationName=aide&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/clinical-review`,
         (request, response, context) => {
           pageSizeParam = request.url.searchParams.get('pageSize');
           pageNumberParam = request.url.searchParams.get('pageNumber');
@@ -182,7 +182,7 @@ describe('/Clinical-Review Integration Tests', () => {
     let applicationNameParam;
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/clinical-review`,
         (request, response, context) => {
           pageSizeParam = request.url.searchParams.get('pageSize');
           pageNumberParam = request.url.searchParams.get('pageNumber');
@@ -216,7 +216,7 @@ describe('/Clinical-Review Integration Tests', () => {
     async (pageSize, pageNumber) => {
       server.use(
         rest.get(
-          `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=${pageSize}&pageNumber=${pageNumber}&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+          `${testClinicalReviewServiceBasePath}/clinical-review`,
           (request, response, context) => {
             return response(
               context.json(ClinicalReviewMocks.clinicalReviewsList1),
@@ -235,7 +235,7 @@ describe('/Clinical-Review Integration Tests', () => {
   it('(GET) /clinical-review without returned data', async () => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/clinical-review`,
         (request, response, context) => {
           return response(
             context.json(ClinicalReviewMocks.clinicalReviewsListEmpty),
@@ -255,7 +255,7 @@ describe('/Clinical-Review Integration Tests', () => {
     async (code) => {
       server.use(
         rest.get(
-          `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+          `${testClinicalReviewServiceBasePath}/clinical-review`,
           (_, response, context) => {
             return response(context.status(code));
           },
@@ -275,7 +275,7 @@ describe('/Clinical-Review Integration Tests', () => {
     async (code) => {
       server.use(
         rest.get(
-          `${testClinicalReviewServiceBasePath}/clinical-review?pageSize=10&pageNumber=1&roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+          `${testClinicalReviewServiceBasePath}/clinical-review`,
           (request, response, context) => {
             return response(context.status(code));
           },
@@ -402,7 +402,7 @@ describe('/Clinical-Review Integration Tests', () => {
   it('(GET) /clinical-review-task-details with returned data (single study set)', async () => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/task-details/12345`,
         (request, response, context) => {
           return response(
             context.json(
@@ -423,7 +423,7 @@ describe('/Clinical-Review Integration Tests', () => {
   it('(GET) /clinical-review-task-details with returned data (multiple studies)', async () => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/task-details/12345`,
         (request, response, context) => {
           return response(
             context.json(ClinicalReviewMocks.clinicalReviewTaskDetails),
@@ -451,7 +451,7 @@ describe('/Clinical-Review Integration Tests', () => {
       let rolesParams;
       server.use(
         rest.get(
-          `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+          `${testClinicalReviewServiceBasePath}/task-details/12345`,
           (request, response, context) => {
             rolesParams = request.url.searchParams.get('roles');
             return response(
@@ -472,7 +472,7 @@ describe('/Clinical-Review Integration Tests', () => {
     async (code) => {
       server.use(
         rest.get(
-          `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+          `${testClinicalReviewServiceBasePath}/task-details/12345`,
           (request, response, context) => {
             return response(context.status(code));
           },
@@ -512,7 +512,7 @@ describe('/Clinical-Review Integration Tests', () => {
   it('(GET) /clinical-review-task-details correct status when Task Id is not found', async () => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+        `${testClinicalReviewServiceBasePath}/task-details/12345`,
         (request, response, context) => {
           return response(
             context.json(ClinicalReviewMocks.clinicalReviewTaskDetailsError),
@@ -535,7 +535,7 @@ describe('/Clinical-Review Integration Tests', () => {
     async (code) => {
       server.use(
         rest.get(
-          `${testClinicalReviewServiceBasePath}/task-details/12345?roles=default-roles-aide%2Coffline_access%2Cadmin%2Cuma_authorization%2Cuser_management`,
+          `${testClinicalReviewServiceBasePath}/task-details/12345`,
           (_, response, context) => {
             return response(context.status(code));
           },
@@ -554,7 +554,7 @@ describe('/Clinical-Review Integration Tests', () => {
     let minioKeyParams, minioRolesParams;
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
+        `${testClinicalReviewServiceBasePath}/dicom`,
         async (request, response, context) => {
           minioKeyParams = request.url.searchParams.get('key');
           minioRolesParams = request.url.searchParams.get('roles');
@@ -578,7 +578,7 @@ describe('/Clinical-Review Integration Tests', () => {
   it('(GET) /dicom file does not exist for the given key', async () => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
+        `${testClinicalReviewServiceBasePath}/dicom`,
         async (request, response, context) => {
           return response(context.json({}), context.status(404));
         },
@@ -595,7 +595,7 @@ describe('/Clinical-Review Integration Tests', () => {
   it('(GET) /clinical-review/dicom?key=minio-object-key returns Bad Request when roles have not been provided', async () => {
     server.use(
       rest.get(
-        `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
+        `${testClinicalReviewServiceBasePath}/dicom`,
         (request, response, context) => {
           return response(context.status(400));
         },
@@ -614,7 +614,7 @@ describe('/Clinical-Review Integration Tests', () => {
     async (code) => {
       server.use(
         rest.get(
-          `${testClinicalReviewServiceBasePath}/dicom?key=12345abc`,
+          `${testClinicalReviewServiceBasePath}/dicom`,
           (_req, res, ctx) => {
             return res(ctx.status(code));
           },
