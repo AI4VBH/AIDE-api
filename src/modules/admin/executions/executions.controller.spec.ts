@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Logger } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Readable } from 'stream';
@@ -38,7 +38,13 @@ describe('ExecutionsController', () => {
         }),
       ],
       controllers: [ExecutionsController],
-      providers: [{ provide: ExecutionsService, useValue: executionsService }],
+      providers: [
+        { provide: ExecutionsService, useValue: executionsService },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
+      ],
     }).compile();
 
     controller = module.get<ExecutionsController>(ExecutionsController);
@@ -82,16 +88,22 @@ describe('ExecutionsController', () => {
 
   describe('getArtifactDownloadUrl', () => {
     it('returns expected result', async () => {
-      executionsService.getArtifact.mockResolvedValue({
-        contentType: 'text',
-        stream: createMock<Readable>(),
-      });
+      executionsService.getArtifacts.mockResolvedValue([
+        {
+          name: 'file-1.dcm.json',
+          stream: createMock<Readable>(),
+        },
+        {
+          name: 'file-1.dcm',
+          stream: createMock<Readable>(),
+        },
+      ]);
 
       const response = createMock<Response>();
 
       await controller.getArtifactDownloadUrl('file.ext', response);
 
-      expect(executionsService.getArtifact).toHaveBeenCalled();
+      expect(executionsService.getArtifacts).toHaveBeenCalled();
     });
 
     it.each(['', ' ', null, undefined])(

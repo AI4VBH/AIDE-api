@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { HttpService } from '@nestjs/axios';
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosInstance } from 'axios';
@@ -54,6 +55,10 @@ describe('WorkflowsService', () => {
         {
           provide: RolesService,
           useValue: rolesService,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();
@@ -148,7 +153,7 @@ describe('WorkflowsService', () => {
           {
             id: 'clinical-review-task',
             type: 'aide_clinical_review',
-            args: { reviewer_roles: ['clinician'] },
+            args: { reviewer_roles: 'clinician, admin' },
           },
         ],
       };
@@ -269,7 +274,7 @@ describe('WorkflowsService', () => {
           {
             id: 'clinical-review-task',
             type: 'aide_clinical_review',
-            args: { reviewer_roles: ['clinician'] },
+            args: { reviewer_roles: 'clinician' },
           },
         ],
       };
@@ -383,7 +388,7 @@ describe('WorkflowsService', () => {
           {
             id: 'clinical-review-task',
             type: 'aide_clinical_review',
-            args: { reviewer_roles: ['clinician'] },
+            args: { reviewer_roles: 'clinician' },
           },
         ],
       };
@@ -464,7 +469,7 @@ describe('WorkflowsService', () => {
           {
             id: 'clinical-review-task',
             type: 'aide_clinical_review',
-            args: { reviewer_roles: ['clinician'] },
+            args: { reviewer_roles: 'clinician' },
           },
         ],
       };

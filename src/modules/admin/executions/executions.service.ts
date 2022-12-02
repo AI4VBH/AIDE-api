@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -72,14 +72,23 @@ export class ExecutionsService {
     }
   }
 
-  async getArtifact(
+  async getArtifacts(
     file: string,
-  ): Promise<{ contentType: string; stream: internal.Readable }> {
+  ): Promise<{ name: string; stream: internal.Readable }[]> {
     try {
-      const stream = await this.minioClient.getObjectByName(file);
-      const metadata = await this.minioClient.getObjectMetadata(file);
+      const filesList = await this.minioClient.getObjectDetailsInPath(file);
+      const fileStreams: { name: string; stream: internal.Readable }[] = [];
 
-      return { stream, contentType: metadata['content-type'] };
+      for (const fileName of filesList) {
+        const file = await this.minioClient.getObjectByName(fileName);
+
+        fileStreams.push({
+          name: fileName,
+          stream: file,
+        });
+      }
+
+      return fileStreams;
     } catch (exception) {
       throw new MinoiClientException(exception.code);
     }

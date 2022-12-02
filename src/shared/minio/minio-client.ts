@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -49,6 +49,17 @@ export class MinioClient extends Client {
 
   async getObjectByName(objectName: string): Promise<Readable> {
     return await this.getObject(this.bucketName, objectName);
+  }
+
+  async getObjectDetailsInPath(objectPath: string): Promise<string[]> {
+    return await new Promise((resolve, reject) => {
+      const objectsListTemp: string[] = [];
+      const stream = this.listObjectsV2(this.bucketName, objectPath, true);
+
+      stream.on('data', (obj) => objectsListTemp.push(obj.name));
+      stream.on('error', reject);
+      stream.on('end', () => resolve(objectsListTemp));
+    });
   }
 
   async getObjectMetadata(objectName: string): Promise<ItemBucketMetadata> {

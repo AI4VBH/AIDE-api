@@ -1,4 +1,4 @@
-# Copyright 2022 Crown Copyright
+# Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ metadata:
   # Name of the image cache.
   name: {{ include "deploy.fullname" . }}
   # The namespace to be used for this image cache.
-  namespace: {{.Values.serviceAccount.namespace}}
+  namespace: aide
   labels:
     app: kubefledged
     component: imagecache

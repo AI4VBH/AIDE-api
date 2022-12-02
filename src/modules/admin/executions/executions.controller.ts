@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import {
   Res,
   UseFilters,
 } from '@nestjs/common';
+import * as archiver from 'archiver';
 import { Response } from 'express';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
 import { ExecutionsService } from './executions.service';
@@ -55,17 +56,29 @@ export class ExecutionsController {
       throw new BadRequestException('key query value is missing');
     }
 
-    const { contentType, stream } = await this.executionsService.getArtifact(
-      file,
-    );
+    const objectList = await this.executionsService.getArtifacts(file);
 
-    if (contentType) {
-      response.contentType(contentType);
+    const archive = archiver('zip', {
+      zlib: { level: 9 },
+    });
+
+    archive.on('error', function (error) {
+      return response.status(500).json({ error });
+    });
+
+    response.on('finish', () => {
+      response.end();
+    });
+
+    response.contentType('application/zip');
+    response.attachment(`${file}.zip`);
+    archive.pipe(response);
+
+    for (const obj of objectList) {
+      archive.append(obj.stream, { name: obj.name });
     }
 
-    const piped = stream.pipe(response);
-
-    return piped;
+    archive.finalize();
   }
 
   @Get(':workflow_instance_id/tasks/:execution_id/metadata')

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import {
 } from '@nestjs/common';
 import { Roles } from 'nest-keycloak-connect';
 import { KeycloakAdminExceptionFilter } from 'shared/keycloak/keycloak-admin-exception.filter';
-import { CreateUserDto, EditUserDto, User, UserPage } from './user.dto';
+import { User, UserPage } from './user.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -59,15 +59,12 @@ export class UsersController {
   }
 
   @Post()
-  createUser(@Body() body: CreateUserDto): Promise<User> {
+  createUser(@Body() body): Promise<User> {
     return this.usersService.createUser(body);
   }
 
   @Put(':id')
-  updateUser(
-    @Param('id') id: string,
-    @Body() body: EditUserDto,
-  ): Promise<User> {
+  updateUser(@Param('id') id: string, @Body() body): Promise<User> {
     return this.usersService.updateUser(id, body);
   }
 

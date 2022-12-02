@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import {
   Catch,
   ArgumentsHost,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AxiosError } from 'axios';
@@ -38,9 +39,15 @@ type ResponseException = {
 
 @Catch(Error)
 export class KeycloakAdminExceptionFilter implements ExceptionFilter {
+  private readonly logger: Logger = new Logger(
+    KeycloakAdminExceptionFilter.name,
+  );
+
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+
+    this.logger.error(exception, JSON.stringify(exception, null, 2));
 
     if (exception instanceof RoleServiceException) {
       this.handleRoleException(exception, response);

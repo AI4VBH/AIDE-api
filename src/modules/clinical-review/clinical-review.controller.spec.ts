@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { BadRequestException, HttpException } from '@nestjs/common';
+import { BadRequestException, HttpException, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClinicalReviewController } from './clinical-review.controller';
 import { ClinicalReviewAcknowledge } from './clinical-review.interfaces';
@@ -34,6 +34,10 @@ describe('ClinicalReviewController', () => {
         {
           provide: ClinicalReviewService,
           useValue: clinicalReviewService,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

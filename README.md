@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2022 Crown Copyright
+  ~ Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/AI4VBH/AIDE-api">
-    <img src="aide-logo.png" alt="Logo" width="80" height="80">
+    <img src="aide-logo.png" alt="Logo" height="80">
   </a>
 
 <h3 align="center">AIDE API</h3>

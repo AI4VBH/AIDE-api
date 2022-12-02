@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -110,7 +110,8 @@ export class WorkflowsService {
     let failed = false;
 
     for (const reviewTask of clinicalReviewTasks) {
-      const roles = reviewTask?.args['reviewer_roles'];
+      const commaSeparatedRoles = reviewTask?.args['reviewer_roles'];
+      const roles: string[] = commaSeparatedRoles?.split(',') ?? [];
 
       if (!roles) {
         continue;
@@ -135,7 +136,7 @@ export class WorkflowsService {
 
     const roleNameList = rolesList?.map((r) => r.name.toLowerCase());
 
-    if (roles?.every((r) => roleNameList?.includes(r.toLowerCase()))) {
+    if (roles?.every((r) => roleNameList?.includes(r.trim().toLowerCase()))) {
       return true;
     }
 

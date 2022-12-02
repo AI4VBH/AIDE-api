@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as request from 'supertest';
@@ -28,6 +28,7 @@ import WorkflowMocks from '../test_data/mocks/workflows/workflows-index';
 import { MonaiWorkflow } from 'modules/workflows/monai-workflow.interfaces';
 import { RolesService } from 'modules/roles/roles.service';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
+import { createMock } from '@golevelup/ts-jest';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
@@ -68,7 +69,15 @@ describe('/Workflows Integration Tests', () => {
         }),
       ],
       controllers: [WorkflowsController],
-      providers: [WorkflowsService, RolesService, KeycloakAdminService],
+      providers: [
+        WorkflowsService,
+        RolesService,
+        KeycloakAdminService,
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
 import { User, UserPage } from './user.dto';
 import { UsersService } from './users.service';
+import { Logger } from '@nestjs/common';
 
 type PerformActionParam = (
   realm: string,
@@ -76,6 +77,10 @@ describe('UsersService', () => {
         {
           provide: ConfigService,
           useValue: configServiceMock,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

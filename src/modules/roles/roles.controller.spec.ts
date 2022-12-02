@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { RolesController } from './roles.controller';
 import { RolesService } from './roles.service';
+import { Logger } from '@nestjs/common';
 
 describe('RolesController', () => {
   let service: DeepMocked<RolesService>;
@@ -32,6 +33,10 @@ describe('RolesController', () => {
         {
           provide: RolesService,
           useValue: service,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

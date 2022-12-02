@@ -1,4 +1,4 @@
-# Copyright 2022 Crown Copyright
+# Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ service:
 
 enviromentVariables:
   ELASTIC_HOST: https://opensearch.shared.svc.cluster.local:9200
-  ELASTIC_INDEX: model_config  
+  ELASTIC_INDEX: logstash*  
   KEYCLOAK_URL: https://keycloak-service.keycloak.svc.cluster.local:8443
   MONAI_API_HOST: workflow-manager.monai.svc.cluster.local:5000
   MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000  

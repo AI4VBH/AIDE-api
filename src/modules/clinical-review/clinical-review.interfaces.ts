@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Crown Copyright
+ * Copyright 2022 Guy’s and St Thomas’ NHS Foundation Trust
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,10 +28,18 @@ export interface PagedClinicalReviewDto {
 
 export interface ClinicalReviewRecord {
   execution_id: string;
-  clinical_review_message: ClinicalReview | never;
+  clinical_review_message: ClinicalReviewTaskDetails;
   ready: boolean;
-  reviewed: boolean;
-  received: DateTime;
+
+  /**
+   * ISO Date Time of when the task was reviewed.
+   */
+  reviewed?: string;
+
+  /**
+   * ISO Date Time of when the task was received.
+   */
+  received: string;
 }
 
 export interface ClinicalReview {
