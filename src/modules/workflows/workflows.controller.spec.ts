@@ -17,7 +17,11 @@
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { BadRequestException, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateEditWorkflowDto } from './dto/aide-workflow.dto';
+import {
+  CreateWorkflowDto,
+  EditWorkflowDto,
+  WorkflowDto,
+} from './dto/aide-workflow.dto';
 import { WorkflowsController } from './workflows.controller';
 import { WorkflowsService } from './workflows.service';
 
@@ -91,7 +95,7 @@ describe('WorkflowsController', () => {
 
   describe('createWorkflow', () => {
     it('passes the workflow to service', async () => {
-      const body: CreateEditWorkflowDto = {
+      const body: CreateWorkflowDto = {
         workflow: {
           name: 'some-name',
           version: 'v1.0.0',
@@ -114,16 +118,20 @@ describe('WorkflowsController', () => {
 
   describe('editWorkflow', () => {
     it('passes the correct workflowId and workflow to service', async () => {
-      const body: CreateEditWorkflowDto = {
+      const workflow: Partial<WorkflowDto> = {
+        name: 'some-name',
+        version: 'v1.0.0',
+        description: 'some description',
+        informatics_gateway: {
+          ae_title: 'title',
+          export_destinations: [],
+        },
+        tasks: [],
+      };
+      const body: EditWorkflowDto = {
+        original_workflow_name: 'some-name',
         workflow: {
-          name: 'some-name',
-          version: 'v1.0.0',
-          description: 'some description',
-          informatics_gateway: {
-            ae_title: 'title',
-            export_destinations: [],
-          },
-          tasks: [],
+          workflow,
         },
       };
 
@@ -134,7 +142,8 @@ describe('WorkflowsController', () => {
 
       expect(workflowsService.editWorkflow).toHaveBeenCalledWith(
         'ead947e7-e06d-408b-8227-4815224fc169',
-        body.workflow,
+        workflow,
+        body.original_workflow_name,
       );
     });
   });

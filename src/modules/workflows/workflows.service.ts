@@ -159,7 +159,11 @@ export class WorkflowsService {
     return result.data;
   }
 
-  async editWorkflow(workflowId: string, workflow: Partial<WorkflowDto>) {
+  async editWorkflow(
+    workflowId: string,
+    workflow: Partial<WorkflowDto>,
+    original_workflow_name: string,
+  ) {
     const aeTitle = workflow?.informatics_gateway?.ae_title as string;
     const destinations = workflow?.informatics_gateway
       ?.export_destinations as string[];
@@ -169,7 +173,10 @@ export class WorkflowsService {
     await this.registerAeTitleAndVerifyDestinations(aeTitle, destinations);
 
     const result = await firstValueFrom(
-      this.httpService.put(`/workflows/${workflowId}`, workflow),
+      this.httpService.put(`/workflows/${workflowId}`, {
+        original_workflow_name,
+        workflow,
+      }),
     );
 
     return result.data;
