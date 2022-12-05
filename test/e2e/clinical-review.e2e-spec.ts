@@ -27,7 +27,6 @@ import ClinicalReviewMocks from '../test_data/mocks/clinical-review/clinical-rev
 import { ClinicalReviewController } from 'modules/clinical-review/clinical-review.controller';
 import { ClinicalReviewService } from 'modules/clinical-review/clinical-review.service';
 import { createMock } from '@golevelup/ts-jest';
-import AcceptRejectRequest from '../test_data/mocks/accept-reject';
 
 const server = setupServer();
 const testClinicalReviewServiceBasePath = 'https://localhost:7337';
@@ -295,7 +294,7 @@ describe('/Clinical-Review Integration Tests', () => {
     },
   );
 
-  it('(PUT) /clinical-review with body', async () => {
+  it('(PUT) /clinical-review - Accept with message', async () => {
     server.use(
       rest.put(
         `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
@@ -307,7 +306,58 @@ describe('/Clinical-Review Integration Tests', () => {
     const response = await request(app.getHttpServer())
       .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
       .set('Authorization', AuthTokens.authtokenValidRolesUserid)
-      .send(ClinicalReviewMocks.clinicalReviewsObject1);
+      .send(ClinicalReviewMocks.clinicalReviewAcceptMessage);
+
+    expect(response.status).toBe(204);
+  });
+
+  it('(PUT) /clinical-review - Accept no message', async () => {
+    server.use(
+      rest.put(
+        `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
+        (request, response, context) => {
+          return response(context.status(204));
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer())
+      .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
+      .send(ClinicalReviewMocks.clinicalReviewAcceptNoMessage);
+
+    expect(response.status).toBe(204);
+  });
+
+  it('(PUT) /clinical-review - Reject with message', async () => {
+    server.use(
+      rest.put(
+        `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
+        (request, response, context) => {
+          return response(context.status(204));
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer())
+      .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
+      .send(ClinicalReviewMocks.clinicalReviewRejectMessage);
+
+    expect(response.status).toBe(204);
+  });
+
+  it('(PUT) /clinical-review - Accept no message', async () => {
+    server.use(
+      rest.put(
+        `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
+        (request, response, context) => {
+          return response(context.status(204));
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer())
+      .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
+      .send(ClinicalReviewMocks.clinicalReviewRejectNoMessage);
 
     expect(response.status).toBe(204);
   });
@@ -631,60 +681,6 @@ describe('/Clinical-Review Integration Tests', () => {
         statusCode: 500,
       });
       expect(response.statusCode).toBe(500);
-    },
-  );
-
-  xit.each([
-    AcceptRejectRequest.ACCEPT_MANDATORY,
-    AcceptRejectRequest.REJECT_MANDATORY,
-    AcceptRejectRequest.REJECT_NON_MANDATORY,
-  ])(
-    '(PUT) /clinical-review with valid request returns 200',
-    async (putBody) => {
-      server.use(
-        rest.get(
-          `${testClinicalReviewServiceBasePath}/clinical-review`,
-          (_req, res, ctx) => {
-            return res(ctx.status(204));
-          },
-        ),
-      );
-      const response = await request(app.getHttpServer())
-        .put('/clinical-review')
-        .send(putBody)
-        .set('Authorization', AuthTokens.authtokenValidRolesUserid);
-
-      expect(response.body).toMatchObject({
-        // message:
-        //   'An error occurred with an external service (MONAI, Clinical Review)',
-        statusCode: 204,
-      });
-      expect(response.statusCode).toBe(204);
-    },
-  );
-
-  xit.each([400, 403, 404])(
-    '(PUT) /clinical-review returns invalid response code',
-    async (code) => {
-      server.use(
-        rest.get(
-          `${testClinicalReviewServiceBasePath}/clinical-review`,
-          (_req, res, ctx) => {
-            return res(ctx.status(code));
-          },
-        ),
-      );
-      const response = await request(app.getHttpServer())
-        .get('/clinical-review/clinical-review')
-        .send(AcceptRejectRequest.ACCEPT_MANDATORY)
-        .set('Authorization', AuthTokens.authtokenValidRolesUserid);
-
-      expect(response.body).toMatchObject({
-        // message:
-        //   'An error occurred with an external service (MONAI, Clinical Review)',
-        statusCode: code,
-      });
-      expect(response.statusCode).toBe(code);
     },
   );
 });

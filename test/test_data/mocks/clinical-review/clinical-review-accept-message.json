@@ -1,9 +1,8 @@
 {
     "acceptance": true,
-    "task_id": "5151551",
     "reason": "",
-    "message": "",
+    "message": "This is an acceptance message",
     "execution_id": "123456",
-    "roles": ["Clinician"],
+    "roles": "clinician",
     "user_id": "test@test.com"
 }
