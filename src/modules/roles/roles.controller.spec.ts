@@ -18,6 +18,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { RolesController } from './roles.controller';
 import { RolesService } from './roles.service';
+import { Logger } from '@nestjs/common';
 
 describe('RolesController', () => {
   let service: DeepMocked<RolesService>;
@@ -32,6 +33,10 @@ describe('RolesController', () => {
         {
           provide: RolesService,
           useValue: service,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

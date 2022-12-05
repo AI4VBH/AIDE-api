@@ -19,6 +19,7 @@ import {
   Catch,
   ArgumentsHost,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AxiosError } from 'axios';
@@ -38,9 +39,15 @@ type ResponseException = {
 
 @Catch(Error)
 export class KeycloakAdminExceptionFilter implements ExceptionFilter {
+  private readonly logger: Logger = new Logger(
+    KeycloakAdminExceptionFilter.name,
+  );
+
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+
+    this.logger.error(exception, JSON.stringify(exception, null, 2));
 
     if (exception instanceof RoleServiceException) {
       this.handleRoleException(exception, response);

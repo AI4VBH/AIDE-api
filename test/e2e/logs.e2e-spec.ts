@@ -15,7 +15,7 @@
  */
 
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as request from 'supertest';
@@ -26,6 +26,7 @@ import { setupServer } from 'msw/node';
 import { HttpConfigService } from 'shared/http/http.service';
 import logMocks from '../test_data/mocks/logs/logs-index';
 import { ElasticClient } from 'shared/elastic/elastic-client';
+import { createMock } from '@golevelup/ts-jest';
 
 const server = setupServer();
 const mockElasticHost = 'localhost';
@@ -73,7 +74,14 @@ describe('/Logs Integration Tests', () => {
         }),
       ],
       controllers: [LogsController],
-      providers: [LogsService, ElasticClient],
+      providers: [
+        LogsService,
+        ElasticClient,
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();

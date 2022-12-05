@@ -15,7 +15,7 @@
  */
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DestinationsController } from './destinations.controller';
 import { IDestination } from './destinations.interface';
@@ -34,6 +34,10 @@ describe('DestinationsController', () => {
         {
           provide: DestinationsService,
           useValue: destinationsService,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

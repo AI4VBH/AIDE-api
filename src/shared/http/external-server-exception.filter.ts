@@ -34,12 +34,15 @@ import { ElasticClientException } from 'shared/elastic/elastic-client';
 
 @Catch(Error)
 export default class ExternalServerExceptionFilter implements ExceptionFilter {
+  private readonly logger: Logger = new Logger(
+    ExternalServerExceptionFilter.name,
+  );
+
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const logger = new Logger('ExceptionFilter');
 
-    logger.error(exception, JSON.stringify(exception, null, 2));
+    this.logger.error(exception, JSON.stringify(exception, null, 2));
 
     if (exception instanceof HttpException) {
       const status = exception.getStatus();

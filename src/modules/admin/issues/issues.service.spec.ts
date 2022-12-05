@@ -16,6 +16,7 @@
 
 import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { HttpService } from '@nestjs/axios';
+import { Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosInstance } from 'axios';
 import { makeObservableForTest } from 'test/utilities/test-make-observable';
@@ -40,6 +41,10 @@ describe('IssuesServices', () => {
         {
           provide: HttpService,
           useValue: httpService,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

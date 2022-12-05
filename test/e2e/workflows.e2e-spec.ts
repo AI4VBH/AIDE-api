@@ -15,7 +15,7 @@
  */
 
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as request from 'supertest';
@@ -28,6 +28,7 @@ import WorkflowMocks from '../test_data/mocks/workflows/workflows-index';
 import { MonaiWorkflow } from 'modules/workflows/monai-workflow.interfaces';
 import { RolesService } from 'modules/roles/roles.service';
 import { KeycloakAdminService } from 'shared/keycloak/keycloak-admin.service';
+import { createMock } from '@golevelup/ts-jest';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
@@ -68,7 +69,15 @@ describe('/Workflows Integration Tests', () => {
         }),
       ],
       controllers: [WorkflowsController],
-      providers: [WorkflowsService, RolesService, KeycloakAdminService],
+      providers: [
+        WorkflowsService,
+        RolesService,
+        KeycloakAdminService,
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -257,7 +266,7 @@ describe('/Workflows Integration Tests', () => {
       );
       const response = await request(app.getHttpServer())
         .put(`/workflows/${putBody.workflow_id}`)
-        .send(putBody);
+        .send({ original_workflow_name: 'some body', workflow: putBody });
       expect(response.body).toMatchSnapshot();
       expect(response.statusCode).toBe(200);
     },
@@ -301,7 +310,7 @@ describe('/Workflows Integration Tests', () => {
       );
       const response = await request(app.getHttpServer())
         .put(`/workflows/${putBody.workflow_id}`)
-        .send(putBody);
+        .send({ original_workflow_name: 'some body', workflow: putBody });
       expect(response.body).toMatchSnapshot();
       expect(response.statusCode).toBe(400);
     },
@@ -336,7 +345,10 @@ describe('/Workflows Integration Tests', () => {
     );
     const response = await await request(app.getHttpServer())
       .put('/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d')
-      .send(WorkflowMocks.singleWorkflow1);
+      .send({
+        original_workflow_name: 'some body',
+        workflow: WorkflowMocks.singleWorkflow1,
+      });
     expect(response.body).toMatchSnapshot();
     expect(response.statusCode).toBe(404);
   });
@@ -370,7 +382,10 @@ describe('/Workflows Integration Tests', () => {
     );
     const response = await await request(app.getHttpServer())
       .put('/workflows/invalidID')
-      .send(WorkflowMocks.singleWorkflow1);
+      .send({
+        original_workflow_name: 'somebody',
+        workflow: WorkflowMocks.singleWorkflow1,
+      });
     expect(response.body).toMatchSnapshot();
     expect(response.statusCode).toBe(400);
   });
@@ -404,7 +419,10 @@ describe('/Workflows Integration Tests', () => {
     );
     const response = await await request(app.getHttpServer())
       .put('/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d')
-      .send(WorkflowMocks.singleWorkflow1);
+      .send({
+        original_workflow_name: 'somebody',
+        workflow: WorkflowMocks.singleWorkflow1,
+      });
     expect(response.body).toMatchSnapshot();
     expect(response.statusCode).toBe(400);
   });
@@ -437,7 +455,10 @@ describe('/Workflows Integration Tests', () => {
       );
       const response = await request(app.getHttpServer())
         .put(`/workflows/${WorkflowMocks.singleWorkflow1.workflow_id}`)
-        .send(WorkflowMocks.singleWorkflow1);
+        .send({
+          original_workflow_name: 'somebody',
+          workflow: WorkflowMocks.singleWorkflow1,
+        });
       expect(response.body).toMatchObject({
         message:
           'An error occurred with an external service (MONAI, Clinical Review)',

@@ -16,6 +16,7 @@
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { HttpService } from '@nestjs/axios';
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosInstance } from 'axios';
@@ -54,6 +55,10 @@ describe('WorkflowsService', () => {
         {
           provide: RolesService,
           useValue: rolesService,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();
@@ -367,6 +372,7 @@ describe('WorkflowsService', () => {
       const result = await service.editWorkflow(
         '45425-435345-435345-5345',
         workflow,
+        'workflow',
       );
 
       expect(result).toMatchSnapshot();
@@ -436,6 +442,7 @@ describe('WorkflowsService', () => {
       const result = await service.editWorkflow(
         '45425-435345-435345-5345',
         workflow,
+        'workflow',
       );
 
       expect(result).toMatchSnapshot();
@@ -449,7 +456,7 @@ describe('WorkflowsService', () => {
       };
 
       await expect(
-        service.editWorkflow('45425-435345-435345-5345', workflow),
+        service.editWorkflow('45425-435345-435345-5345', workflow, 'workflow'),
       ).rejects.toThrowErrorMatchingSnapshot();
     });
 
@@ -476,7 +483,7 @@ describe('WorkflowsService', () => {
       ]);
 
       await expect(
-        service.editWorkflow('45425-435345-435345-5345', workflow),
+        service.editWorkflow('45425-435345-435345-5345', workflow, 'workflow'),
       ).rejects.toThrowErrorMatchingSnapshot();
     });
 
@@ -510,7 +517,7 @@ describe('WorkflowsService', () => {
       httpService.get.mockReturnValue(makeObservableForTest(axios.get));
 
       await expect(
-        service.editWorkflow('45425-435345-435345-5345', workflow),
+        service.editWorkflow('45425-435345-435345-5345', workflow, 'workflow'),
       ).rejects.toThrowErrorMatchingSnapshot();
     });
   });

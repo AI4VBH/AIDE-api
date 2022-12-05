@@ -15,7 +15,7 @@
  */
 
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as request from 'supertest';
@@ -25,6 +25,7 @@ import { HttpConfigService } from 'shared/http/http.service';
 import { DestinationsController } from 'modules/admin/destinations/destinations.controller';
 import { DestinationsService } from 'modules/admin/destinations/destinations.service';
 import DestinationsMock from '../test_data/mocks/destinations/destinations-index';
+import { createMock } from '@golevelup/ts-jest';
 
 const server = setupServer();
 const testMonaiBasePath = 'https://localhost:7337';
@@ -63,7 +64,13 @@ describe('/destinations Integration Tests', () => {
         }),
       ],
       controllers: [DestinationsController],
-      providers: [DestinationsService],
+      providers: [
+        DestinationsService,
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
+        },
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();

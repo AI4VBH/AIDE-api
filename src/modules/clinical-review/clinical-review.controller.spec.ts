@@ -15,7 +15,7 @@
  */
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { BadRequestException, HttpException } from '@nestjs/common';
+import { BadRequestException, HttpException, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClinicalReviewController } from './clinical-review.controller';
 import { ClinicalReviewAcknowledge } from './clinical-review.interfaces';
@@ -34,6 +34,10 @@ describe('ClinicalReviewController', () => {
         {
           provide: ClinicalReviewService,
           useValue: clinicalReviewService,
+        },
+        {
+          provide: Logger,
+          useFactory: () => createMock<Logger>(),
         },
       ],
     }).compile();

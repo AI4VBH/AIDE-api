@@ -30,7 +30,11 @@ import {
 } from '@nestjs/common';
 import { Roles } from 'nest-keycloak-connect';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
-import { CreateEditWorkflowDto, WorkflowDto } from './dto/aide-workflow.dto';
+import {
+  CreateWorkflowDto,
+  EditWorkflowDto,
+  WorkflowDto,
+} from './dto/aide-workflow.dto';
 import { WorkflowsService } from './workflows.service';
 
 @Controller('workflows')
@@ -58,7 +62,7 @@ export class WorkflowsController {
   }
 
   @Post()
-  createWorkflow(@Body() createWorkflow: CreateEditWorkflowDto) {
+  createWorkflow(@Body() createWorkflow: CreateWorkflowDto) {
     const { workflow } = createWorkflow;
 
     this.validateWorkflow(workflow);
@@ -69,13 +73,18 @@ export class WorkflowsController {
   @Put(':workflowId')
   editWorkflow(
     @Param('workflowId') workflowId: string,
-    @Body() editWorkflow: CreateEditWorkflowDto,
+    @Body() editWorkflow: EditWorkflowDto,
   ) {
-    const { workflow } = editWorkflow;
+    const { workflow } = editWorkflow.workflow;
+    const { original_workflow_name } = editWorkflow;
 
     this.validateWorkflow(workflow);
 
-    return this.service.editWorkflow(workflowId, workflow);
+    return this.service.editWorkflow(
+      workflowId,
+      workflow,
+      original_workflow_name,
+    );
   }
 
   @Delete(':workflowId')
