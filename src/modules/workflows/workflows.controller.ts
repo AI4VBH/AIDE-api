@@ -35,6 +35,7 @@ import {
   EditWorkflowDto,
   WorkflowDto,
 } from './dto/aide-workflow.dto';
+import { WorkflowValidationException } from './workflow.service.exceptions';
 import { WorkflowsService } from './workflows.service';
 
 @Controller('workflows')
@@ -62,23 +63,34 @@ export class WorkflowsController {
   }
 
   @Post()
-  createWorkflow(@Body() createWorkflow: CreateWorkflowDto) {
+  async createWorkflow(@Body() createWorkflow: CreateWorkflowDto) {
     const { workflow } = createWorkflow;
 
-    this.validateWorkflow(workflow);
+    const result = await this.validateWorkflow(workflow, '');
+
+    if (result.success === false) {
+      throw new WorkflowValidationException(result.errorMessage);
+    }
 
     return this.service.createWorkflow(workflow);
   }
 
   @Put(':workflowId')
-  editWorkflow(
+  async editWorkflow(
     @Param('workflowId') workflowId: string,
     @Body() editWorkflow: EditWorkflowDto,
   ) {
     const { workflow } = editWorkflow.workflow;
     const { original_workflow_name } = editWorkflow;
 
-    this.validateWorkflow(workflow);
+    const result = await this.validateWorkflow(
+      workflow,
+      original_workflow_name,
+    );
+
+    if (result.success === false) {
+      throw new WorkflowValidationException(result.errorMessage);
+    }
 
     return this.service.editWorkflow(
       workflowId,
@@ -92,16 +104,20 @@ export class WorkflowsController {
     return this.service.deleteWorkflow(workflowId);
   }
 
-  private validateWorkflow(workflow: Partial<WorkflowDto>) {
-    if (!workflow || !workflow.informatics_gateway) {
-      throw new BadRequestException('workflow object cannot be empty');
-    }
+  private async validateWorkflow(
+    workflow: Partial<WorkflowDto>,
+    original_workflow_name: string,
+  ) {
+    const promises = [
+      this.service.verifyClinicalReviewRoles(workflow),
+      this.service.validate(workflow, original_workflow_name),
+    ];
 
-    if (
-      !workflow.informatics_gateway.ae_title ||
-      !workflow.informatics_gateway.export_destinations
-    ) {
-      throw new BadRequestException('ae_title or export_destination missing');
-    }
+    const result = await Promise.all(promises);
+
+    return {
+      success: result.every((r) => r.success === true),
+      errorMessage: result.map((r) => r.errorMessage ?? '').join(' '),
+    };
   }
 }

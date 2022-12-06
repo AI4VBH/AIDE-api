@@ -12,7 +12,12 @@ exports[`WorkflowsService createWorkflow aeTitle exists returns expected result 
 }
 `;
 
-exports[`WorkflowsService createWorkflow clinical review reviewer_roles missing in keycloak throws error 1`] = `"The following tasks have invalid review roles: clinical-review-task"`;
+exports[`WorkflowsService createWorkflow clinical review reviewer_roles missing in keycloak 1`] = `
+{
+  "errorMessage": "The following tasks have invalid reviewer roles: clinical-review-task",
+  "success": false,
+}
+`;
 
 exports[`WorkflowsService createWorkflow destination does not exist throws error 1`] = `"Not all export destinations are registered"`;
 
@@ -51,7 +56,12 @@ exports[`WorkflowsService createWorkflow valid reviewer roles returns expected r
 }
 `;
 
-exports[`WorkflowsService editWorkflow clinical review reviewer_roles missing in keycloak throws error 1`] = `"The following tasks have invalid review roles: clinical-review-task"`;
+exports[`WorkflowsService editWorkflow clinical review reviewer_roles missing in keycloak throws error 1`] = `
+{
+  "errorMessage": "The following tasks have invalid reviewer roles: clinical-review-task",
+  "success": false,
+}
+`;
 
 exports[`WorkflowsService editWorkflow destination does not exist throws error 1`] = `"Not all export destinations are registered"`;
 

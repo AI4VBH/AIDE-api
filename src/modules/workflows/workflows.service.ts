@@ -97,17 +97,19 @@ export class WorkflowsService {
     }
   }
 
-  async verifyClinicalReviewRoles(workflow: Partial<WorkflowDto>) {
+  async verifyClinicalReviewRoles(
+    workflow: Partial<WorkflowDto>,
+  ): Promise<{ success: boolean; errorMessage: string }> {
     const clinicalReviewTasks = workflow?.tasks?.filter(
       (t) => t.type.toLowerCase() == 'aide_clinical_review',
     );
 
     if (!clinicalReviewTasks) {
-      return true;
+      return { success: true, errorMessage: '' };
     }
 
-    let errorMessage = 'The following tasks have invalid review roles:';
-    let failed = false;
+    let message = 'The following tasks have invalid reviewer roles:';
+    let success = true;
 
     for (const reviewTask of clinicalReviewTasks) {
       const commaSeparatedRoles = reviewTask?.args['reviewer_roles'];
@@ -118,14 +120,13 @@ export class WorkflowsService {
       }
 
       if (!(await this.verifyRoles(roles))) {
-        failed = true;
-        errorMessage += ` ${reviewTask.id}`;
+        success = false;
+        message += ` ${reviewTask.id}`;
       }
     }
 
-    if (failed) {
-      throw new WorkflowServiceException(errorMessage);
-    }
+    const errorMessage = !success ? message : '';
+    return { success, errorMessage };
   }
 
   async verifyRoles(roles: string[]) {
@@ -168,8 +169,6 @@ export class WorkflowsService {
     const destinations = workflow?.informatics_gateway
       ?.export_destinations as string[];
 
-    await this.verifyClinicalReviewRoles(workflow);
-
     await this.registerAeTitleAndVerifyDestinations(aeTitle, destinations);
 
     const result = await firstValueFrom(
@@ -188,5 +187,22 @@ export class WorkflowsService {
     );
 
     return result.data;
+  }
+
+  async validate(
+    workflow: Partial<WorkflowDto>,
+    original_workflow_name: string,
+  ): Promise<{ success: boolean; errorMessage: string }> {
+    const result = await firstValueFrom(
+      this.httpService.put(`/workflows/validate`, {
+        original_workflow_name,
+        workflow,
+      }),
+    );
+
+    return {
+      success: result.status == 204,
+      errorMessage: result?.data?.detail ?? '',
+    };
   }
 }

@@ -108,6 +108,15 @@ describe('WorkflowsController', () => {
         },
       };
 
+      workflowsService.verifyClinicalReviewRoles.mockResolvedValue({
+        success: true,
+        errorMessage: '',
+      });
+      workflowsService.validate.mockResolvedValue({
+        success: true,
+        errorMessage: '',
+      });
+
       await controller.createWorkflow(body);
 
       expect(workflowsService.createWorkflow).toHaveBeenCalledWith(
@@ -134,6 +143,15 @@ describe('WorkflowsController', () => {
           workflow,
         },
       };
+
+      workflowsService.verifyClinicalReviewRoles.mockResolvedValue({
+        success: true,
+        errorMessage: '',
+      });
+      workflowsService.validate.mockResolvedValue({
+        success: true,
+        errorMessage: '',
+      });
 
       await controller.editWorkflow(
         'ead947e7-e06d-408b-8227-4815224fc169',
