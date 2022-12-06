@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`PayloadsService getPayloadById returns the expected result 1`] = `
+PayloadDTO {
+  "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c3f",
+  "patient_name": "Jane Doe",
+  "payload_id": "00000000-0000-0000-0000-000000000001",
+  "payload_received": "2022-08-17T12:21:10.203Z",
+}
+`;
+
 exports[`PayloadsService getPayloadExecutions returns expected result 1`] = `
 [
   {

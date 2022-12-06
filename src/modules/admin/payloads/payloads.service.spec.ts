@@ -19,6 +19,7 @@ import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PayloadsService } from './payloads.service';
 import * as mockMonaiPayloadsResponse from 'test/test_data/mocks/payloads/basic-payloads-1.json';
+import * as mockMonaiSinglePayloadResponse from 'test/test_data/mocks/payloads/basic-single-payload.json';
 import { AxiosInstance } from 'axios';
 import { makeObservableForTest } from 'test/utilities/test-make-observable';
 import {
@@ -26,6 +27,10 @@ import {
   MonaiWorkflowTask,
 } from '../workflowinstances/workflowinstances.interface';
 import { Logger } from '@nestjs/common';
+import {
+  PayloadBadRequestException,
+  PayloadNotFoundException,
+} from './payloads.service.exceptions';
 
 describe('PayloadsService', () => {
   let axios: DeepMocked<AxiosInstance>;
@@ -125,6 +130,83 @@ describe('PayloadsService', () => {
         '2',
         'jack',
       );
+
+      expect(response).toMatchSnapshot();
+    });
+  });
+
+  describe('getPayloadById', () => {
+    it.each([null, '', ' '])(
+      'throws a bad request error if the payload ID is: %s',
+      async () => {
+        const payloadId = '00000000-0000-0000-0000-000000000001';
+
+        axios.get.mockResolvedValue({
+          status: 400,
+          data: {
+            title: 'Bad Request',
+            status: 400,
+            detail: `Failed to validate ${payloadId}, not a valid guid`,
+          },
+        });
+
+        httpService.get.mockReturnValue(makeObservableForTest(axios.get));
+
+        const action = async () => await service.getPayloadById(payloadId);
+
+        await expect(action()).rejects.toThrowError(PayloadBadRequestException);
+      },
+    );
+
+    it('throws a not found error if a payload is not found', async () => {
+      const payloadId = '00000000-0000-0000-0000-000000000001';
+
+      axios.get.mockResolvedValue({
+        status: 404,
+        data: {
+          title: 'Not Found',
+          status: 404,
+          detail: `Failed to find payload with payload id: ${payloadId}`,
+        },
+      });
+
+      httpService.get.mockReturnValue(makeObservableForTest(axios.get));
+
+      const action = async () => await service.getPayloadById(payloadId);
+
+      await expect(action()).rejects.toThrowError(PayloadNotFoundException);
+    });
+
+    it('throws an internal server error if an unhandled error occurs', async () => {
+      const payloadId = '00000000-0000-0000-0000-000000000001';
+
+      axios.get.mockResolvedValue({
+        status: 500,
+        data: {
+          title: 'Internal Server Error',
+          status: 500,
+          detail: `Unexpected error occurred: Internal server error`,
+        },
+      });
+
+      httpService.get.mockReturnValue(makeObservableForTest(axios.get));
+
+      const action = async () => await service.getPayloadById(payloadId);
+
+      await expect(action()).rejects.toThrowError(Error);
+    });
+
+    it('returns the expected result', async () => {
+      const payloadId = '00000000-0000-0000-0000-000000000001';
+
+      axios.get.mockResolvedValue({
+        status: 200,
+        data: mockMonaiSinglePayloadResponse,
+      });
+
+      httpService.get.mockReturnValue(makeObservableForTest(axios.get));
+
+      const response = await service.getPayloadById(payloadId);
 
       expect(response).toMatchSnapshot();
     });
