@@ -20,13 +20,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ClinicalReviewController } from './clinical-review.controller';
 import { ClinicalReviewAcknowledge } from './clinical-review.interfaces';
 import { ClinicalReviewService } from './clinical-review.service';
+import type { Response } from 'express';
 
 describe('ClinicalReviewController', () => {
   let controller: ClinicalReviewController;
   let clinicalReviewService: DeepMocked<ClinicalReviewService>;
+  let response: DeepMocked<Response>;
 
   beforeEach(async () => {
     clinicalReviewService = createMock<ClinicalReviewService>();
+    response = createMock<Response>();
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ClinicalReviewController],
@@ -170,7 +173,8 @@ describe('ClinicalReviewController', () => {
     it('passes the key to service', async () => {
       const key = '123abc';
       const roles = ['clinician'];
-      await controller.getDicomFile(roles, key);
+
+      await controller.getDicomFile(response, roles, key);
 
       expect(clinicalReviewService.getDicomFile).toHaveBeenCalledWith(
         roles,
