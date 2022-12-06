@@ -18,7 +18,6 @@ import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
-import internal from 'stream';
 import {
   ClinicalReviewAcknowledge,
   PagedClinicalReviews,
@@ -114,10 +113,7 @@ export class ClinicalReviewService {
     return getClinicalReviewTaskDetails.data;
   }
 
-  async getDicomFile(
-    roles: string[],
-    key: string,
-  ): Promise<{ stream: internal.Readable }> {
+  async getDicomFile(roles: string[], key: string): Promise<ArrayBuffer> {
     const params = new URLSearchParams({
       roles: `${roles.join(',') || ''}`,
       key: `${key}`,
@@ -129,8 +125,13 @@ export class ClinicalReviewService {
     const getDicomFile = await firstValueFrom(
       this.httpService.get(`/dicom?${params}`, {
         baseURL,
+        responseType: 'arraybuffer',
       }),
     );
+
+    if (getDicomFile.status === 404 || getDicomFile.data.length === 0) {
+      return null;
+    }
 
     return getDicomFile.data;
   }

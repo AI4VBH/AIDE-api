@@ -26,6 +26,7 @@ import {
   ParseIntPipe,
   Put,
   Query,
+  Res,
   UseFilters,
 } from '@nestjs/common';
 import { Roles, UserId } from 'shared/decorators/custom-decorators';
@@ -37,6 +38,7 @@ import {
 } from './clinical-review.interfaces';
 import { ClinicalReviewService } from './clinical-review.service';
 import { IClinicalReviewRequest } from './IClinicalReviewRequest';
+import type { Response } from 'express';
 
 @Controller('clinical-review')
 @UseFilters(ExternalServerExceptionFilter)
@@ -94,11 +96,21 @@ export class ClinicalReviewController {
   }
 
   @Get('dicom')
-  getDicomFile(@Roles() roles, @Query('key') key: string) {
+  async getDicomFile(
+    @Res({ passthrough: true }) res: Response,
+    @Roles() roles,
+    @Query('key') key: string,
+  ) {
     if (!roles) {
       throw new BadRequestException('roles are required');
     }
-    return this.service.getDicomFile(roles, key);
+    const dicom = await this.service.getDicomFile(roles, key);
+
+    if (!dicom) {
+      res.statusCode = 404;
+    } else {
+      res.send(dicom);
+    }
   }
 
   @Get(':taskExecutionId')
