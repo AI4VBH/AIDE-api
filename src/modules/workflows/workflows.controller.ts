@@ -30,12 +30,7 @@ import {
 } from '@nestjs/common';
 import { Roles } from 'nest-keycloak-connect';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
-import {
-  CreateWorkflowDto,
-  EditWorkflowDto,
-  WorkflowDto,
-} from './dto/aide-workflow.dto';
-import { WorkflowValidationException } from './workflow.service.exceptions';
+import { CreateWorkflowDto, EditWorkflowDto } from './dto/aide-workflow.dto';
 import { WorkflowsService } from './workflows.service';
 
 @Controller('workflows')

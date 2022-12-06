@@ -42,10 +42,12 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
   );
 
   catch(exception: Error, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response = ctx.getResponse<Response>();
+    const ctx = host?.switchToHttp();
+    const response = ctx?.getResponse<Response>();
 
-    this.logger.error(exception, JSON.stringify(exception, null, 2));
+    if (process.env.NODE_ENV !== 'test') {
+      this.logger.error(exception, JSON.stringify(exception, null, 2));
+    }
 
     if (exception instanceof HttpException) {
       const status = exception.getStatus();
