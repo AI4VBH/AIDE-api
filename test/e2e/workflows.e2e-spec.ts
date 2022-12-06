@@ -215,6 +215,12 @@ describe('/Workflows Integration Tests', () => {
             return response(context.status(code));
           },
         ),
+        rest.post(
+          `${testMonaiBasePath}/workflows/validate`,
+          (request, response, context) => {
+            return response(context.status(204));
+          },
+        ),
       );
       const response = await request(app.getHttpServer()).get(
         '/workflows/41c5778c-9957-4cfd-be7a-c0bbff5c7cca',
@@ -249,6 +255,12 @@ describe('/Workflows Integration Tests', () => {
           `${testMonaiBasePath}/workflows/${putBody.workflow_id}`,
           (request, response, context) => {
             return response(context.json(WorkflowMocks.postPutResponse));
+          },
+        ),
+        rest.post(
+          `${testMonaiBasePath}/workflows/validate`,
+          (request, response, context) => {
+            return response(context.status(204));
           },
         ),
         rest.post(
@@ -296,6 +308,12 @@ describe('/Workflows Integration Tests', () => {
           },
         ),
         rest.post(
+          `${testMonaiBasePath}/workflows/validate`,
+          (request, response, context) => {
+            return response(context.status(204));
+          },
+        ),
+        rest.post(
           `${testMigBasePath}/config/ae`,
           (request, response, context) => {
             return response(context.status(aeStatus), context.json(aeResponse));
@@ -320,6 +338,15 @@ describe('/Workflows Integration Tests', () => {
     server.use(
       rest.put(
         `${testMonaiBasePath}/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d`,
+        (request, response, context) => {
+          return response(
+            context.status(404),
+            context.json(WorkflowMocks.nonExistentPutWorkflowError),
+          );
+        },
+      ),
+      rest.post(
+        `${testMonaiBasePath}/workflows/validate`,
         (request, response, context) => {
           return response(
             context.status(404),
@@ -365,6 +392,15 @@ describe('/Workflows Integration Tests', () => {
         },
       ),
       rest.post(
+        `${testMonaiBasePath}/workflows/validate`,
+        (request, response, context) => {
+          return response(
+            context.status(400),
+            context.json(WorkflowMocks.invalidWorkflowIdError),
+          );
+        },
+      ),
+      rest.post(
         `${testMigBasePath}/config/ae`,
         (request, response, context) => {
           return response(
@@ -394,6 +430,15 @@ describe('/Workflows Integration Tests', () => {
     server.use(
       rest.put(
         `${testMonaiBasePath}/workflows/0ea7b5b9-64ba-4841-b252-d6e312ef7e8d`,
+        (request, response, context) => {
+          return response(
+            context.status(400),
+            context.json(WorkflowMocks.invalidWorkflowBodyError),
+          );
+        },
+      ),
+      rest.post(
+        `${testMonaiBasePath}/workflows/validate`,
         (request, response, context) => {
           return response(
             context.status(400),
@@ -435,6 +480,12 @@ describe('/Workflows Integration Tests', () => {
           `${testMonaiBasePath}/workflows/${WorkflowMocks.singleWorkflow1.workflow_id}`,
           (request, response, context) => {
             return response(context.status(code));
+          },
+        ),
+        rest.post(
+          `${testMonaiBasePath}/workflows/validate`,
+          (request, response, context) => {
+            return response(context.status(204));
           },
         ),
         rest.post(
@@ -569,6 +620,12 @@ describe('/Workflows Integration Tests', () => {
           },
         ),
         rest.post(
+          `${testMonaiBasePath}/workflows/validate`,
+          (request, response, context) => {
+            return response(context.status(204));
+          },
+        ),
+        rest.post(
           `${testMigBasePath}/config/ae`,
           (request, response, context) => {
             return response(context.status(aeStatus), context.json(aeResponse));
@@ -613,6 +670,12 @@ describe('/Workflows Integration Tests', () => {
           },
         ),
         rest.post(
+          `${testMonaiBasePath}/workflows/validate`,
+          (request, response, context) => {
+            return response(context.status(204));
+          },
+        ),
+        rest.post(
           `${testMigBasePath}/config/ae`,
           (request, response, context) => {
             return response(context.status(aeStatus), context.json(aeResponse));
@@ -651,6 +714,15 @@ describe('/Workflows Integration Tests', () => {
         },
       ),
       rest.post(
+        `${testMonaiBasePath}/workflows/validate`,
+        (request, response, context) => {
+          return response(
+            context.status(400),
+            context.json(WorkflowMocks.invalidWorkflowBodyError),
+          );
+        },
+      ),
+      rest.post(
         `${testMonaiBasePath}/workflows`,
         (request, response, context) => {
           return response(
@@ -675,6 +747,12 @@ describe('/Workflows Integration Tests', () => {
           `${testMonaiBasePath}/workflows`,
           (request, response, context) => {
             return response(context.status(code));
+          },
+        ),
+        rest.post(
+          `${testMonaiBasePath}/workflows/validate`,
+          (request, response, context) => {
+            return response(context.status(204));
           },
         ),
         rest.post(

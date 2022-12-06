@@ -24,7 +24,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AxiosError } from 'axios';
-import { WorkflowServiceException } from 'modules/workflows/workflow.service.exceptions';
+import {
+  WorkflowServiceException,
+  WorkflowValidationException,
+} from 'modules/workflows/workflow.service.exceptions';
 import { MinoiClientException } from 'shared/minio/minio-client';
 import {
   ExecutionsServiceException,
@@ -84,7 +87,10 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
       });
     }
 
-    if (exception instanceof WorkflowServiceException) {
+    if (
+      exception instanceof WorkflowServiceException ||
+      exception instanceof WorkflowValidationException
+    ) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: HttpStatus.BAD_REQUEST,
         message: exception.message,

@@ -25,7 +25,10 @@ import {
 } from './monai-workflow.interfaces';
 import { mapToPagedWorkflowsDto } from './workflows.mapper';
 import { WorkflowDto } from './dto/aide-workflow.dto';
-import { WorkflowServiceException } from './workflow.service.exceptions';
+import {
+  WorkflowServiceException,
+  WorkflowValidationException,
+} from './workflow.service.exceptions';
 import { RolesService } from 'modules/roles/roles.service';
 
 @Injectable()
@@ -189,12 +192,33 @@ export class WorkflowsService {
     return result.data;
   }
 
+  async validateWorkflow(
+    workflow: Partial<WorkflowDto>,
+    original_workflow_name: string,
+  ): Promise<void> {
+    const promises = [
+      this.verifyClinicalReviewRoles(workflow),
+      this.validate(workflow, original_workflow_name),
+    ];
+
+    const allResult = await Promise.all(promises);
+
+    const result = {
+      success: allResult.every((r) => r.success === true),
+      errorMessage: allResult.map((r) => r.errorMessage ?? '').join(' '),
+    };
+
+    if (result.success === false) {
+      throw new WorkflowValidationException(result.errorMessage);
+    }
+  }
+
   async validate(
     workflow: Partial<WorkflowDto>,
     original_workflow_name: string,
   ): Promise<{ success: boolean; errorMessage: string }> {
     const result = await firstValueFrom(
-      this.httpService.put(`/workflows/validate`, {
+      this.httpService.post(`/workflows/validate`, {
         original_workflow_name,
         workflow,
       }),

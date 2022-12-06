@@ -66,11 +66,7 @@ export class WorkflowsController {
   async createWorkflow(@Body() createWorkflow: CreateWorkflowDto) {
     const { workflow } = createWorkflow;
 
-    const result = await this.validateWorkflow(workflow, '');
-
-    if (result.success === false) {
-      throw new WorkflowValidationException(result.errorMessage);
-    }
+    await this.service.validateWorkflow(workflow, '');
 
     return this.service.createWorkflow(workflow);
   }
@@ -83,14 +79,7 @@ export class WorkflowsController {
     const { workflow } = editWorkflow.workflow;
     const { original_workflow_name } = editWorkflow;
 
-    const result = await this.validateWorkflow(
-      workflow,
-      original_workflow_name,
-    );
-
-    if (result.success === false) {
-      throw new WorkflowValidationException(result.errorMessage);
-    }
+    await this.service.validateWorkflow(workflow, original_workflow_name);
 
     return this.service.editWorkflow(
       workflowId,
@@ -102,22 +91,5 @@ export class WorkflowsController {
   @Delete(':workflowId')
   deleteWorkflowById(@Param('workflowId') workflowId: string) {
     return this.service.deleteWorkflow(workflowId);
-  }
-
-  private async validateWorkflow(
-    workflow: Partial<WorkflowDto>,
-    original_workflow_name: string,
-  ) {
-    const promises = [
-      this.service.verifyClinicalReviewRoles(workflow),
-      this.service.validate(workflow, original_workflow_name),
-    ];
-
-    const result = await Promise.all(promises);
-
-    return {
-      success: result.every((r) => r.success === true),
-      errorMessage: result.map((r) => r.errorMessage ?? '').join(' '),
-    };
   }
 }
