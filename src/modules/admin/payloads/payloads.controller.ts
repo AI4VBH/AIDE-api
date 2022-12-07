@@ -56,6 +56,11 @@ export class PayloadsController {
     );
   }
 
+  @Get(':payload_id')
+  getPayloadById(@Param('payload_id') payload_id) {
+    return this.payloadsService.getPayloadById(payload_id);
+  }
+
   @Get(':payload_id/executions')
   getPayloadExecutions(@Param('payload_id') payload_id) {
     return this.payloadsService.getPayloadExecutions(payload_id);

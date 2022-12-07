@@ -24,6 +24,7 @@ import * as basicPayloads2 from './basic-payloads-2.json';
 import * as basicPayloads3 from '././basic-payloads-3.json';
 import * as basicPayloads4 from './basic-payloads-4.json';
 import * as emptyPayloadData from './empty-payload-data.json';
+import * as basicSinglePayload from './basic-single-payload.json';
 import * as InvalidPayloadIdError from './invalid-payloadid-error.json';
 
 export default {
@@ -37,5 +38,6 @@ export default {
   basicExecution4,
   basicExecution5,
   emptyPayloadData,
+  basicSinglePayload,
   InvalidPayloadIdError,
 };

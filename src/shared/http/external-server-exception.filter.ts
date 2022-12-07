@@ -34,6 +34,10 @@ import {
   ExecutionsServiceExceptionType,
 } from 'modules/admin/executions/executions.service.exceptions';
 import { ElasticClientException } from 'shared/elastic/elastic-client';
+import {
+  PayloadBadRequestException,
+  PayloadNotFoundException,
+} from 'modules/admin/payloads/payloads.service.exceptions';
 
 @Catch(Error)
 export default class ExternalServerExceptionFilter implements ExceptionFilter {
@@ -120,6 +124,20 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
           message: exception.message,
         });
       }
+    }
+
+    if (exception instanceof PayloadBadRequestException) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: exception.message,
+      });
+    }
+
+    if (exception instanceof PayloadNotFoundException) {
+      return response.status(HttpStatus.NOT_FOUND).json({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: exception.message,
+      });
     }
 
     response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
