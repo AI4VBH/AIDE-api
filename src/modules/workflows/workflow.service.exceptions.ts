@@ -15,3 +15,4 @@
  */
 
 export class WorkflowServiceException extends Error {}
+export class WorkflowValidationException extends Error {}

@@ -265,7 +265,7 @@ describe('WorkflowsService', () => {
       ).rejects.toThrowErrorMatchingSnapshot();
     });
 
-    it('clinical review reviewer_roles missing in keycloak throws error', async () => {
+    it('clinical review reviewer_roles missing in keycloak', async () => {
       const workflow = {
         informatics_gateway: {
           export_destinations: ['TESTDEST', 'TESTDEST2'],
@@ -287,9 +287,9 @@ describe('WorkflowsService', () => {
         },
       ]);
 
-      await expect(
-        service.createWorkflow(workflow),
-      ).rejects.toThrowErrorMatchingSnapshot();
+      expect(
+        await service.verifyClinicalReviewRoles(workflow),
+      ).toMatchSnapshot();
     });
 
     it('destination does not exist throws error', async () => {
@@ -482,9 +482,9 @@ describe('WorkflowsService', () => {
         },
       ]);
 
-      await expect(
-        service.editWorkflow('45425-435345-435345-5345', workflow, 'workflow'),
-      ).rejects.toThrowErrorMatchingSnapshot();
+      expect(
+        await service.verifyClinicalReviewRoles(workflow),
+      ).toMatchSnapshot();
     });
 
     it('destination does not exist throws error', async () => {

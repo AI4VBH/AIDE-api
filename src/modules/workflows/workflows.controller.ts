@@ -30,11 +30,7 @@ import {
 } from '@nestjs/common';
 import { Roles } from 'nest-keycloak-connect';
 import ExternalServerExceptionFilter from 'shared/http/external-server-exception.filter';
-import {
-  CreateWorkflowDto,
-  EditWorkflowDto,
-  WorkflowDto,
-} from './dto/aide-workflow.dto';
+import { CreateWorkflowDto, EditWorkflowDto } from './dto/aide-workflow.dto';
 import { WorkflowsService } from './workflows.service';
 
 @Controller('workflows')
@@ -62,23 +58,23 @@ export class WorkflowsController {
   }
 
   @Post()
-  createWorkflow(@Body() createWorkflow: CreateWorkflowDto) {
+  async createWorkflow(@Body() createWorkflow: CreateWorkflowDto) {
     const { workflow } = createWorkflow;
 
-    this.validateWorkflow(workflow);
+    await this.service.validateWorkflow(workflow, '');
 
     return this.service.createWorkflow(workflow);
   }
 
   @Put(':workflowId')
-  editWorkflow(
+  async editWorkflow(
     @Param('workflowId') workflowId: string,
     @Body() editWorkflow: EditWorkflowDto,
   ) {
     const { workflow } = editWorkflow.workflow;
     const { original_workflow_name } = editWorkflow;
 
-    this.validateWorkflow(workflow);
+    await this.service.validateWorkflow(workflow, original_workflow_name);
 
     return this.service.editWorkflow(
       workflowId,
@@ -90,18 +86,5 @@ export class WorkflowsController {
   @Delete(':workflowId')
   deleteWorkflowById(@Param('workflowId') workflowId: string) {
     return this.service.deleteWorkflow(workflowId);
-  }
-
-  private validateWorkflow(workflow: Partial<WorkflowDto>) {
-    if (!workflow || !workflow.informatics_gateway) {
-      throw new BadRequestException('workflow object cannot be empty');
-    }
-
-    if (
-      !workflow.informatics_gateway.ae_title ||
-      !workflow.informatics_gateway.export_destinations
-    ) {
-      throw new BadRequestException('ae_title or export_destination missing');
-    }
   }
 }
