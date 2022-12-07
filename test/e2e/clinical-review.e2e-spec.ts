@@ -294,111 +294,6 @@ describe('/Clinical-Review Integration Tests', () => {
     },
   );
 
-  it('(PUT) /clinical-review with body', async () => {
-    server.use(
-      rest.put(
-        `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
-        (request, response, context) => {
-          return response(context.status(204));
-        },
-      ),
-    );
-    const response = await request(app.getHttpServer())
-      .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
-      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
-      .send(ClinicalReviewMocks.clinicalReviewsObject1);
-
-    expect(response.status).toBe(204);
-  });
-
-  it.each([408, 500, 501, 502, 503, 504])(
-    '(PUT) /clinical-review correct status when Clinical Review Service gives general error with code %s',
-    async (code) => {
-      server.use(
-        rest.put(
-          `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
-          (request, response, context) => {
-            return response(context.status(code));
-          },
-        ),
-      );
-      const response = await request(app.getHttpServer())
-        .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
-        .set('Authorization', AuthTokens.authtokenValidRolesUserid)
-        .send(ClinicalReviewMocks.clinicalReviewsObject1);
-
-      expect(response.body).toMatchObject({
-        message:
-          'An error occurred with an external service (MONAI, Clinical Review)',
-        statusCode: 500,
-      });
-      expect(response.status).toBe(500);
-    },
-  );
-
-  it('(PUT) /clinical-review 404 when review not found', async () => {
-    server.use(
-      rest.put(
-        `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
-        (request, response, context) => {
-          return response(
-            context.json(ClinicalReviewMocks.clinicalReviewsNotFoundError),
-            context.status(404),
-          );
-        },
-      ),
-    );
-    const response = await request(app.getHttpServer())
-      .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
-      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
-      .send(ClinicalReviewMocks.clinicalReviewsObject1);
-
-    expect(response.body).toMatchSnapshot();
-    expect(response.status).toBe(404);
-  });
-
-  it('(PUT) /clinical-review 400 when body invalid', async () => {
-    server.use(
-      rest.put(
-        `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
-        (request, response, context) => {
-          return response(
-            context.json(ClinicalReviewMocks.clinicalReviewsInvalidBodyError),
-            context.status(400),
-          );
-        },
-      ),
-    );
-    const response = await request(app.getHttpServer())
-      .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
-      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
-      .send(ClinicalReviewMocks.clinicalReviewsObject1);
-
-    expect(response.body).toMatchSnapshot();
-    expect(response.status).toBe(400);
-  });
-
-  it('(PUT) /clinical-review 400 when id invalid', async () => {
-    server.use(
-      rest.put(
-        `${testClinicalReviewServiceBasePath}/clinical-review/invalid-id`,
-        (request, response, context) => {
-          return response(
-            context.json(ClinicalReviewMocks.clinicalReviewIdInvalidError),
-            context.status(400),
-          );
-        },
-      ),
-    );
-    const response = await request(app.getHttpServer())
-      .put('/clinical-review/invalid-id')
-      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
-      .send(ClinicalReviewMocks.clinicalReviewsObject1);
-
-    expect(response.body).toMatchSnapshot();
-    expect(response.status).toBe(400);
-  });
-
   it('(GET) /clinical-review-task-details with returned data (single study set)', async () => {
     server.use(
       rest.get(
@@ -634,4 +529,114 @@ describe('/Clinical-Review Integration Tests', () => {
       expect(response.statusCode).toBe(500);
     },
   );
+
+  it.each([
+    ClinicalReviewMocks.clinicalReviewAcceptMessage,
+    ClinicalReviewMocks.clinicalReviewAcceptNoMessage,
+    ClinicalReviewMocks.clinicalReviewRejectMessage,
+    ClinicalReviewMocks.clinicalReviewRejectNoMessage,
+  ])('(PUT) /clinical-review - with body - 204', async (body) => {
+    server.use(
+      rest.put(
+        `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
+        (request, response, context) => {
+          return response(context.status(204));
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer())
+      .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
+      .send(body);
+
+    expect(response.status).toBe(204);
+  });
+
+  it.each([408, 500, 501, 502, 503, 504])(
+    '(PUT) /clinical-review correct status when Clinical Review Service gives general error with code %s',
+    async (code) => {
+      server.use(
+        rest.put(
+          `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
+          (request, response, context) => {
+            return response(context.status(code));
+          },
+        ),
+      );
+      const response = await request(app.getHttpServer())
+        .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
+        .set('Authorization', AuthTokens.authtokenValidRolesUserid)
+        .send(ClinicalReviewMocks.clinicalReviewsObject1);
+
+      expect(response.body).toMatchObject({
+        message:
+          'An error occurred with an external service (MONAI, Clinical Review)',
+        statusCode: 500,
+      });
+      expect(response.status).toBe(500);
+    },
+  );
+
+  it('(PUT) /clinical-review 404 when review not found', async () => {
+    server.use(
+      rest.put(
+        `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
+        (request, response, context) => {
+          return response(
+            context.json(ClinicalReviewMocks.clinicalReviewsNotFoundError),
+            context.status(404),
+          );
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer())
+      .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
+      .send(ClinicalReviewMocks.clinicalReviewsObject1);
+
+    expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(404);
+  });
+
+  it('(PUT) /clinical-review 400 when body invalid', async () => {
+    server.use(
+      rest.put(
+        `${testClinicalReviewServiceBasePath}/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234`,
+        (request, response, context) => {
+          return response(
+            context.json(ClinicalReviewMocks.clinicalReviewsInvalidBodyError),
+            context.status(400),
+          );
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer())
+      .put('/clinical-review/684be698-bfa9-48ec-8ce6-37bd519ea234')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
+      .send(ClinicalReviewMocks.clinicalReviewsObject1);
+
+    expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(400);
+  });
+
+  it('(PUT) /clinical-review 400 when id invalid', async () => {
+    server.use(
+      rest.put(
+        `${testClinicalReviewServiceBasePath}/clinical-review/invalid-id`,
+        (request, response, context) => {
+          return response(
+            context.json(ClinicalReviewMocks.clinicalReviewIdInvalidError),
+            context.status(400),
+          );
+        },
+      ),
+    );
+    const response = await request(app.getHttpServer())
+      .put('/clinical-review/invalid-id')
+      .set('Authorization', AuthTokens.authtokenValidRolesUserid)
+      .send(ClinicalReviewMocks.clinicalReviewsObject1);
+
+    expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(400);
+  });
 });

@@ -24,6 +24,10 @@ import * as clinicalReviewIdInvalidError from './invalid-clinical-review-id-erro
 import * as clinicalReviewTaskDetails from './clinical-review-task-details.json';
 import * as clinicalReviewTaskDetailsSingleStudy from './clinical-review-task-details-single-study.json';
 import * as clinicalReviewTaskDetailsError from './invalid-clinical-review-task-details.json';
+import * as clinicalReviewAcceptMessage from './clinical-review-accept-message.json';
+import * as clinicalReviewAcceptNoMessage from './clinical-review-accept-no-message.json';
+import * as clinicalReviewRejectMessage from './clinical-review-reject-message.json';
+import * as clinicalReviewRejectNoMessage from './clinical-review-reject-no-message.json';
 
 export default {
   clinicalReviewsList1,
@@ -36,4 +40,8 @@ export default {
   clinicalReviewTaskDetailsError,
   clinicalReviewTaskDetails,
   clinicalReviewTaskDetailsSingleStudy,
+  clinicalReviewAcceptMessage,
+  clinicalReviewAcceptNoMessage,
+  clinicalReviewRejectMessage,
+  clinicalReviewRejectNoMessage,
 };
