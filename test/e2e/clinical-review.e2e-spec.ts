@@ -454,7 +454,10 @@ describe('/Clinical-Review Integration Tests', () => {
           minioKeyParams = request.url.searchParams.get('key');
           minioRolesParams = request.url.searchParams.get('roles');
 
-          return response(context.status(200));
+          return response(
+            context.status(200),
+            context.body(new ArrayBuffer(10)),
+          );
         },
       ),
     );
@@ -475,7 +478,7 @@ describe('/Clinical-Review Integration Tests', () => {
       rest.get(
         `${testClinicalReviewServiceBasePath}/dicom`,
         async (request, response, context) => {
-          return response(context.json({}), context.status(404));
+          return response(context.status(404));
         },
       ),
     );
@@ -484,7 +487,6 @@ describe('/Clinical-Review Integration Tests', () => {
       .set('Authorization', AuthTokens.authtokenValidRolesUserid);
 
     expect(response.status).toBe(404);
-    expect(response.body).toEqual({});
   });
 
   it('(GET) /clinical-review/dicom?key=minio-object-key returns Bad Request when roles have not been provided', async () => {

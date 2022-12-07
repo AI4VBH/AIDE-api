@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PayloadsController getPayloadById returns the expected result 1`] = `
+{
+  "patient_id": "example_patient_id",
+  "patient_name": "example name",
+  "payload_id": "example_id",
+  "payload_received": "received value",
+}
+`;

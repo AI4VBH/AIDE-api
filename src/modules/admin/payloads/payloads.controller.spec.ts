@@ -99,4 +99,20 @@ describe('PayloadsController', () => {
       expect(response).toStrictEqual(expectedResult);
     });
   });
+
+  describe('getPayloadById', () => {
+    it('returns the expected result', async () => {
+      const payloadId = 'example_id';
+      service.getPayloadById.mockResolvedValue({
+        payload_id: payloadId,
+        patient_name: 'example name',
+        patient_id: 'example_patient_id',
+        payload_received: 'received value',
+      });
+
+      const response = await controller.getPayloadById(payloadId);
+
+      expect(response).toMatchSnapshot();
+    });
+  });
 });
