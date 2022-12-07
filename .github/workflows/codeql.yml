@@ -16,8 +16,6 @@ name: CodeQL
 
 on:
   pull_request:
-    paths:
-      - 'src/**'
   push:
     branches:
       - 'develop'
