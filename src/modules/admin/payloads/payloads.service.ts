@@ -19,6 +19,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import PagingDTO from 'shared/helper/paging/paging.dto';
 import { IPagedResponse } from 'shared/helper/paging/paging.interface';
+import { IMonaiProblemResponse } from 'shared/interfaces/monai-responses.interfaces';
 import { MonaiWorkflowInstance } from '../workflowinstances/workflowinstances.interface';
 import { PayloadDTO } from './payload.dto';
 import {
@@ -27,6 +28,10 @@ import {
   IGetPayloadsQueryParams,
 } from './payload.interface';
 import { mapWorkflowInstancesToExecutions } from './payloads.mapper';
+import {
+  PayloadBadRequestException,
+  PayloadNotFoundException,
+} from './payloads.service.exceptions';
 
 @Injectable()
 export class PayloadsService {
@@ -66,6 +71,32 @@ export class PayloadsService {
       response.data,
       PayloadDTO.fromMonaiPayload,
     );
+  }
+
+  async getPayloadById(payload_id: string) {
+    const response = await lastValueFrom(
+      this.httpService.get<IMonaiPayload | IMonaiProblemResponse>(
+        `/payload/${payload_id}`,
+      ),
+    );
+
+    if (response.status === 400) {
+      throw new PayloadBadRequestException(
+        (response.data as IMonaiProblemResponse).detail,
+      );
+    }
+
+    if (response.status === 404) {
+      throw new PayloadNotFoundException(
+        (response.data as IMonaiProblemResponse).detail,
+      );
+    }
+
+    if (response.status === 500) {
+      throw new Error((response.data as IMonaiProblemResponse).detail);
+    }
+
+    return PayloadDTO.fromMonaiPayload(response.data as IMonaiPayload);
   }
 
   async getPayloadExecutions(payload_id) {

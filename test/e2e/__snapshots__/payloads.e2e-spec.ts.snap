@@ -146,6 +146,40 @@ exports[`/Payloads Integration Tests (GET) /payloads without returned data 1`] =
 }
 `;
 
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadId with invalid payload ID 1`] = `
+{
+  "detail": "Failed to validate id, not a valid guid",
+  "status": 400,
+  "title": "Bad Request",
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadId with no payload found 1`] = `
+{
+  "detail": "Failed to find payload with payload id: 00000000-0000-0000-0000-000000000001",
+  "status": 404,
+  "title": "Not Found",
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadId with returned data 1`] = `
+{
+  "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c3f",
+  "patient_name": "Jane Doe",
+  "payload_id": "00000000-0000-0000-0000-000000000001",
+  "payload_received": "2022-08-17T12:21:10.203Z",
+}
+`;
+
+exports[`/Payloads Integration Tests (GET) /payloads/:payloadId with returned data 2`] = `
+{
+  "patient_id": "1d0253c4-8fab-41df-a414-55d52e4c6c3f",
+  "patient_name": "Jane Doe",
+  "payload_id": "00000000-0000-0000-0000-000000000001",
+  "payload_received": "2022-08-17T12:21:10.203Z",
+}
+`;
+
 exports[`/Payloads Integration Tests (GET) /payloads/:payloadid/executions with invalid id 1`] = `
 {
   "detail": "Failed to validate payloadId, not a valid guid",

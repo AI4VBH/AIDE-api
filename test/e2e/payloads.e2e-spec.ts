@@ -171,6 +171,89 @@ describe('/Payloads Integration Tests', () => {
     },
   );
 
+  it('(GET) /payloads/:payloadId with returned data', async () => {
+    server.use(
+      rest.get(
+        `${testMonaiBasePath}/payload/${PayloadMocks.basicSinglePayload.payload_id}`,
+        (_request, response, context) =>
+          response(context.json(PayloadMocks.basicSinglePayload)),
+      ),
+    );
+
+    const response = await request(app.getHttpServer()).get(
+      `/payloads/${PayloadMocks.basicSinglePayload.payload_id}`,
+    );
+
+    expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
+  });
+
+  it('(GET) /payloads/:payloadId with returned data', async () => {
+    server.use(
+      rest.get(
+        `${testMonaiBasePath}/payload/${PayloadMocks.basicSinglePayload.payload_id}`,
+        (_request, response, context) =>
+          response(context.json(PayloadMocks.basicSinglePayload)),
+      ),
+    );
+
+    const response = await request(app.getHttpServer()).get(
+      `/payloads/${PayloadMocks.basicSinglePayload.payload_id}`,
+    );
+
+    expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(200);
+  });
+
+  it('(GET) /payloads/:payloadId with invalid payload ID', async () => {
+    server.use(
+      rest.get(
+        `${testMonaiBasePath}/payload/1`,
+        (_request, response, context) => {
+          return response(
+            context.status(400),
+            context.json({
+              title: 'Bad Request',
+              status: 400,
+              detail: 'Failed to validate id, not a valid guid',
+            }),
+          );
+        },
+      ),
+    );
+
+    const response = await request(app.getHttpServer()).get(`/payloads/1`);
+
+    expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(400);
+  });
+
+  it('(GET) /payloads/:payloadId with no payload found', async () => {
+    const payloadId = '00000000-0000-0000-0000-000000000001';
+    server.use(
+      rest.get(
+        `${testMonaiBasePath}/payload/${payloadId}`,
+        (_request, response, context) => {
+          return response(
+            context.status(404),
+            context.json({
+              title: 'Not Found',
+              status: 404,
+              detail: `Failed to find payload with payload id: ${payloadId}`,
+            }),
+          );
+        },
+      ),
+    );
+
+    const response = await request(app.getHttpServer()).get(
+      `/payloads/${payloadId}`,
+    );
+
+    expect(response.body).toMatchSnapshot();
+    expect(response.status).toBe(404);
+  });
+
   it.each([
     PayloadMocks.basicExecution1,
     PayloadMocks.basicExecution2,
