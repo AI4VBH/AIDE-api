@@ -205,7 +205,7 @@ export class WorkflowsService {
 
     const result = {
       success: allResult.every((r) => r.success === true),
-      errorMessage: allResult.map((r) => r.errorMessage ?? '').join(' '),
+      errorMessage: allResult.map((r) => r.errorMessage ?? '').join(', '),
     };
 
     if (result.success === false) {
