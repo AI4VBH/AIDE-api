@@ -1,0 +1,9 @@
+{
+    "acceptance": false,
+    "task_id": "5151551",
+    "reason": "Input data is not valid for this model",
+    "message": "",
+    "execution_id": "123456",
+    "roles": "",
+    "user_id": "test@test.com"
+}

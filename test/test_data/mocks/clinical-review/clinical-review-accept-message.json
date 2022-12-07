@@ -1,0 +1,8 @@
+{
+    "acceptance": true,
+    "reason": "",
+    "message": "This is an acceptance message",
+    "execution_id": "123456",
+    "roles": "clinician",
+    "user_id": "test@test.com"
+}
