@@ -47,7 +47,11 @@ export class ElasticClient extends Client {
   }
 
   public searchExecution(id: string) {
-    return { query: { match: { executionId: id } }, size: 10000 };
+    return {
+      sort: { '@timestamp': { order: 'asc' } },
+      query: { match: { executionId: id } },
+      size: 10000,
+    };
   }
 
   public async getLogs(id: string) {
