@@ -80,7 +80,7 @@ export class IssuesService {
     return (a: any, b: any) => {
       const aDate: number = dateParser(a);
       const bDate: number = dateParser(b);
-      const result = aDate - bDate;
+      const result = bDate - aDate;
 
       return result;
     };
