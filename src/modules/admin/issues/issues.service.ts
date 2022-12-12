@@ -67,6 +67,22 @@ export class IssuesService {
       issues.push(...wfiIssues);
     }
 
+    issues.sort(
+      this.createSorter((issue: IssueDto) => {
+        return Date.parse(issue.execution_time);
+      }),
+    );
+
     return issues;
+  }
+
+  private createSorter(dateParser): any {
+    return (a: any, b: any) => {
+      const aDate: number = dateParser(a);
+      const bDate: number = dateParser(b);
+      const result = aDate - bDate;
+
+      return result;
+    };
   }
 }
