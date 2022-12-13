@@ -133,7 +133,8 @@ step "deploy-the-aide-api" {
                   PORT: 5000
                   KEYCLOAK_STATIC_ROLES: '["admin", "user_management", "clinician"]'
                   CLINICAL_REVIEW_SERVICE_HOST: http://clinical-review-aide-clinical-review-api.aide.svc.cluster.local:5000
-                
+                  MONAI_API_KEY: #{MonaiBasicAuthKey}
+                  MONAI_API_USER: aide
                 enviromentVariablesFromSecrets:
                   secrets:
                     - name: ELASTIC_USERNAME
