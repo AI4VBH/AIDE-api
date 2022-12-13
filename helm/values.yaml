@@ -35,6 +35,8 @@ enviromentVariables:
   ELASTIC_INDEX: logstash*  
   KEYCLOAK_URL: https://keycloak-service.keycloak.svc.cluster.local:8443
   MONAI_API_HOST: workflow-manager.monai.svc.cluster.local:5000
+  MONAI_API_USER: aide
+  MONAI_API_KEY: password
   MIG_API_HOST: informatics-gateway.monai.scv.cluster.local:5000  
   MINIO_HOST: minio-hl.minio.svc.cluster.local
   MINIO_PORT: 9000

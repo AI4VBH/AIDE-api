@@ -24,9 +24,12 @@ export class HttpConfigService implements HttpModuleOptionsFactory {
   private readonly config: ConfigService;
 
   createHttpOptions(): HttpModuleOptions {
+    let encodeToken = Buffer.from(`${this.config.get<string>('MONAI_API_USER')}:${this.config.get<string>('MONAI_API_KEY')}`)
+      .toString('base64');
     return {
       timeout: 5000,
       maxRedirects: 5,
+      headers: {'Authorization': `Basic ${encodeToken}`},
       baseURL: this.config.get<string>('MONAI_API_HOST'),
     };
   }
