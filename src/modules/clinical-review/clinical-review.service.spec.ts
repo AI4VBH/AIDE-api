@@ -104,7 +104,7 @@ describe('WorkflowsService', () => {
         reason: 'all good',
         message: 'message',
         roles: [],
-        userId: '',
+        user_id: '',
       };
 
       const clinicalReviewId = 'clinical-review-id';

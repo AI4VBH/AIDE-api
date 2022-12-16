@@ -70,7 +70,7 @@ export class ClinicalReviewService {
     clinicalReviewId: string,
   ) {
     clinicalReview.roles = roles;
-    clinicalReview.userId = userId;
+    clinicalReview.user_id = userId;
 
     const baseURL = this.configService.get<string>(
       'CLINICAL_REVIEW_SERVICE_HOST',
