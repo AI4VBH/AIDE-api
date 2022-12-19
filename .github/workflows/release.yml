@@ -101,7 +101,7 @@ jobs:
             **/artifacts/AIDE.API.${{ env.BRANCH_NAME }}.zip
 
       - name: Create Release in Octopus Deploy
-        uses: OctopusDeploy/create-release-action@v2.1.0
+        uses: OctopusDeploy/create-release-action@v3.0.1
         env:
           OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
           OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
