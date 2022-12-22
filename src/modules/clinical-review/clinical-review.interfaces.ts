@@ -58,7 +58,7 @@ export interface ClinicalReviewAcknowledge {
   reason: string;
   message: string;
   roles: string[];
-  userId: string;
+  user_id: string;
 }
 
 export interface ClinicalReviewTaskDetails {
