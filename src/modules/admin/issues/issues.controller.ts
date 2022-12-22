@@ -38,8 +38,8 @@ export class IssuesController {
   private readonly issuesService: IssuesService;
 
   @Get('failed')
-  async getAcknowledgedTaskErrors() {
-    const response = await this.wfiService.getAcknowledgedTaskErrors();
+  async getUnacknowledgedTaskErrors() {
+    const response = await this.wfiService.getUnacknowledgedTaskErrors();
 
     return this.issuesService.getIssues(response);
   }

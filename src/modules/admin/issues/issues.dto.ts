@@ -20,6 +20,10 @@ import {
   MonaiWorkflowTask,
 } from '../workflowinstances/workflowinstances.interface';
 
+export const PartialFail = 'PartialFail';
+
+export const Failed = 'Failed';
+
 export class IssueDto {
   task_id: string;
   status: string;

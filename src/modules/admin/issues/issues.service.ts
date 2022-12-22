@@ -20,7 +20,7 @@ import { AxiosResponse } from 'axios';
 import { lastValueFrom } from 'rxjs';
 import { IMonaiPayload } from '../payloads/payload.interface';
 import { MonaiWorkflowInstance } from '../workflowinstances/workflowinstances.interface';
-import { IssueDto } from './issues.dto';
+import { Failed, IssueDto, PartialFail } from './issues.dto';
 
 @Injectable()
 export class IssuesService {
@@ -61,7 +61,7 @@ export class IssuesService {
       );
 
       const wfiIssues = workflowInstance.tasks
-        .filter((task) => task.status === 'Failed')
+        .filter((task) => task.status === Failed || task.status === PartialFail)
         .map((task) => IssueDto.from(task, relativePayload, workflowInstance));
 
       issues.push(...wfiIssues);
