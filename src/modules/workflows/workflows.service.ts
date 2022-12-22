@@ -203,7 +203,7 @@ export class WorkflowsService {
 
     const allResult = await Promise.all(promises);
 
-    const messages = allResult.map((r) => r.errorMessage ?? '');
+    const messages = allResult.map((r) => r.errorMessage).filter((i) => i);
     const result = {
       success: allResult.every((r) => r.success === true),
       errorMessage: messages.length > 0 ? messages.join(', ') : '',
