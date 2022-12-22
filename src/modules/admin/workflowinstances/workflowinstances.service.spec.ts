@@ -136,7 +136,7 @@ describe('PayloadsService', () => {
       });
       httpService.get.mockReturnValue(makeObservableForTest(axios.get));
 
-      const response = await service.getAcknowledgedTaskErrors();
+      const response = await service.getUnacknowledgedTaskErrors();
 
       expect(response).toMatchSnapshot();
     });
