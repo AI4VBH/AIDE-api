@@ -208,7 +208,7 @@ export class WorkflowsService {
       errorMessage: allResult.map((r) => r.errorMessage ?? '').join(', '),
     };
 
-    if (result.success === false) {
+    if (result.success === false || result.errorMessage.trim() !== '') {
       throw new WorkflowValidationException(result.errorMessage);
     }
   }

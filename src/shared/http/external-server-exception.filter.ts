@@ -93,10 +93,17 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
       });
     }
 
-    if (
-      exception instanceof WorkflowServiceException ||
-      exception instanceof WorkflowValidationException
-    ) {
+    if (exception instanceof WorkflowValidationException) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: HttpStatus.BAD_REQUEST,
+        data: {
+          status: HttpStatus.BAD_REQUEST,
+          detail: exception.message,
+        },
+      });
+    }
+
+    if (exception instanceof WorkflowServiceException) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: HttpStatus.BAD_REQUEST,
         message: exception.message,
