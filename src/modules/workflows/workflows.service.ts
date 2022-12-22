@@ -203,12 +203,13 @@ export class WorkflowsService {
 
     const allResult = await Promise.all(promises);
 
+    const messages = allResult.map((r) => r.errorMessage).filter((i) => i);
     const result = {
       success: allResult.every((r) => r.success === true),
-      errorMessage: allResult.map((r) => r.errorMessage ?? '').join(', '),
+      errorMessage: messages.length > 0 ? messages.join(', ') : '',
     };
 
-    if (result.success === false) {
+    if (result.success === false || result.errorMessage.trim() !== '') {
       throw new WorkflowValidationException(result.errorMessage);
     }
   }

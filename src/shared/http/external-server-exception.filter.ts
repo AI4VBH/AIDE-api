@@ -99,7 +99,10 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
     ) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: HttpStatus.BAD_REQUEST,
-        message: exception.message,
+        data: {
+          status: HttpStatus.BAD_REQUEST,
+          detail: exception.message,
+        },
       });
     }
 

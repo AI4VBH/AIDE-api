@@ -444,7 +444,10 @@ exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or 
 
 exports[`/Workflows Integration Tests (POST) /workflows unsuccessful with ae or destination 2`] = `
 {
-  "message": "Not all export destinations are registered",
+  "data": {
+    "detail": "Not all export destinations are registered",
+    "status": 400,
+  },
   "statusCode": 400,
 }
 `;
@@ -484,7 +487,10 @@ exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae 
 
 exports[`/Workflows Integration Tests (PUT) /workflows/:id unsuccessful with ae or destination 2`] = `
 {
-  "message": "Not all export destinations are registered",
+  "data": {
+    "detail": "Not all export destinations are registered",
+    "status": 400,
+  },
   "statusCode": 400,
 }
 `;
