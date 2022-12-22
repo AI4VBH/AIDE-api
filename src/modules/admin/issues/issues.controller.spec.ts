@@ -126,11 +126,11 @@ describe('IssuesController', () => {
       expectedIssuesDto.workflow_name = 'lillie';
 
       service.getIssues.mockResolvedValue([expectedIssuesDto]);
-      wfiService.getAcknowledgedTaskErrors.mockResolvedValue(
+      wfiService.getUnacknowledgedTaskErrors.mockResolvedValue(
         givenWorkflowInstances,
       );
 
-      const response = await controller.getAcknowledgedTaskErrors();
+      const response = await controller.getUnacknowledgedTaskErrors();
       expect(response).toStrictEqual([expectedIssuesDto]);
     });
   });

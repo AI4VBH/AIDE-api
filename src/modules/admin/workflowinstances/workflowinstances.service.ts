@@ -37,7 +37,7 @@ export class WorkflowInstancesService {
     return response.data;
   }
 
-  async getAcknowledgedTaskErrors(): Promise<MonaiWorkflowInstance[]> {
+  async getUnacknowledgedTaskErrors(): Promise<MonaiWorkflowInstance[]> {
     const response = await lastValueFrom(
       this.httpService.get<MonaiWorkflowInstance[]>('workflowinstances/failed'),
     );
