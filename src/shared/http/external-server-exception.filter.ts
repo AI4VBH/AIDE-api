@@ -98,11 +98,9 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
       exception instanceof WorkflowValidationException
     ) {
       return response.status(HttpStatus.BAD_REQUEST).json({
-        statusCode: HttpStatus.BAD_REQUEST,
-        data: {
-          status: HttpStatus.BAD_REQUEST,
-          detail: exception.message,
-        },
+        title: 'Bad Request',
+        status: HttpStatus.BAD_REQUEST,
+        detail: exception.message,
       });
     }
 
