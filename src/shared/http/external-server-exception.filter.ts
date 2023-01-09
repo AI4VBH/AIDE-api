@@ -38,6 +38,7 @@ import {
   PayloadBadRequestException,
   PayloadNotFoundException,
 } from 'modules/admin/payloads/payloads.service.exceptions';
+import { createLogger, transports } from 'winston';
 
 @Catch(Error)
 export default class ExternalServerExceptionFilter implements ExceptionFilter {
@@ -45,12 +46,26 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
     ExternalServerExceptionFilter.name,
   );
 
+  logstashLogger = createLogger({
+    defaultMeta: { ServiceName: 'AIDE-api', Level: 'error' },
+    transports: [
+      new transports.Http({
+        port: Number(process.env.LOGSTASH_PORT),
+        host: process.env.LOGSTASH_HOST,
+      }),
+    ],
+  });
+
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host?.switchToHttp();
     const response = ctx?.getResponse<Response>();
 
     if (process.env.NODE_ENV !== 'test') {
       this.logger.error(exception, JSON.stringify(exception, null, 2));
+      this.logstashLogger.error(
+        `${exception}`,
+        JSON.stringify(exception, null, 2),
+      );
     }
 
     if (exception instanceof HttpException) {

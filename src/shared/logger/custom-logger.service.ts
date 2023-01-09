@@ -18,6 +18,7 @@ import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { decodeToken } from 'shared/decorators/custom-decorators';
 import * as util from 'util';
+import { createLogger, transports } from 'winston';
 
 @Injectable()
 export class CustomLogger implements NestMiddleware {
@@ -33,6 +34,16 @@ export class CustomLogger implements NestMiddleware {
       username = token.preferred_username;
     }
 
+    const logstashLogger = createLogger({
+      defaultMeta: { ServiceName: 'AIDE-api', Level: 'info' },
+      transports: [
+        new transports.Http({
+          port: Number(process.env.LOGSTASH_PORT),
+          host: process.env.LOGSTASH_HOST,
+        }),
+      ],
+    });
+
     const send = response.send;
     response.send = (exitData) => {
       if (
@@ -43,6 +54,8 @@ export class CustomLogger implements NestMiddleware {
       ) {
         // eslint-disable-next-line prettier/prettier
         this.logger.log(`status: ${response.statusCode}\nmethod: ${request.method}\nurl: ${request.url}\nrequest-body: ${util.format(request.body)}\ndata: ${exitData.toString().substring(0, 1000)}\nusername: ${username}\nsession-id: ${correlationId}`);
+        // eslint-disable-next-line prettier/prettier
+        logstashLogger.info(`status: ${response.statusCode}\nmethod: ${request.method}\nurl: ${request.url}\nrequest-body: ${util.format(request.body)}\ndata: ${exitData.toString().substring(0, 1000)}\nusername: ${username}\nsession-id: ${correlationId}`);
       }
       response.send = send;
       return response.send(exitData);
