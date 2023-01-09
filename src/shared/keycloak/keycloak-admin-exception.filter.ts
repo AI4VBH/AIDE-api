@@ -43,8 +43,7 @@ export class KeycloakAdminExceptionFilter implements ExceptionFilter {
   private readonly logger: Logger = new Logger(
     KeycloakAdminExceptionFilter.name,
   );
-
-  logstashLogger = createLogger({
+  private logstashLogger = createLogger({
     defaultMeta: { ServiceName: 'AIDE-api', Level: 'error' },
     transports: [
       new transports.Http({

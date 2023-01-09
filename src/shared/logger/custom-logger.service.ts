@@ -23,6 +23,15 @@ import { createLogger, transports } from 'winston';
 @Injectable()
 export class CustomLogger implements NestMiddleware {
   private logger = new Logger('HTTP');
+  private logstashLogger = createLogger({
+    defaultMeta: { ServiceName: 'AIDE-api', Level: 'info' },
+    transports: [
+      new transports.Http({
+        port: Number(process.env.LOGSTASH_PORT),
+        host: process.env.LOGSTASH_HOST,
+      }),
+    ],
+  });
 
   use(request: Request, response: Response, next: NextFunction) {
     const token = decodeToken(request);
@@ -33,16 +42,6 @@ export class CustomLogger implements NestMiddleware {
       correlationId = token.sub;
       username = token.preferred_username;
     }
-
-    const logstashLogger = createLogger({
-      defaultMeta: { ServiceName: 'AIDE-api', Level: 'info' },
-      transports: [
-        new transports.Http({
-          port: Number(process.env.LOGSTASH_PORT),
-          host: process.env.LOGSTASH_HOST,
-        }),
-      ],
-    });
 
     const send = response.send;
     response.send = (exitData) => {
@@ -55,7 +54,7 @@ export class CustomLogger implements NestMiddleware {
         // eslint-disable-next-line prettier/prettier
         this.logger.log(`status: ${response.statusCode}\nmethod: ${request.method}\nurl: ${request.url}\nrequest-body: ${util.format(request.body)}\ndata: ${exitData.toString().substring(0, 1000)}\nusername: ${username}\nsession-id: ${correlationId}`);
         // eslint-disable-next-line prettier/prettier
-        logstashLogger.info(`status: ${response.statusCode}\nmethod: ${request.method}\nurl: ${request.url}\nrequest-body: ${util.format(request.body)}\ndata: ${exitData.toString().substring(0, 1000)}\nusername: ${username}\nsession-id: ${correlationId}`);
+        this.logstashLogger.info(`status: ${response.statusCode}\nmethod: ${request.method}\nurl: ${request.url}\nrequest-body: ${util.format(request.body)}\ndata: ${exitData.toString().substring(0, 1000)}\nusername: ${username}\nsession-id: ${correlationId}`);
       }
       response.send = send;
       return response.send(exitData);

@@ -45,8 +45,7 @@ export default class ExternalServerExceptionFilter implements ExceptionFilter {
   private readonly logger: Logger = new Logger(
     ExternalServerExceptionFilter.name,
   );
-
-  logstashLogger = createLogger({
+  private logstashLogger = createLogger({
     defaultMeta: { ServiceName: 'AIDE-api', Level: 'error' },
     transports: [
       new transports.Http({
