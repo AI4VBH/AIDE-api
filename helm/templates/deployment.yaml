@@ -44,26 +44,26 @@ spec:
       {{- end}}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-    
-    
+
       {{- with .Values.volumes }}
       volumes:
-       {{- range ($.Values.volumes) }}
+        {{- range ($.Values.volumes) }}
         - name: {{ .name }}
-           
           {{- if .claimName }}
           persistentVolumeClaim:
             claimName: {{  .claimName }}
-            {{- end }}
+          {{- end }}
           {{- if .secret }}
           secret:
             secretName: {{ .secret.secretName}}
           {{- end }}
-       {{- end }}      
+          {{- if .configMapName }}
+          configMap:
+            name: {{  .configMapName }}
+          {{- end }}
+        {{- end }}
       {{- end }}
 
-      
-      
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -76,15 +76,13 @@ spec:
             - name: {{ $name }}
               value: {{ $value | quote }}
               {{- end }}
-        
               {{- range (.Values.enviromentVariablesFromSecrets).secrets }}
             - name: {{ .name }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .secretName}}
                   key: {{ .secretKey}}
-              {{- end }} 
-        
+              {{- end }}
           {{- end }}
           ports:
             - name: http
@@ -94,7 +92,6 @@ spec:
             - name: service-console
               containerPort: {{ .Values.service.port2 }}
       {{- end}}
-      
           {{- if  .Values.image.command }}
           command: {{.Values.image.command}}
           {{- end}}
@@ -111,18 +108,15 @@ spec:
               path: /
               port: http
           {{- end }}
-          
-          
+
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- range ($.Values.volumeMounts) }}
-             - name: {{  .name }}
-               mountPath: {{  .mountPath }}
-               
-            {{- end }} 
-           {{- end }} 
+            - name: {{  .name }}
+              mountPath: {{  .mountPath }}
+            {{- end }}
+          {{- end }}
 
-          
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
