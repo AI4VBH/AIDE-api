@@ -135,6 +135,7 @@ step "deploy-the-aide-api" {
                   CLINICAL_REVIEW_SERVICE_HOST: http://clinical-review-aide-clinical-review-api.aide.svc.cluster.local:5000
                   MONAI_API_KEY: #{MonaiBasicAuthKey}
                   MONAI_API_USER: aide
+                  NODE_EXTRA_CA_CERTS: /var/certs/ca-certificates.pem
                 enviromentVariablesFromSecrets:
                   secrets:
                     - name: ELASTIC_USERNAME
@@ -172,6 +173,14 @@ step "deploy-the-aide-api" {
                     values:
                       password: #{ElasticPassword}
                       username: #{ElasticUser}
+                
+                volumes:
+                  - name: volume-ca-bundle
+                    configMapName: ca-bundle
+                
+                volumeMounts:
+                  - name: volume-ca-bundle
+                    mountPath: /var/certs
             EOT
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
