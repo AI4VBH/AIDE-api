@@ -20,6 +20,7 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Inject,
   Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -39,32 +40,32 @@ import {
   PayloadNotFoundException,
 } from 'modules/admin/payloads/payloads.service.exceptions';
 import { createLogger, transports } from 'winston';
+import { ConfigService } from '@nestjs/config';
 
 @Catch(Error)
 export default class ExternalServerExceptionFilter implements ExceptionFilter {
+  @Inject(ConfigService)
+  private readonly config: ConfigService;
   private readonly logger: Logger = new Logger(
     ExternalServerExceptionFilter.name,
   );
-  private logstashLogger = createLogger({
-    defaultMeta: { ServiceName: 'AIDE-api', Level: 'error' },
-    transports: [
-      new transports.Http({
-        port: Number(process.env.LOGSTASH_PORT),
-        host: process.env.LOGSTASH_HOST,
-      }),
-    ],
-  });
 
   catch(exception: Error, host: ArgumentsHost) {
+    const logstashLogger = createLogger({
+      defaultMeta: { ServiceName: 'AIDE-api', Level: 'error' },
+      transports: [
+        new transports.Http({
+          port: Number(this.config.get<string>('LOGSTASH_PORT')),
+          host: this.config.get<string>('LOGSTASH_HOST'),
+        }),
+      ],
+    });
     const ctx = host?.switchToHttp();
     const response = ctx?.getResponse<Response>();
 
     if (process.env.NODE_ENV !== 'test') {
       this.logger.error(exception, JSON.stringify(exception, null, 2));
-      this.logstashLogger.error(
-        `${exception}`,
-        JSON.stringify(exception, null, 2),
-      );
+      logstashLogger.error(`${exception}`, JSON.stringify(exception, null, 2));
     }
 
     if (exception instanceof HttpException) {

@@ -20,6 +20,7 @@ import {
   ArgumentsHost,
   HttpStatus,
   Logger,
+  Inject,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AxiosError } from 'axios';
@@ -32,6 +33,7 @@ import {
   UserServiceExceptionCode,
 } from 'modules/users/users.service';
 import { createLogger, transports } from 'winston';
+import { ConfigService } from '@nestjs/config';
 
 type ResponseException = {
   message: string;
@@ -40,28 +42,27 @@ type ResponseException = {
 
 @Catch(Error)
 export class KeycloakAdminExceptionFilter implements ExceptionFilter {
+  @Inject(ConfigService)
+  private readonly config: ConfigService;
   private readonly logger: Logger = new Logger(
     KeycloakAdminExceptionFilter.name,
   );
-  private logstashLogger = createLogger({
-    defaultMeta: { ServiceName: 'AIDE-api', Level: 'error' },
-    transports: [
-      new transports.Http({
-        port: Number(process.env.LOGSTASH_PORT),
-        host: process.env.LOGSTASH_HOST,
-      }),
-    ],
-  });
 
   catch(exception: Error, host: ArgumentsHost) {
+    const logstashLogger = createLogger({
+      defaultMeta: { ServiceName: 'AIDE-api', Level: 'error' },
+      transports: [
+        new transports.Http({
+          port: Number(this.config.get<string>('LOGSTASH_PORT')),
+          host: this.config.get<string>('LOGSTASH_HOST'),
+        }),
+      ],
+    });
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
     this.logger.error(exception, JSON.stringify(exception, null, 2));
-    this.logstashLogger.error(
-      `${exception}`,
-      JSON.stringify(exception, null, 2),
-    );
+    logstashLogger.error(`${exception}`, JSON.stringify(exception, null, 2));
 
     if (exception instanceof RoleServiceException) {
       this.handleRoleException(exception, response);
