@@ -78,7 +78,7 @@ jobs:
           octo pack --id="AIDE.API" --format="Zip" --version="${{ env.BRANCH_NAME }}" --basePath="${{ env.BASE_PATH }}" --outFolder="${{ env.OUT_FOLDER }}" --logLevel=debug
       
       - name: Push Package to Octopus Deploy
-        uses: OctopusDeploy/push-package-action@v2.2.0
+        uses: OctopusDeploy/push-package-action@v3.0.2
         env:
           OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
           OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
