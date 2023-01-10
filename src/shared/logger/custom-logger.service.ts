@@ -14,8 +14,7 @@
  *  limitations under the License.
  */
 
-import { Inject, Injectable, Logger, NestMiddleware } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { decodeToken } from 'shared/decorators/custom-decorators';
 import * as util from 'util';
@@ -23,20 +22,18 @@ import { createLogger, transports } from 'winston';
 
 @Injectable()
 export class CustomLogger implements NestMiddleware {
-  @Inject(ConfigService)
-  private readonly config: ConfigService;
   private logger = new Logger('HTTP');
+  private logstashLogger = createLogger({
+    defaultMeta: { ServiceName: 'AIDE-api', Level: 'info' },
+    transports: [
+      new transports.Http({
+        port: Number(process.env.LOGSTASH_PORT),
+        host: process.env.LOGSTASH_HOST,
+      }),
+    ],
+  });
 
   use(request: Request, response: Response, next: NextFunction) {
-    const logstashLogger = createLogger({
-      defaultMeta: { ServiceName: 'AIDE-api', Level: 'info' },
-      transports: [
-        new transports.Http({
-          port: Number(this.config.get<string>('LOGSTASH_PORT')),
-          host: this.config.get<string>('LOGSTASH_HOST'),
-        }),
-      ],
-    });
     const token = decodeToken(request);
     let username = '';
     let correlationId = '';
@@ -57,7 +54,7 @@ export class CustomLogger implements NestMiddleware {
         // eslint-disable-next-line prettier/prettier
         this.logger.log(`status: ${response.statusCode}\nmethod: ${request.method}\nurl: ${request.url}\nrequest-body: ${util.format(request.body)}\ndata: ${exitData.toString().substring(0, 1000)}\nusername: ${username}\nsession-id: ${correlationId}`);
         // eslint-disable-next-line prettier/prettier
-        logstashLogger.info(`status: ${response.statusCode}\nmethod: ${request.method}\nurl: ${request.url}\nrequest-body: ${util.format(request.body)}\ndata: ${exitData.toString().substring(0, 1000)}\nusername: ${username}\nsession-id: ${correlationId}`);
+        this.logstashLogger.info(`status: ${response.statusCode}\nmethod: ${request.method}\nurl: ${request.url}\nrequest-body: ${util.format(request.body)}\ndata: ${exitData.toString().substring(0, 1000)}\nusername: ${username}\nsession-id: ${correlationId}`);
       }
       response.send = send;
       return response.send(exitData);
